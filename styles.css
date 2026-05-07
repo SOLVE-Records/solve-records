@@ -1013,6 +1013,8 @@ a.contact-value:hover {
 @media (max-width: 900px) {
   .nav-toggle {
     display: flex;
+    position: relative;
+    z-index: 102;
   }
 
   .nav-links {
@@ -1020,20 +1022,46 @@ a.contact-value:hover {
     top: 0;
     right: 0;
     bottom: 0;
-    width: min(320px, 80vw);
-    background: var(--bg-2);
+    height: 100vh;
+    height: 100dvh;
+    width: min(320px, 85vw);
+    background: rgba(15, 11, 7, 0.98);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
-    padding: 40px;
-    gap: 28px;
+    justify-content: flex-start;
+    padding: 90px 32px 40px;
+    gap: 6px;
+    margin: 0;
+    list-style: none;
     transform: translateX(100%);
     transition: transform var(--transition-base);
     border-left: 1px solid var(--line);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    z-index: 101;
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 14px 0;
+    font-size: 14px;
+    width: 100%;
+  }
+
+  .nav-links .nav-cta {
+    margin-top: 20px;
+    text-align: center;
   }
 
   .nav-links.open {
     transform: translateX(0);
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.5);
   }
 
   .brand-text {
@@ -1113,7 +1141,7 @@ a.contact-value:hover {
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 280px;
+  grid-template-rows: 380px 280px;
   gap: 18px;
 }
 
@@ -1127,9 +1155,27 @@ a.contact-value:hover {
   display: block;
 }
 
-.gallery-item.gallery-large {
-  grid-column: span 2;
-  grid-row: span 2;
+/* Reihe 1: Live-Room breit (2 Spalten) + Outboard schmal (1 Spalte) */
+.gallery-tile-1 {
+  grid-column: 1 / span 2;
+  grid-row: 1;
+}
+.gallery-tile-2 {
+  grid-column: 3;
+  grid-row: 1;
+}
+/* Reihe 2: drei gleichbreite Tiles (Manley, Mics, Control Room) */
+.gallery-tile-3 {
+  grid-column: 1;
+  grid-row: 2;
+}
+.gallery-tile-4 {
+  grid-column: 2;
+  grid-row: 2;
+}
+.gallery-tile-5 {
+  grid-column: 3;
+  grid-row: 2;
 }
 
 .gallery-item img {
@@ -1397,11 +1443,22 @@ a.contact-value:hover {
 @media (max-width: 700px) {
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 200px;
+    grid-template-rows: auto;
+    grid-auto-rows: 220px;
+    gap: 12px;
   }
-  .gallery-item.gallery-large {
+  /* Auf Mobile: Live-Room und Control Room volle Breite, andere im 2x-Grid */
+  .gallery-tile-1,
+  .gallery-tile-2,
+  .gallery-tile-3,
+  .gallery-tile-4,
+  .gallery-tile-5 {
+    grid-column: auto;
+    grid-row: auto;
+  }
+  .gallery-tile-1,
+  .gallery-tile-5 {
     grid-column: span 2;
-    grid-row: span 1;
   }
 
   .audio-item {
@@ -1437,7 +1494,12 @@ a.contact-value:hover {
     grid-template-columns: 1fr;
     grid-auto-rows: 240px;
   }
-  .gallery-item.gallery-large {
-    grid-column: span 1;
+  .gallery-tile-1,
+  .gallery-tile-2,
+  .gallery-tile-3,
+  .gallery-tile-4,
+  .gallery-tile-5 {
+    grid-column: 1;
+    grid-row: auto;
   }
 }
