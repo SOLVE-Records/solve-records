@@ -28,19 +28,57 @@
   const navToggle = document.querySelector('.nav-toggle');
   const navLinks = document.querySelector('.nav-links');
 
-  navToggle.addEventListener('click', () => {
-    const isOpen = navLinks.classList.toggle('open');
-    navToggle.classList.toggle('active');
-    navToggle.setAttribute('aria-expanded', isOpen);
+  function closeMenu() {
+    navLinks.classList.remove('open');
+    navToggle.classList.remove('active');
+    navToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  function openMenu() {
+    navLinks.classList.add('open');
+    navToggle.classList.add('active');
+    navToggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  navToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (navLinks.classList.contains('open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   });
 
   // Close mobile menu on link click
   navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      navToggle.classList.remove('active');
-      navToggle.setAttribute('aria-expanded', 'false');
-    });
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Close menu when clicking outside of it
+  document.addEventListener('click', (e) => {
+    if (
+      navLinks.classList.contains('open') &&
+      !navLinks.contains(e.target) &&
+      !navToggle.contains(e.target)
+    ) {
+      closeMenu();
+    }
+  });
+
+  // Close menu on ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+
+  // Close menu on window resize back to desktop
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900 && navLinks.classList.contains('open')) {
+      closeMenu();
+    }
   });
 
   // ===== Reveal Animations beim Scrollen =====
@@ -115,7 +153,7 @@ function handleSubmit(event) {
       `Nachricht:\n${data.nachricht}`
     );
 
-    window.location.href = `mailto:hallo@solve-records.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:solfmichael5@gmail.com?subject=${subject}&body=${body}`;
 
     submitBtn.textContent = 'Email-Programm geöffnet ✓';
     setTimeout(() => {
