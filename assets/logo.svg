@@ -187,19 +187,19 @@
       <feGaussianBlur stdDeviation="35"/>
     </filter>
   </defs>
-  <ellipse cx="407" cy="210" rx="240" ry="190" fill="#ff7a2e" opacity=".45" filter="url(#megaGlow)"/>
-  <ellipse cx="407" cy="210" rx="160" ry="125" fill="#ffb066" opacity=".4" filter="url(#megaGlow)"/>
+  <ellipse cx="415" cy="210" rx="240" ry="190" fill="#ff7a2e" opacity=".45" filter="url(#megaGlow)"/>
+  <ellipse cx="415" cy="210" rx="160" ry="125" fill="#ffb066" opacity=".4" filter="url(#megaGlow)"/>
 
   <!-- WORDMARK SOLVE -->
   <text x="640" y="320"
         font-family="Bodoni Moda, Bodoni 72, Didot, serif"
         font-weight="900" font-size="320" fill="#f3e7c8"
         text-anchor="middle">S<tspan fill="transparent">O</tspan>LVE</text>
-  <!-- Tube: Sockel-Unterkante auf Baseline (y=320) der Buchstaben
-       Im Symbol viewBox: Sockel-Unterkante y=90 (von 100) = 90%
-       Bei width=280: 280*0.90 = 252
-       y_pos = 320 - 252 = 68 -->
-  <use href="#oTube" x="267" y="68" width="280" height="280"/>
+  <!-- Tube mathematisch exakt zentriert zwischen S und L (ohne Offset)
+       S endet 290, L beginnt 539, Mitte = 414.5
+       Width=280, x = 414.5 - 140 = 274.5 ≈ 275
+       y_pos = 320 - 252 = 68 (Sockel-Unterkante auf Baseline) -->
+  <use href="#oTube" x="275" y="68" width="280" height="280"/>
 
   <!-- RECORDS -->
   <line x1="380" y1="400" x2="500" y2="400" stroke="#d4a24a" stroke-width="1.2" opacity=".7"/>
