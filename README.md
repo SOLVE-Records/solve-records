@@ -1,37 +1,48 @@
 # Solve Records — Website
 
-Single-Page Website für das Recording Studio. Inhalte: Hero, Studio, Services, Equipment, Galerie, Arbeiten (mit SoundCloud-Embeds), Booking.
+Single-Page-Website für das Recording Studio. Inhalte: Hero, Studio (mit „Der Mensch hinter dem Studio“), Services, Equipment, Galerie, Arbeiten (SoundCloud-Embeds), Booking.
 
-## Neue Sektionen seit letztem Update
+Reines HTML/CSS/JavaScript, kein Build-Schritt. Zum Ansehen `index.html` im Browser öffnen.
 
-### Galerie
+## Galerie
 
-Sechs Bilder-Tiles mit Lightbox. Klicken zum Vergrößern, Pfeiltasten zum Navigieren, ESC zum Schließen.
+Fünf Bilder mit Lightbox: Klicken zum Vergrößern, Pfeiltasten zum Navigieren, ESC zum Schließen.
 
-**Bilder einfügen:** Eigene Studio- und Equipment-Fotos in `assets/gallery/` ablegen. Die HTML erwartet diese Dateinamen:
+Die Bilder liegen in `assets/gallery/`:
 
-- `studio-01.jpg` (groß), `studio-02.jpg`, `studio-03.jpg`
-- `equipment-01.jpg`, `equipment-02.jpg`, `equipment-03.jpg` (groß)
+| Datei | Tile | Position |
+|---|---|---|
+| `studio-live-room.jpg` | `gallery-tile-1` | oben links, doppelt breit |
+| `equipment-rack.jpg` | `gallery-tile-2` | oben rechts |
+| `equipment-manley.jpg` | `gallery-tile-3` | unten links |
+| `studio-mics.jpg` | `gallery-tile-4` | unten Mitte |
+| `studio-control-room.jpg` | `gallery-tile-5` | unten rechts |
 
-Auflösung idealerweise 1600×1200 (oder größer), Format JPG. Optimal vor dem Upload mit https://squoosh.app oder TinyPNG verkleinern (Ziel: <500 KB pro Bild).
+**Bild austauschen:** Neue Datei unter gleichem Namen ablegen, oder in `index.html` beim passenden `<a class="gallery-item …">` sowohl `href` als auch `src` des `<img>` ändern. Die Bildunterschrift in der Lightbox steht in `data-caption`.
 
-Die mitgelieferten Platzhalter sind generierte SVG-Bilder im Logo-Look — einfach durch echte Fotos überschreiben.
+**Bild hinzufügen oder entfernen:** Das Raster ist in `styles.css` (Abschnitt GALERIE) fest auf 3 Spalten × 2 Reihen mit fünf Positionen `gallery-tile-1` bis `gallery-tile-5` ausgelegt. Für ein sechstes Bild muss dort eine neue Klasse `gallery-tile-6` und ggf. eine weitere Reihe angelegt werden, auch in den `@media`-Blöcken für Mobilgeräte.
 
-### Audio-Referenzen (SoundCloud)
+Empfehlung: JPG im Querformat, mindestens 1600×1200 für das große Tile, unter 500 KB pro Bild (z.B. mit https://squoosh.app oder TinyPNG verkleinern).
 
-Drei Hörproben-Plätze mit SoundCloud-Embeds. So fügst du echte Tracks ein:
+## Audio-Referenzen (SoundCloud)
 
-1. Track auf SoundCloud öffnen
-2. **Share → Embed → "Copy Code"**
-3. In `index.html` den `iframe`-Block suchen (`PLATZHALTER` markiert die Stellen)
-4. Den `src`-URL deines kopierten Codes einsetzen
-5. Den Parameter `&color=%23d4a24a&inverse=true` lassen — sorgt für die Brass-farbige Optik im Logo-Stil
+Im Bereich „Arbeiten“ stehen fünf SoundCloud-Player, jeweils als `<div class="audio-item">` mit Jahr, Genre und `iframe`.
 
-**Beispiel:** Wo `PLATZHALTER` steht, kommt dann z.B. `123456789` (deine Track-ID) hin.
+**Track austauschen oder hinzufügen:**
 
-Alternativ kannst du auch Spotify-Embeds nutzen (für offiziell veröffentlichte Tracks) oder Bandcamp.
+1. Track auf SoundCloud öffnen → **Share → Embed** → Code kopieren
+2. In `index.html` einen bestehenden `audio-item`-Block kopieren bzw. anpassen
+3. Im `src` des `iframe` die Track-ID ersetzen (die Zahl nach `soundcloud%253Atracks%253A`)
+4. Die Parameter `&color=%23d4a24a&inverse=true` beibehalten — sie sorgen für die Brass-Optik
+5. Jahr (`audio-year`) und Genre (`audio-genre`) anpassen
+
+Alternativ gehen auch Spotify- oder Bandcamp-Embeds.
 
 ## Deployment auf GitHub Pages
 
-Wie zuvor: Dateien hochladen, `Settings → Pages → Source: Deploy from a branch → main → / (root) → Save`.
+Die Seite wird über GitHub Pages direkt aus dem Branch `main` veröffentlicht
+(`Settings → Pages → Source: Deploy from a branch → main → / (root)`).
 
+Live: https://solve-records.github.io/solve-records/
+
+Jede Änderung auf `main` ist nach etwa einer Minute online. Pfade zu Dateien immer relativ angeben (`assets/…`, nicht `/assets/…`), weil die Seite im Unterordner `/solve-records/` liegt.
