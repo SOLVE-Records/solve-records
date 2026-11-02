@@ -38,7 +38,5 @@ Statische One-Page-Website für das Recording Studio „Solve Records“ (Michae
 
 ## Bekannte offene Punkte (Stand 2026-11-02)
 
-- SoundCloud-Profil-Link in `.works-note` zeigt noch auf `href="#"`.
-- Galerie-Caption „Control Room … Pro Tools“, im Equipment steht aber Cubase.
 - `og:image` ist absolut auf die Pages-URL gesetzt. Bei Umzug auf eine eigene Domain dort mitändern.
 - Das Kontaktformular hat kein Backend, es öffnet nur das Mailprogramm (mailto). Hinweis im Code: Formspree o. Ä. wäre der nächste Schritt.
