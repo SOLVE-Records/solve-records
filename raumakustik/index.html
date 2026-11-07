@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Raumakustik: Raum ausmessen und planen | Solve Records</title>
-<meta name="description" content="Solve Records misst Räume aus und plant die Verkleidung, als Do-it-yourself oder durch externe Anbieter. Mit kostenlosem Raummoden-Rechner.">
+<meta name="description" content="Raumakustik am Bodensee: Messung und Plan ab 300 €, Ausarbeitung für DIY oder externe Absorber ab zusätzlich 100 €. Für Studio, Büro und Wohnraum.">
 <link rel="canonical" href="https://solve-records.github.io/solve-records/raumakustik/">
 
 <!-- Open Graph -->
 <meta property="og:title" content="Raumakustik: Raum ausmessen und planen | Solve Records">
-<meta property="og:description" content="Solve Records misst Räume aus und plant die Verkleidung, als Do-it-yourself oder durch externe Anbieter. Mit kostenlosem Raummoden-Rechner.">
+<meta property="og:description" content="Raumakustik am Bodensee: Messung und Plan ab 300 €, Ausarbeitung für DIY oder externe Absorber ab zusätzlich 100 €. Für Studio, Büro und Wohnraum.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://solve-records.github.io/solve-records/raumakustik/">
 <meta property="og:image" content="https://solve-records.github.io/solve-records/assets/og-image.png">
@@ -17,9 +17,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@300;400;500;600&display=swap">
 <style>
-  /* Layout: schlanke Einstiegsseite. Oben der Kernsatz, darunter vier Schritte (die Reihenfolge ist
-     hier echte Information), dann der Raummoden-Rechner als Einstieg und der Weg zum Kontakt.
-     Farben, Schriften und Radius sind die Variablen aus styles.css der Studio-Seite. */
+  /* Layout: Preise zuerst, wie auf der Mastering-Seite. Zwei Stufen nebeneinander (Planung, Ausarbeitung),
+     dann Einsatzbereiche, Ablauf, Rechner und Kontakt. Farben, Schriften und Radius entsprechen styles.css. */
   :root {
     --bg: #0a0705;
     --bg-2: #15100a;
@@ -29,12 +28,10 @@
     --brass-deep: #8a5e1f;
     --brass-glow: #ffb347;
     --tube: #ff7a2e;
-    --tube-glow: #ffb066;
     --cream: #f3e7c8;
     --cream-soft: rgba(243, 231, 200, 0.75);
-    --cream-mute: rgba(243, 231, 200, 0.45);
+    --cream-mute: rgba(243, 231, 200, 0.45);   /* Wert aus styles.css */
     --line: rgba(212, 162, 74, 0.22);
-    --line-soft: rgba(212, 162, 74, 0.12);
     --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', serif;
     --font-sans: 'Oswald', 'Helvetica Neue', sans-serif;
     --font-mono: 'JetBrains Mono', 'Courier New', monospace;
@@ -46,7 +43,7 @@
 
   body {
     background-color: var(--bg);
-    background-image: radial-gradient(ellipse 70% 40% at 50% -5%, rgba(255, 122, 46, 0.10), transparent 70%);
+    background-image: radial-gradient(ellipse 70% 40% at 50% -5%, rgba(255, 122, 46, 0.12), transparent 70%);
     background-repeat: no-repeat;
     color: var(--cream);
     font-family: var(--font-sans);
@@ -58,31 +55,19 @@
     min-height: 100vh;
   }
 
-  .wrap { max-width: 860px; margin: 0 auto; }
-
+  .wrap { max-width: 900px; margin: 0 auto; }
 
   .eyebrow {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--brass);
-    margin: 0;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+    letter-spacing: 0.3em; text-transform: uppercase; color: var(--brass); margin: 0;
   }
 
   h1 {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 700;
-    font-size: clamp(44px, 10vw, 76px);
-    line-height: 1.05;
-    color: var(--brass-bright);
-    margin: 10px 0 0;
-    text-wrap: balance;
+    font-family: var(--font-display); font-style: italic; font-weight: 700;
+    font-size: clamp(46px, 11vw, 82px); line-height: 1.05; color: var(--brass-bright);
+    margin: 10px 0 0; text-wrap: balance;
   }
-
-  .lead { margin: 22px 0 0; font-size: clamp(18px, 3.2vw, 22px); line-height: 1.5; color: var(--cream); max-width: 40ch; text-wrap: pretty; }
+  .lead { margin: 20px 0 0; font-size: clamp(18px, 3.2vw, 22px); line-height: 1.5; color: var(--cream); max-width: 40ch; text-wrap: pretty; }
   .sub { margin: 14px 0 0; font-size: 16px; color: var(--cream-soft); max-width: 58ch; }
 
   section { margin-top: clamp(40px, 8vw, 72px); }
@@ -92,38 +77,73 @@
     margin: 10px 0 0; text-wrap: balance;
   }
 
-  .steps { margin: 22px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .steps li {
-    padding: 20px 20px 22px; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius);
-    box-shadow: inset 0 1px 0 rgba(244, 204, 111, 0.07); min-width: 0;
+  /* Preise */
+  .prices { margin-top: clamp(28px, 5vw, 44px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .price {
+    display: flex; flex-direction: column; min-width: 0;
+    padding: clamp(20px, 4vw, 30px); background: var(--bg-2);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: inset 0 1px 0 rgba(244, 204, 111, 0.07);
   }
-  .steps .no { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.2em; color: var(--brass); }
-  .steps h3 { margin: 8px 0 6px; font-family: var(--font-display); font-weight: 700; font-size: 24px; line-height: 1.2; color: var(--cream); }
-  .steps p { margin: 0; font-size: 15px; color: var(--cream-soft); }
+  .price.main { background: var(--bg-3); border-color: var(--brass); }
+  .price .kind { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--brass); margin: 0; }
+  .price h3 { margin: 10px 0 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(24px, 4vw, 30px); line-height: 1.15; color: var(--cream); }
+  .amount { margin: 18px 0 0; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .amount .from { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-mute); }
+  .amount .num { font-family: var(--font-display); font-weight: 800; font-size: clamp(48px, 9vw, 68px); line-height: 1; color: var(--brass-bright); font-variant-numeric: tabular-nums; }
+  .amount .cur { font-family: var(--font-display); font-weight: 700; font-size: clamp(24px, 4vw, 30px); color: var(--brass); }
+  .price .for { margin: 6px 0 0; font-size: 15px; color: var(--cream-soft); }
+  .incl { margin: 20px 0 0; padding: 18px 0 0; border-top: 1px solid var(--line); list-style: none; display: grid; gap: 10px; font-size: 15px; color: var(--cream-soft); }
+  .incl li { position: relative; padding-left: 20px; }
+  .incl li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 8px; height: 1px; background: var(--brass); }
 
-  .panel { margin-top: 22px; padding: clamp(18px, 4vw, 28px); background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: inset 0 1px 0 rgba(244, 204, 111, 0.07); }
-  .panel p { margin: 0; font-size: 16px; color: var(--cream-soft); max-width: 60ch; }
-  .panel.hot { background: var(--bg-3); border-color: var(--brass); }
+  .note { margin: 18px 0 0; font-size: 15px; color: var(--cream-soft); max-width: 62ch; }
+  .note + .note { margin-top: 8px; }
 
+  /* Buttons */
   .btn {
     display: inline-flex; align-items: center; gap: 10px; margin-top: 18px; min-height: 48px; padding: 0 20px;
     background: var(--brass); color: var(--bg); border: 1px solid var(--brass-bright); border-radius: var(--radius);
     font-family: var(--font-sans); font-weight: 500; font-size: 15px; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none;
-    transition: background-color 120ms linear, color 120ms linear;
+    transition: background-color 120ms linear;
   }
   .btn:hover { background: var(--brass-bright); }
   .btn.ghost { background: transparent; color: var(--brass-bright); border-color: var(--brass); }
   .btn.ghost:hover { background: rgba(212, 162, 74, 0.12); }
   .btn:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0 12px; }
 
-  .foot { margin: 40px 0 0; font-family: var(--font-mono); font-size: 11px; line-height: 1.7; color: var(--cream-soft); }
+  /* Einsatzbereiche */
+  .ansatz { margin-top: 22px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+  .ansatz div { padding: 22px 22px 0 0; min-width: 0; }
+  .ansatz div + div { padding-left: 22px; border-left: 1px solid var(--line); }
+  .ansatz h3 { margin: 0 0 6px; font-family: var(--font-display); font-weight: 700; font-size: 22px; line-height: 1.2; color: var(--cream); }
+  .ansatz p { margin: 0; font-size: 15px; color: var(--cream-soft); }
 
-  @media (max-width: 640px) {
-    .steps { grid-template-columns: minmax(0, 1fr); }
+  /* Ablauf: echte Reihenfolge */
+  .steps { margin: 22px 0 0; padding: 0; list-style: none; display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .steps li { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 4px 16px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .steps .no { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.2em; color: var(--brass); padding-top: 6px; }
+  .steps h3 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 22px; line-height: 1.25; color: var(--cream); }
+  .steps p { margin: 4px 0 0; font-size: 15px; color: var(--cream-soft); grid-column: 2; max-width: 56ch; }
+
+  .panel { margin-top: 22px; padding: clamp(18px, 4vw, 28px); background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: inset 0 1px 0 rgba(244, 204, 111, 0.07); }
+  .panel p { margin: 0; font-size: 16px; color: var(--cream-soft); max-width: 60ch; }
+
+  .cta { margin-top: clamp(40px, 8vw, 72px); padding: clamp(22px, 5vw, 36px); background: var(--bg-3); border: 1px solid var(--brass); border-radius: var(--radius); }
+  .cta p { margin: 12px 0 0; font-size: 16px; color: var(--cream-soft); max-width: 56ch; }
+
+  .foot { margin: 36px 0 0; font-family: var(--font-mono); font-size: 11px; line-height: 1.7; color: var(--cream-mute); }
+
+  @media (max-width: 680px) {
+    .prices { grid-template-columns: minmax(0, 1fr); }
+    .ansatz { grid-template-columns: minmax(0, 1fr); }
+    .ansatz div, .ansatz div + div { padding: 18px 0 0; border-left: 0; }
+    .steps li { grid-template-columns: 36px minmax(0, 1fr); }
   }
   @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
 
-  /* Rückweg zur Startseite (Muster wie in tools/) */
+  /* Rückweg (Muster wie in tools/) */
   .crumbs { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0 0 22px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; }
   .crumbs a { color: var(--cream-soft); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 3px; }
   .crumbs a:hover { color: var(--brass-bright); border-color: var(--brass); }
@@ -140,8 +160,59 @@
     <p class="eyebrow">Solve Records</p>
     <h1>Raumakustik</h1>
     <p class="lead">Solve Records misst Räume aus und plant die Verkleidung, sei es als Do-it-yourself oder durch externe Anbieter.</p>
-    <p class="sub">Das Ziel ist ein Raum, dem du beim Aufnehmen, Mischen und Abhören vertrauen kannst.</p>
+    <p class="sub">Für Studios, Büros und Wohnräume. Das Ziel ist ein Raum, dem du beim Aufnehmen, Mischen, Abhören oder Arbeiten vertrauen kannst.</p>
   </header>
+
+  <div class="prices" role="list">
+    <article class="price main" role="listitem">
+      <p class="kind">Stufe 1</p>
+      <h3>Messung und Plan</h3>
+      <p class="amount"><span class="from">ab</span><span class="num">300</span><span class="cur">€</span></p>
+      <p class="for">Für einen überschaubaren Raum.</p>
+      <ul class="incl">
+        <li>Ausmessen und Messung vor Ort mit eigenem Equipment</li>
+        <li>Moden-Analyse und Auswertung</li>
+        <li>Schriftlicher Plan mit Empfehlung für den Raum</li>
+      </ul>
+    </article>
+
+    <article class="price" role="listitem">
+      <p class="kind">Stufe 2, nach Stufe 1</p>
+      <h3>Ausarbeitung der Verkleidung</h3>
+      <p class="amount"><span class="from">ab zusätzlich</span><span class="num">100</span><span class="cur">€</span></p>
+      <p class="for">Für Do-it-yourself oder externe Absorber.</p>
+      <ul class="incl">
+        <li>Positionen und Maße der Absorber</li>
+        <li>Einkaufsliste für Material oder Produkte</li>
+        <li>Plan für den Aufbau, den du selbst umsetzt</li>
+      </ul>
+    </article>
+  </div>
+  <!-- FAKT FEHLT: Größengrenze für "überschaubaren Raum" (z. B. m²), Radius/Regel für Anfahrt, Preise brutto/netto bzw. Kleinunternehmerregelung, ob Umsetzung vor Ort angeboten wird oder nur Anleitung -->
+  <p class="note">Beide Preise gelten für einen überschaubaren Raum, zum Beispiel ein Studio, Büro oder Wohnraum in üblicher Größe. Größere oder komplexere Räume bekommen ein individuelles Angebot.</p>
+  <p class="note">Die Anfahrt kommt zusätzlich. Material und Produkte für die Umsetzung sind nicht enthalten.</p>
+  <div class="actions">
+    <a class="btn" href="../#kontakt">Raum anfragen <span aria-hidden="true">→</span></a>
+  </div>
+
+  <section aria-labelledby="einsatz">
+    <p class="eyebrow">Einsatz</p>
+    <h2 id="einsatz">Für welche Räume</h2>
+    <div class="ansatz">
+      <div>
+        <h3>Studio</h3>
+        <p>Regie, Aufnahmeraum und Hörplatz. Bass, Reflexionen und Nachhall werden auf den Zweck des Raums abgestimmt.</p>
+      </div>
+      <div>
+        <h3>Büro</h3>
+        <p>Ruhigere Arbeitsplätze, bessere Verständlichkeit in Besprechungen und Telefonaten. Beratung und Planung, kein Gutachten nach Norm.</p>
+      </div>
+      <div>
+        <h3>Wohn- und Hobbyraum</h3>
+        <p>Musik hören, spielen oder Heimkino. Ein Raum, der nicht dröhnt und sich angenehm anhört.</p>
+      </div>
+    </div>
+  </section>
 
   <section aria-labelledby="ablauf">
     <p class="eyebrow">Ablauf</p>
@@ -155,7 +226,7 @@
       <li>
         <span class="no">02</span>
         <h3>Analysieren</h3>
-        <p>Raummoden und kritische Frequenzen werden berechnet. Daraus ergibt sich, wo der Raum Probleme macht.</p>
+        <p>Raummoden und kritische Frequenzen werden berechnet und gemessen. Daraus ergibt sich, wo der Raum Probleme macht.</p>
       </li>
       <li>
         <span class="no">03</span>
@@ -165,7 +236,7 @@
       <li>
         <span class="no">04</span>
         <h3>Umsetzen</h3>
-        <p>Du baust nach dem Plan selbst oder gibst die Umsetzung an externe Anbieter. Das entscheidest du.</p>
+        <p>Du baust nach dem Plan selbst oder nutzt externe Absorber. Material und Produkte beschaffst du separat.</p>
       </li>
     </ol>
   </section>
@@ -179,16 +250,16 @@
     </div>
   </section>
 
-  <section aria-labelledby="kontakt">
-    <p class="eyebrow">Kontakt</p>
-    <h2 id="kontakt">Du willst deinen Raum angehen?</h2>
-    <div class="panel hot">
-      <p>Schreib kurz, um welchen Raum es geht und was du vorhast. Dann klären wir, wie es weitergeht.</p>
+  <aside class="cta" aria-label="Kontakt">
+    <h2>Du willst deinen Raum angehen?</h2>
+    <p>Schreib kurz, um welchen Raum es geht und was du vorhast. Dann klären wir, wie es weitergeht.</p>
+    <div class="actions">
       <a class="btn" href="../#kontakt">Zum Kontakt <span aria-hidden="true">→</span></a>
     </div>
-  </section>
+  </aside>
 
-  <p class="foot">Alle Angaben zur Raumakustik sind eine Planungshilfe. Wie sich ein Raum tatsächlich verhält, zeigt erst die Messung vor Ort.</p>
+  <p class="foot">Alle Preise sind Einstiegspreise ("ab"). Angaben zur Raumakustik sind eine Planungshilfe. Wie sich ein Raum tatsächlich verhält, zeigt erst die Messung vor Ort.</p>
 </main>
+
 </body>
 </html>
