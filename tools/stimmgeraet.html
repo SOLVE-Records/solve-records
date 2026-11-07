@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solve Records Stimmgerät</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@300;400;500;600&display=swap">
+<style>
+  /* Layout: Instrumentenpaneel wie beim Metronom. Große Note in Messing, darunter die
+     Cent-Skala mit Nadel, drei Lampen (tief, gestimmt, hoch), Saitenwahl und Kammerton.
+     Farben, Schriften und Radius sind die Variablen aus styles.css der Studio-Seite. */
+  :root {
+    --bg: #0a0705;
+    --bg-2: #15100a;
+    --bg-3: #1c130a;
+    --brass: #d4a24a;
+    --brass-bright: #f4cc6f;
+    --brass-deep: #8a5e1f;
+    --brass-glow: #ffb347;
+    --tube: #ff7a2e;
+    --tube-glow: #ffb066;
+    --cream: #f3e7c8;
+    --cream-soft: rgba(243, 231, 200, 0.75);
+    --cream-mute: rgba(243, 231, 200, 0.45);
+    --line: rgba(212, 162, 74, 0.22);
+    --line-soft: rgba(212, 162, 74, 0.12);
+    --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', serif;
+    --font-sans: 'Oswald', 'Helvetica Neue', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    --radius: 2px;
+    --pct: 50%;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background-color: var(--bg);
+    background-image: radial-gradient(ellipse 70% 40% at 50% -5%, rgba(255, 122, 46, 0.10), transparent 70%);
+    background-repeat: no-repeat;
+    color: var(--cream);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.5;
+    padding-block: clamp(28px, 6vw, 64px);
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    min-height: 100vh;
+  }
+
+  .wrap { max-width: 720px; margin: 0 auto; }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin: 0;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(40px, 9vw, 64px);
+    line-height: 1.05;
+    color: var(--brass-bright);
+    margin: 10px 0 0;
+    text-wrap: balance;
+  }
+
+  .panel {
+    margin-top: 28px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: clamp(20px, 4vw, 36px);
+    box-shadow: inset 0 1px 0 rgba(244, 204, 111, 0.07);
+  }
+
+  .block { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line-soft); }
+
+  /* Auswahlfelder */
+  fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+  legend { padding: 0; margin-bottom: 12px; }
+  .segs { display: flex; gap: 8px; }
+  .segs.modes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .seg { position: relative; flex: 1 1 0; min-width: 0; }
+  .seg input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+  .seg span {
+    display: block; text-align: center;
+    padding: 13px 4px;
+    background: var(--bg-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--cream-soft);
+  }
+  .seg:hover span { border-color: var(--brass); }
+  .seg input:checked + span { background: rgba(212, 162, 74, 0.14); border-color: var(--brass); color: var(--brass-bright); }
+  .seg input:focus-visible + span { outline: 2px solid var(--brass-glow); outline-offset: 2px; }
+
+  /* Anzeige */
+  .readout { position: relative; margin-top: 28px; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 28px; transition: opacity 150ms linear; }
+  .readout.example .note-big, .readout.example .meta { opacity: 0.45; }
+  .tag {
+    position: absolute; top: 0; right: 0;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--tube-glow); border: 1px solid var(--tube); border-radius: var(--radius); padding: 3px 8px;
+  }
+  .note-line { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+  .note-big {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(88px, 26vw, 150px);
+    line-height: 1;
+    color: var(--cream);
+    min-width: 1ch;
+    font-variant-numeric: lining-nums;
+    transition: color 120ms linear, text-shadow 120ms linear;
+  }
+  .note-big.ok { color: var(--brass-bright); text-shadow: 0 0 36px rgba(244, 204, 111, 0.45); }
+  .oct { font-family: var(--font-mono); font-size: 24px; color: var(--cream-soft); min-width: 1ch; }
+
+  .meta { display: grid; gap: 14px; margin: 0; min-width: 0; }
+  .meta dt { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--brass); }
+  .meta dd { margin: 2px 0 0; font-family: var(--font-mono); font-size: 18px; color: var(--cream); font-variant-numeric: tabular-nums; }
+  #cents { font-size: 26px; }
+
+  /* Cent-Skala */
+  .gauge { position: relative; height: 72px; margin-top: 26px; border-bottom: 1px solid var(--line); }
+  .gauge .tick { position: absolute; bottom: 0; width: 1px; height: 14px; background: var(--line); }
+  .gauge .tick.major { height: 30px; background: var(--brass-deep); }
+  .gauge .tick.zero { height: 52px; background: var(--brass); }
+  .needle {
+    position: absolute; bottom: 0; top: 0; left: 50%;
+    width: 3px; margin-left: -1.5px;
+    background: var(--tube);
+    box-shadow: 0 0 14px rgba(255, 122, 46, 0.6);
+    border-radius: var(--radius);
+    opacity: 0.25;
+    transition: left 90ms linear, opacity 150ms linear, background-color 120ms linear, box-shadow 120ms linear;
+  }
+  .needle.live { opacity: 1; }
+  .needle.ok { background: var(--brass-bright); box-shadow: 0 0 18px rgba(244, 204, 111, 0.65); }
+  .gscale { display: flex; justify-content: space-between; margin-top: 6px; font-family: var(--font-mono); font-size: 10px; color: var(--cream-soft); }
+
+  /* Lampen */
+  .lamps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 20px; }
+  .lamp { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .lamp .bar {
+    height: 14px; background: var(--bg-3); border: 1px solid var(--line); border-radius: var(--radius);
+    transition: background-color 70ms linear, box-shadow 70ms linear, border-color 70ms linear;
+  }
+  .lamp .lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cream-soft); text-align: center; }
+  .lamp.on .bar { background: var(--tube); border-color: var(--tube-glow); box-shadow: 0 0 18px rgba(255, 122, 46, 0.55); }
+  .lamp.ok.on .bar { background: var(--brass-bright); border-color: var(--brass-bright); box-shadow: 0 0 22px rgba(244, 204, 111, 0.55); }
+
+  .status { margin: 16px 0 0; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: var(--cream-soft); min-height: 3em; }
+
+  /* Saiten */
+  .strings { display: flex; flex-wrap: wrap; gap: 8px; }
+  .str {
+    flex: 1 1 56px; min-width: 56px; min-height: 64px;
+    background: var(--bg-3); color: var(--cream); border: 1px solid var(--line); border-radius: var(--radius);
+    display: flex; align-items: baseline; justify-content: center; gap: 3px;
+    cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+    font-family: var(--font-display); font-weight: 700; font-size: 28px;
+  }
+  .str small { font-family: var(--font-mono); font-size: 12px; font-weight: 400; color: var(--cream-soft); }
+  .str:hover { border-color: var(--brass); }
+  .str.detected { border-color: var(--brass); color: var(--brass-bright); }
+  .str.locked { background: rgba(255, 122, 46, 0.14); border-color: var(--tube); color: var(--tube-glow); }
+  .str:focus-visible, .btn:focus-visible, .step:focus-visible, .reset:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
+  .note { margin: 12px 0 0; font-size: 14px; color: var(--cream-soft); max-width: 62ch; }
+
+  /* Bedienung */
+  .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .btn {
+    min-height: 84px; border-radius: var(--radius);
+    font-family: var(--font-sans); font-weight: 500; font-size: 17px; letter-spacing: 0.2em; text-transform: uppercase;
+    cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none;
+    transition: background-color 120ms linear, color 120ms linear, border-color 120ms linear;
+  }
+  .btn small { font-family: var(--font-mono); font-size: 10px; font-weight: 400; letter-spacing: 0.12em; line-height: 1.4; text-align: center; padding-inline: 8px; opacity: 0.85; text-transform: none; }
+  #mic { background: var(--brass); color: var(--bg); border: 1px solid var(--brass-bright); }
+  #mic:hover { background: var(--brass-bright); }
+  #mic.running { background: transparent; color: var(--brass-bright); border-color: var(--brass); }
+  #mic.running:hover { background: rgba(212, 162, 74, 0.12); }
+  #demo { background: transparent; color: var(--tube-glow); border: 1px solid var(--tube); }
+  #demo:hover { background: rgba(255, 122, 46, 0.10); }
+  #demo.running { background: var(--tube); color: var(--bg); border-color: var(--tube-glow); }
+
+  /* Kammerton */
+  .refrow { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 20px; margin-bottom: 14px; }
+  .ref-line { display: flex; align-items: baseline; gap: 10px; }
+  .ref-num {
+    font-family: var(--font-display); font-weight: 700; font-size: 48px; line-height: 1;
+    color: var(--brass-bright); background: transparent; border: 0; border-bottom: 1px solid var(--line); border-radius: 0;
+    width: 4.6ch; padding: 0 0 4px; margin: 0; font-variant-numeric: lining-nums tabular-nums;
+    -moz-appearance: textfield; appearance: textfield;
+  }
+  .ref-num::-webkit-outer-spin-button, .ref-num::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .ref-num:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 6px; }
+  .unit { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.3em; color: var(--cream-soft); }
+  .reset {
+    background: var(--bg-3); color: var(--brass); border: 1px solid var(--line); border-radius: var(--radius);
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; padding: 12px 16px; cursor: pointer; touch-action: manipulation;
+  }
+  .reset:hover { border-color: var(--brass); color: var(--brass-bright); }
+
+  .adjust { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; }
+  .step {
+    width: 48px; height: 48px; background: var(--bg-3); color: var(--brass); border: 1px solid var(--line); border-radius: var(--radius);
+    font-family: var(--font-mono); font-size: 22px; line-height: 1; cursor: pointer; touch-action: manipulation;
+  }
+  .step:hover { border-color: var(--brass); color: var(--brass-bright); }
+  .step:active { background: rgba(212, 162, 74, 0.16); }
+
+  input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 32px; margin: 0; background: transparent; cursor: pointer; touch-action: pan-y; }
+  input[type="range"]::-webkit-slider-runnable-track { height: 2px; background: linear-gradient(to right, var(--brass) var(--pct), var(--line) var(--pct)); }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 16px; height: 30px; margin-top: -14px;
+    background: var(--tube); border: 1px solid var(--tube-glow); border-radius: var(--radius); box-shadow: 0 0 12px rgba(255, 122, 46, 0.4);
+  }
+  input[type="range"]::-moz-range-track { height: 2px; background: var(--line); }
+  input[type="range"]::-moz-range-progress { height: 2px; background: var(--brass); }
+  input[type="range"]::-moz-range-thumb { width: 14px; height: 28px; background: var(--tube); border: 1px solid var(--tube-glow); border-radius: var(--radius); }
+  input[type="range"]:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 2px; }
+
+  .scale { display: flex; justify-content: space-between; margin: 2px 62px 0; font-family: var(--font-mono); font-size: 10px; color: var(--cream-soft); }
+
+  .foot { margin: 22px 0 0; font-family: var(--font-mono); font-size: 11px; line-height: 1.7; color: var(--cream-soft); }
+
+  @media (min-width: 560px) {
+    .segs.modes { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  @media (max-width: 460px) {
+    .btn { font-size: 15px; letter-spacing: 0.14em; }
+    .step { width: 44px; height: 44px; }
+    .scale { margin-inline: 58px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .needle, .lamp .bar, .btn, .readout, .note-big { transition: none; }
+  }
+
+  /* Rückweg zu Tools und Startseite */
+  .crumbs { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0 0 22px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; }
+  .crumbs a { color: var(--cream-soft); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 3px; }
+  .crumbs a:hover { color: var(--brass-bright); border-color: var(--brass); }
+  .crumbs a:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <header>
+    <nav class="crumbs" aria-label="Zurück">
+      <a href="./">← Tools</a>
+      <a href="../">Startseite</a>
+    </nav>
+    <p class="eyebrow">Solve Records</p>
+    <h1>Stimmgerät</h1>
+  </header>
+
+  <section class="panel" aria-label="Stimmgerät">
+    <fieldset>
+      <legend class="eyebrow">Modus</legend>
+      <div class="segs modes">
+        <label class="seg"><input type="radio" name="mode" value="chrom" checked><span>Chromatisch</span></label>
+        <label class="seg"><input type="radio" name="mode" value="gitarre"><span>Gitarre</span></label>
+        <label class="seg"><input type="radio" name="mode" value="ukulele"><span>Ukulele</span></label>
+        <label class="seg"><input type="radio" name="mode" value="bass"><span>E-Bass</span></label>
+      </div>
+    </fieldset>
+
+    <div class="readout example" id="readout">
+      <span class="tag" id="tag">Beispiel</span>
+      <div class="note-line" role="status" aria-label="Erkannte Note">
+        <span class="note-big" id="noteBig">A</span><span class="oct" id="oct">4</span>
+      </div>
+      <dl class="meta">
+        <div><dt>Abweichung</dt><dd id="cents">−8 Cent</dd></div>
+        <div><dt>Gemessen</dt><dd id="freq">438,1 Hz</dd></div>
+        <div><dt>Soll</dt><dd id="soll">440,0 Hz</dd></div>
+      </dl>
+    </div>
+
+    <div class="gauge" id="gauge" aria-hidden="true"><div class="needle" id="needle"></div></div>
+    <div class="gscale" aria-hidden="true"><span>−50</span><span>0 Cent</span><span>+50</span></div>
+
+    <div class="lamps" aria-hidden="true">
+      <div class="lamp" id="lampLow"><span class="bar"></span><span class="lbl">Zu tief ♭</span></div>
+      <div class="lamp ok" id="lampOk"><span class="bar"></span><span class="lbl">Gestimmt</span></div>
+      <div class="lamp" id="lampHigh"><span class="bar"></span><span class="lbl">Zu hoch ♯</span></div>
+    </div>
+
+    <p class="status" id="status" aria-live="polite">Beispielanzeige. Starte das Mikrofon, dann siehst du hier, was du spielst.</p>
+
+    <div class="block">
+      <div class="actions">
+        <button class="btn" id="mic" type="button">Mikrofon starten<small>Wird nur lokal ausgewertet</small></button>
+        <button class="btn" id="demo" type="button">Demo<small>Beispielsignal ohne Mikrofon</small></button>
+      </div>
+    </div>
+
+    <div class="block">
+      <p class="eyebrow" id="strLabel" style="margin-bottom:12px">Saiten</p>
+      <div class="strings" id="strings" role="group" aria-labelledby="strLabel"></div>
+      <p class="note" id="strNote"></p>
+    </div>
+
+    <div class="block">
+      <div class="refrow">
+        <div>
+          <label class="eyebrow" for="refNum">Kammerton A4</label>
+          <div class="ref-line">
+            <input id="refNum" class="ref-num" type="number" inputmode="decimal" min="430" max="450" step="0.1" value="440">
+            <span class="unit">Hz</span>
+          </div>
+        </div>
+        <button class="reset" id="refReset" type="button">Zurück auf 440</button>
+      </div>
+      <div class="adjust">
+        <button class="step" id="refMinus" type="button" aria-label="Kammerton um 1 Hz senken">−</button>
+        <input id="refRange" type="range" min="430" max="450" step="1" value="440" aria-label="Kammerton A4 in Hertz">
+        <button class="step" id="refPlus" type="button" aria-label="Kammerton um 1 Hz erhöhen">+</button>
+      </div>
+      <div class="scale" aria-hidden="true"><span>430</span><span>440</span><span>450</span></div>
+    </div>
+
+    <div class="block">
+      <fieldset>
+        <legend class="eyebrow">Notenschreibweise</legend>
+        <div class="segs">
+          <label class="seg"><input type="radio" name="notation" value="DE" checked><span>Deutsch (H)</span></label>
+          <label class="seg"><input type="radio" name="notation" value="EN"><span>Englisch (B)</span></label>
+        </div>
+      </fieldset>
+    </div>
+  </section>
+
+  <p class="foot">Die Tonhöhe wird im Browser berechnet. Es wird nichts aufgenommen, gespeichert oder gesendet.<br>Handy: Tippen · PC: Linksklick. Saite antippen wählt den Zielton und spielt ihn an.</p>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var REF_MIN = 430, REF_MAX = 450;
+  var NAMES = {
+    DE: ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'B', 'H'],
+    EN: ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B']
+  };
+  // MIDI-Nummern: E2 = 40, A4 = 69
+  var INSTR = {
+    chrom:   { strings: null },
+    gitarre: { strings: [40, 45, 50, 55, 59, 64] },
+    ukulele: { strings: [67, 60, 64, 69] },
+    bass:    { strings: [28, 33, 38, 43] }
+  };
+  var IN_TUNE = 5;       // Cent
+  var HOLD_MS = 700;     // so lange bleibt die letzte Anzeige ohne Signal stehen
+
+  // YIN-START
+  function yin(buf, sr, minF, maxF) {
+    var THR = 0.15;
+    var n = buf.length, W = n >> 1, i, j, tau;
+    var e = 0;
+    for (i = 0; i < n; i++) e += buf[i] * buf[i];
+    if (Math.sqrt(e / n) < 0.006) return null;
+    var tauMax = Math.min(W, Math.floor(sr / minF));
+    var tauMin = Math.max(2, Math.floor(sr / maxF));
+    var d = new Float32Array(tauMax + 1);
+    for (tau = 1; tau <= tauMax; tau++) {
+      var s = 0;
+      for (j = 0; j < W; j++) { var x = buf[j] - buf[j + tau]; s += x * x; }
+      d[tau] = s;
+    }
+    var run = 0;
+    d[0] = 1;
+    for (tau = 1; tau <= tauMax; tau++) {
+      run += d[tau];
+      d[tau] = run > 0 ? d[tau] * tau / run : 1;
+    }
+    var est = -1;
+    for (tau = tauMin; tau < tauMax; tau++) {
+      if (d[tau] < THR) {
+        while (tau + 1 < tauMax && d[tau + 1] < d[tau]) tau++;
+        est = tau;
+        break;
+      }
+    }
+    if (est < 0) return null;
+    var better = est;
+    if (est > 1 && est < tauMax) {
+      var s0 = d[est - 1], s1 = d[est], s2 = d[est + 1];
+      var den = s0 - 2 * s1 + s2;
+      if (den > 0) better = est + 0.5 * (s0 - s2) / den;
+    }
+    return { f: sr / better, clarity: 1 - d[est] };
+  }
+  // YIN-END
+
+  var $ = function (id) { return document.getElementById(id); };
+  var readout = $('readout'), tagEl = $('tag'), noteEl = $('noteBig'), octEl = $('oct');
+  var centsEl = $('cents'), freqEl = $('freq'), sollEl = $('soll');
+  var needle = $('needle'), gauge = $('gauge');
+  var lampLow = $('lampLow'), lampOk = $('lampOk'), lampHigh = $('lampHigh');
+  var statusEl = $('status'), micBtn = $('mic'), demoBtn = $('demo');
+  var stringsEl = $('strings'), strNote = $('strNote'), strLabel = $('strLabel');
+  var refNum = $('refNum'), refRange = $('refRange');
+  var modeRadios = document.querySelectorAll('input[name="mode"]');
+  var notRadios = document.querySelectorAll('input[name="notation"]');
+
+  var mode = 'chrom', notation = 'DE', ref = 440, locked = -1;
+  var source = null;            // null | 'mic' | 'demo'
+  var lastSeen = 0, hist = [], smCents = 0, smTarget = null, lastIdx = -1;
+
+  // Einstellungen merken, falls der Browser es zulässt
+  var KEY = 'solve-records-stimmgeraet';
+  try {
+    var saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (saved) {
+      if (INSTR[saved.mode]) mode = saved.mode;
+      if (saved.notation === 'DE' || saved.notation === 'EN') notation = saved.notation;
+      if (typeof saved.ref === 'number') ref = Math.min(REF_MAX, Math.max(REF_MIN, Math.round(saved.ref * 10) / 10));
+    }
+  } catch (e) {}
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify({ mode: mode, notation: notation, ref: ref })); } catch (e) {}
+  }
+
+  function fmt(x, dec) { return x.toFixed(dec).replace('.', ','); }
+  function midiToFreq(m) { return ref * Math.pow(2, (m - 69) / 12); }
+  function noteName(m) { return NAMES[notation][((m % 12) + 12) % 12]; }
+  function noteOct(m) { return Math.floor(m / 12) - 1; }
+  function strings() { return INSTR[mode].strings; }
+
+  // ---------- Anzeige ----------
+  function setLamps(state) {   // 'low' | 'ok' | 'high' | null
+    lampLow.classList.toggle('on', state === 'low');
+    lampOk.classList.toggle('on', state === 'ok');
+    lampHigh.classList.toggle('on', state === 'high');
+  }
+
+  function setStatus(t) { statusEl.textContent = t; }
+
+  function renderReading(f, target, cents, example) {
+    readout.classList.toggle('example', !!example);
+    tagEl.hidden = !example;
+    if (f === null) {
+      noteEl.textContent = '–';
+      noteEl.classList.remove('ok');
+      octEl.textContent = '';
+      centsEl.textContent = '– Cent';
+      freqEl.textContent = '– Hz';
+      sollEl.textContent = '– Hz';
+      needle.classList.remove('live', 'ok');
+      needle.style.left = '50%';
+      setLamps(null);
+      return;
+    }
+    var ok = Math.abs(cents) <= IN_TUNE;
+    noteEl.textContent = noteName(target);
+    noteEl.classList.toggle('ok', ok && !example);
+    octEl.textContent = noteOct(target);
+    var c = Math.round(cents);
+    centsEl.textContent = (c > 0 ? '+' : c < 0 ? '−' : '±') + Math.abs(c) + ' Cent';
+    freqEl.textContent = fmt(f, 1) + ' Hz';
+    sollEl.textContent = fmt(midiToFreq(target), 2) + ' Hz';
+    var pos = Math.max(-50, Math.min(50, cents));
+    needle.style.left = (50 + pos) + '%';
+    needle.classList.toggle('live', !example);
+    needle.classList.toggle('ok', ok && !example);
+    setLamps(ok ? 'ok' : cents < 0 ? 'low' : 'high');
+    if (!example) {
+      setStatus(ok ? 'Gestimmt.' : cents < 0
+        ? (strings() ? 'Zu tief. Saite spannen.' : 'Zu tief.')
+        : (strings() ? 'Zu hoch. Saite lockern.' : 'Zu hoch.'));
+    }
+  }
+
+  function showExample() {
+    var s = strings();
+    var target = s ? s[0] : 69;
+    var cents = -8;
+    var f = midiToFreq(target) * Math.pow(2, cents / 1200);
+    renderReading(f, target, cents, true);
+    setStatus('Beispielanzeige. Starte das Mikrofon oder die Demo, dann siehst du hier, was gespielt wird.');
+    markDetected(-1);
+  }
+
+  function markDetected(idx) {
+    lastIdx = idx;
+    var btns = stringsEl.querySelectorAll('.str');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].classList.toggle('detected', i === idx);
+      btns[i].classList.toggle('locked', i === locked);
+      btns[i].setAttribute('aria-pressed', i === locked ? 'true' : 'false');
+    }
+  }
+
+  // Ein gemessener Wert wird ausgewertet und angezeigt.
+  function show(f) {
+    if (f === null) {
+      hist = []; smTarget = null;
+      renderReading(null);
+      markDetected(-1);
+      setStatus(source ? 'Spiel einen Ton an.' : '');
+      return;
+    }
+    hist.push(69 + 12 * Math.log2(f / ref));
+    if (hist.length > 3) hist.shift();
+    var sorted = hist.slice().sort(function (a, b) { return a - b; });
+    var midiF = sorted[Math.floor(sorted.length / 2)];
+
+    var s = strings(), target, idx = -1;
+    if (!s) {
+      target = Math.round(midiF);
+    } else if (locked >= 0) {
+      idx = locked; target = s[idx];
+    } else {
+      var best = 1e9;
+      for (var i = 0; i < s.length; i++) {
+        var dd = Math.abs(midiF - s[i]);
+        if (dd < best) { best = dd; idx = i; }
+      }
+      target = s[idx];
+    }
+    var cents = (midiF - target) * 100;
+    if (smTarget !== target) { smCents = cents; smTarget = target; }
+    else smCents += 0.5 * (cents - smCents);
+
+    renderReading(f, target, smCents, false);
+    markDetected(idx);
+  }
+
+  // ---------- Saiten ----------
+  function buildStrings() {
+    var s = strings();
+    stringsEl.innerHTML = '';
+    if (!s) {
+      strLabel.textContent = 'Referenzton';
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'str';
+      b.innerHTML = noteName(69) + '<small>4</small>';
+      b.setAttribute('aria-label', 'Kammerton A4 anspielen');
+      b.addEventListener('click', function () { playTone(midiToFreq(69)); });
+      stringsEl.appendChild(b);
+      strNote.textContent = 'Spielt den Kammerton A4 an, zum Beispiel zum Gegenhören.';
+      return;
+    }
+    strLabel.textContent = 'Saiten';
+    s.forEach(function (m, i) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'str';
+      b.innerHTML = noteName(m) + '<small>' + noteOct(m) + '</small>';
+      b.setAttribute('aria-label', 'Saite ' + noteName(m) + noteOct(m));
+      b.addEventListener('click', function () {
+        if (locked === i) { locked = -1; smTarget = null; markDetected(lastIdx); return; }
+        locked = i; smTarget = null;
+        markDetected(lastIdx);
+        playTone(midiToFreq(m));
+        if (!source) { renderExampleFor(m); }
+      });
+      stringsEl.appendChild(b);
+    });
+    strNote.textContent = 'Saite antippen: wählt den Zielton und spielt ihn an. Nochmal antippen: zurück auf automatische Erkennung.';
+    markDetected(lastIdx);
+  }
+
+  function renderExampleFor(m) {
+    var cents = -8;
+    renderReading(midiToFreq(m) * Math.pow(2, cents / 1200), m, cents, true);
+  }
+
+  // ---------- Audio ----------
+  var ctx = null, analyser = null, buf = null, mute = null;
+  var micStream = null, micSrc = null, demoOsc = null, demoGain = null, demoT0 = 0, timer = null;
+
+  function ensureCtx() {
+    if (!ctx) {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) throw new Error('Kein Web Audio');
+      ctx = new AC();
+      analyser = ctx.createAnalyser();
+      analyser.fftSize = 4096;
+      analyser.smoothingTimeConstant = 0;
+      buf = new Float32Array(analyser.fftSize);
+      mute = ctx.createGain();
+      mute.gain.value = 0;       // verhindert Rückkopplung, hält die Verarbeitung aber am Laufen
+      analyser.connect(mute);
+      mute.connect(ctx.destination);
+    }
+    if (ctx.state === 'suspended') ctx.resume();
+  }
+
+  function playTone(freq) {
+    try {
+      ensureCtx();
+      var t = ctx.currentTime;
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'triangle';
+      o.frequency.setValueAtTime(freq, t);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.4, t + 0.03);
+      g.gain.setValueAtTime(0.4, t + 1.5);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 1.9);
+      o.connect(g);
+      g.connect(ctx.destination);
+      o.start(t);
+      o.stop(t + 2);
+    } catch (e) {
+      setStatus('Ton konnte nicht abgespielt werden.');
+    }
+  }
+
+  function setRunning(kind) {
+    source = kind;
+    micBtn.classList.toggle('running', kind === 'mic');
+    demoBtn.classList.toggle('running', kind === 'demo');
+    micBtn.firstChild.nodeValue = kind === 'mic' ? 'Mikrofon stoppen' : 'Mikrofon starten';
+    demoBtn.firstChild.nodeValue = kind === 'demo' ? 'Demo stoppen' : 'Demo';
+  }
+
+  function stopSource() {
+    if (timer) { clearInterval(timer); timer = null; }
+    if (micSrc) { try { micSrc.disconnect(); } catch (e) {} micSrc = null; }
+    if (micStream) { micStream.getTracks().forEach(function (t) { t.stop(); }); micStream = null; }
+    if (demoOsc) { try { demoOsc.stop(); demoOsc.disconnect(); } catch (e) {} demoOsc = null; }
+    setRunning(null);
+    hist = []; smTarget = null;
+    showExample();
+  }
+
+  function startLoop() {
+    lastSeen = performance.now();
+    timer = setInterval(analyze, 50);
+  }
+
+  function startMic() {
+    try { ensureCtx(); } catch (e) { setStatus('Dieser Browser unterstützt keine Audio-Auswertung.'); return; }
+    var md = navigator.mediaDevices;
+    if (!md || !md.getUserMedia) { micFailed(); return; }
+    setStatus('Warte auf die Mikrofon-Freigabe …');
+    md.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } })
+      .then(function (stream) {
+        stopSource();
+        micStream = stream;
+        micSrc = ctx.createMediaStreamSource(stream);
+        micSrc.connect(analyser);
+        setRunning('mic');
+        show(null);
+        startLoop();
+      })
+      .catch(micFailed);
+  }
+
+  function micFailed() {
+    setStatus('Kein Mikrofonzugriff. Erlaube das Mikrofon in deinem Browser. In der Vorschau hier im Chat ist es gesperrt, auf der Seite selbst funktioniert es. Probiere solange die Demo.');
+  }
+
+  // Demo: ein erzeugtes Sägezahnsignal läuft durch dieselbe Erkennung wie das Mikrofon.
+  function demoNotes() { return strings() || [57, 64, 60, 69]; }
+  function startDemo() {
+    try { ensureCtx(); } catch (e) { setStatus('Dieser Browser unterstützt keine Audio-Auswertung.'); return; }
+    stopSource();
+    demoOsc = ctx.createOscillator();
+    demoGain = ctx.createGain();
+    demoGain.gain.value = 0.3;
+    demoOsc.type = 'sawtooth';
+    demoOsc.connect(demoGain);
+    demoGain.connect(analyser);
+    demoT0 = ctx.currentTime;
+    demoStep();
+    demoOsc.start();
+    setRunning('demo');
+    show(null);
+    startLoop();
+    setStatus('Demo läuft: ein Beispielsignal, das langsam um den Zielton pendelt.');
+  }
+  function demoStep() {
+    var t = ctx.currentTime - demoT0;
+    var notes = demoNotes();
+    var n = notes[Math.floor(t / 6) % notes.length];
+    var detune = 35 * Math.sin(2 * Math.PI * t / 6);
+    demoOsc.frequency.setValueAtTime(midiToFreq(n) * Math.pow(2, detune / 1200), ctx.currentTime);
+  }
+
+  function analyze() {
+    if (!source) return;
+    if (source === 'demo') demoStep();
+    analyser.getFloatTimeDomainData(buf);
+    var r = yin(buf, ctx.sampleRate, 30, 1500);
+    var now = performance.now();
+    if (r && r.clarity > 0.85) {
+      lastSeen = now;
+      show(r.f);
+    } else if (now - lastSeen > HOLD_MS) {
+      show(null);
+    }
+  }
+
+  // ---------- Kammerton ----------
+  function setRef(v, skipInput) {
+    if (isNaN(v)) return;
+    ref = Math.min(REF_MAX, Math.max(REF_MIN, Math.round(v * 10) / 10));
+    if (!skipInput) refNum.value = ref;
+    refRange.value = Math.round(ref);
+    refRange.style.setProperty('--pct', ((ref - REF_MIN) / (REF_MAX - REF_MIN) * 100) + '%');
+    smTarget = null;
+    if (!source) {
+      var s = strings();
+      var m = s ? s[locked >= 0 ? locked : 0] : 69;
+      renderExampleFor(m);
+    }
+    save();
+  }
+
+  // ---------- Modus und Schreibweise ----------
+  function setMode(key) {
+    mode = key;
+    locked = -1; smTarget = null; hist = [];
+    for (var i = 0; i < modeRadios.length; i++) modeRadios[i].checked = modeRadios[i].value === key;
+    buildStrings();
+    if (!source) showExample();
+    save();
+  }
+  function setNotation(key) {
+    notation = key;
+    for (var i = 0; i < notRadios.length; i++) notRadios[i].checked = notRadios[i].value === key;
+    buildStrings();
+    if (!source) showExample();
+    save();
+  }
+
+  // ---------- Ereignisse ----------
+  micBtn.addEventListener('click', function () { source === 'mic' ? stopSource() : startMic(); });
+  demoBtn.addEventListener('click', function () { source === 'demo' ? stopSource() : startDemo(); });
+
+  for (var i = 0; i < modeRadios.length; i++) {
+    modeRadios[i].addEventListener('change', function (e) { if (e.target.checked) setMode(e.target.value); });
+  }
+  for (var k = 0; k < notRadios.length; k++) {
+    notRadios[k].addEventListener('change', function (e) { if (e.target.checked) setNotation(e.target.value); });
+  }
+
+  refNum.addEventListener('input', function () {
+    var v = parseFloat(refNum.value);
+    if (!isNaN(v) && v >= REF_MIN && v <= REF_MAX) setRef(v, true);
+  });
+  refNum.addEventListener('change', function () {
+    var v = parseFloat(refNum.value);
+    setRef(isNaN(v) ? ref : v);
+  });
+  refNum.addEventListener('keydown', function (e) { if (e.key === 'Enter') refNum.blur(); });
+  refRange.addEventListener('input', function () { setRef(parseFloat(refRange.value)); });
+  $('refMinus').addEventListener('click', function () { setRef(ref - 1); });
+  $('refPlus').addEventListener('click', function () { setRef(ref + 1); });
+  $('refReset').addEventListener('click', function () { setRef(440); });
+
+  // Skala-Striche
+  for (var t = -50; t <= 50; t += 10) {
+    var tick = document.createElement('span');
+    tick.className = 'tick' + (t === 0 ? ' zero' : (t % 50 === 0 ? ' major' : ''));
+    tick.style.left = (50 + t) + '%';
+    gauge.insertBefore(tick, needle);
+  }
+
+  // Start
+  setMode(mode);
+  setNotation(notation);
+  setRef(ref);
+})();
+</script>
+</body>
+</html>
