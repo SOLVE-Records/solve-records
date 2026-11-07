@@ -18,7 +18,7 @@ Reines HTML/CSS/JavaScript, kein Build-Schritt. Zum Ansehen `index.html` im Brow
 | `services/mastering/` | Mastering: Ablauf, Leistungsumfang, Kontakt |
 | `downloads/` | PDF-Vorlagen zum Ausdrucken (Notenblätter Violin-, Bassschlüssel, Klavier, Quintenzirkel). PDFs werden außerhalb des Repos erzeugt und hier abgelegt. |
 
-Die Services-Kacheln auf der Startseite verlinken auf die Service-Unterseiten und auf `raumakustik/`.
+Der Services-Abschnitt der Startseite hat drei Kacheln: Recording, Mixing und Production, Mastering (ab 80 €) und Raumakustik (ab 300 €). Jede Kachel ist ein Link auf die jeweilige Unterseite mit der Aktionszeile „Mehr erfahren →“.
 
 `sitemap.xml` listet alle Seiten, `robots.txt` verweist darauf. Neue Seiten dort eintragen und mit `<title>`, Description, Canonical und Open-Graph-Tags versehen.
 
