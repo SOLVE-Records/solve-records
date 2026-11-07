@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solve Records Raumakustik</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@300;400;500;600&display=swap">
+<style>
+  /* Layout: schlanke Einstiegsseite. Oben der Kernsatz, darunter vier Schritte (die Reihenfolge ist
+     hier echte Information), dann der Raummoden-Rechner als Einstieg und der Weg zum Kontakt.
+     Farben, Schriften und Radius sind die Variablen aus styles.css der Studio-Seite. */
+  :root {
+    --bg: #0a0705;
+    --bg-2: #15100a;
+    --bg-3: #1c130a;
+    --brass: #d4a24a;
+    --brass-bright: #f4cc6f;
+    --brass-deep: #8a5e1f;
+    --brass-glow: #ffb347;
+    --tube: #ff7a2e;
+    --tube-glow: #ffb066;
+    --cream: #f3e7c8;
+    --cream-soft: rgba(243, 231, 200, 0.75);
+    --cream-mute: rgba(243, 231, 200, 0.45);
+    --line: rgba(212, 162, 74, 0.22);
+    --line-soft: rgba(212, 162, 74, 0.12);
+    --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', serif;
+    --font-sans: 'Oswald', 'Helvetica Neue', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    --radius: 2px;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background-color: var(--bg);
+    background-image: radial-gradient(ellipse 70% 40% at 50% -5%, rgba(255, 122, 46, 0.10), transparent 70%);
+    background-repeat: no-repeat;
+    color: var(--cream);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.6;
+    padding-block: clamp(28px, 6vw, 64px);
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    min-height: 100vh;
+  }
+
+  .wrap { max-width: 860px; margin: 0 auto; }
+
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin: 0;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(44px, 10vw, 76px);
+    line-height: 1.05;
+    color: var(--brass-bright);
+    margin: 10px 0 0;
+    text-wrap: balance;
+  }
+
+  .lead { margin: 22px 0 0; font-size: clamp(18px, 3.2vw, 22px); line-height: 1.5; color: var(--cream); max-width: 40ch; text-wrap: pretty; }
+  .sub { margin: 14px 0 0; font-size: 16px; color: var(--cream-soft); max-width: 58ch; }
+
+  section { margin-top: clamp(40px, 8vw, 72px); }
+  h2 {
+    font-family: var(--font-display); font-style: italic; font-weight: 700;
+    font-size: clamp(26px, 5vw, 34px); line-height: 1.15; color: var(--brass-bright);
+    margin: 10px 0 0; text-wrap: balance;
+  }
+
+  .steps { margin: 22px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .steps li {
+    padding: 20px 20px 22px; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: inset 0 1px 0 rgba(244, 204, 111, 0.07); min-width: 0;
+  }
+  .steps .no { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.2em; color: var(--brass); }
+  .steps h3 { margin: 8px 0 6px; font-family: var(--font-display); font-weight: 700; font-size: 24px; line-height: 1.2; color: var(--cream); }
+  .steps p { margin: 0; font-size: 15px; color: var(--cream-soft); }
+
+  .panel { margin-top: 22px; padding: clamp(18px, 4vw, 28px); background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: inset 0 1px 0 rgba(244, 204, 111, 0.07); }
+  .panel p { margin: 0; font-size: 16px; color: var(--cream-soft); max-width: 60ch; }
+  .panel.hot { background: var(--bg-3); border-color: var(--brass); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px; margin-top: 18px; min-height: 48px; padding: 0 20px;
+    background: var(--brass); color: var(--bg); border: 1px solid var(--brass-bright); border-radius: var(--radius);
+    font-family: var(--font-sans); font-weight: 500; font-size: 15px; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none;
+    transition: background-color 120ms linear, color 120ms linear;
+  }
+  .btn:hover { background: var(--brass-bright); }
+  .btn.ghost { background: transparent; color: var(--brass-bright); border-color: var(--brass); }
+  .btn.ghost:hover { background: rgba(212, 162, 74, 0.12); }
+  .btn:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
+
+  .foot { margin: 40px 0 0; font-family: var(--font-mono); font-size: 11px; line-height: 1.7; color: var(--cream-soft); }
+
+  @media (max-width: 640px) {
+    .steps { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+
+  /* Rückweg zur Startseite (Muster wie in tools/) */
+  .crumbs { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0 0 22px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; }
+  .crumbs a { color: var(--cream-soft); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 3px; }
+  .crumbs a:hover { color: var(--brass-bright); border-color: var(--brass); }
+  .crumbs a:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <header>
+    <nav class="crumbs" aria-label="Zurück">
+      <a href="../">← Startseite</a>
+    </nav>
+    <p class="eyebrow">Solve Records</p>
+    <h1>Raumakustik</h1>
+    <p class="lead">Solve Records misst Räume aus und plant die Verkleidung, sei es als Do-it-yourself oder durch externe Anbieter.</p>
+    <p class="sub">Das Ziel ist ein Raum, dem du beim Aufnehmen, Mischen und Abhören vertrauen kannst.</p>
+  </header>
+
+  <section aria-labelledby="ablauf">
+    <p class="eyebrow">Ablauf</p>
+    <h2 id="ablauf">Vom Raum zum Plan</h2>
+    <ol class="steps">
+      <li>
+        <span class="no">01</span>
+        <h3>Ausmessen</h3>
+        <p>Maße, Geometrie und Besonderheiten wie Schrägen, Nischen, Fenster und Türen werden erfasst.</p>
+      </li>
+      <li>
+        <span class="no">02</span>
+        <h3>Analysieren</h3>
+        <p>Raummoden und kritische Frequenzen werden berechnet. Daraus ergibt sich, wo der Raum Probleme macht.</p>
+      </li>
+      <li>
+        <span class="no">03</span>
+        <h3>Planen</h3>
+        <p>Ein Plan zeigt, wo welche akustischen Maßnahmen sinnvoll sind und wie die Verkleidung aufgebaut wird.</p>
+      </li>
+      <li>
+        <span class="no">04</span>
+        <h3>Umsetzen</h3>
+        <p>Du baust nach dem Plan selbst oder gibst die Umsetzung an externe Anbieter. Das entscheidest du.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="rechner">
+    <p class="eyebrow">Zum Ausprobieren</p>
+    <h2 id="rechner">Erst selbst rechnen</h2>
+    <div class="panel">
+      <p>Der Raummoden-Rechner zeigt aus Länge, Breite und Höhe, bei welchen Frequenzen dein Raum resoniert, und wo sich Moden überlagern. Er ist kostenlos und braucht keine Anmeldung.</p>
+      <a class="btn ghost" href="../tools/raummoden-rechner.html">Raummoden-Rechner öffnen <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <section aria-labelledby="kontakt">
+    <p class="eyebrow">Kontakt</p>
+    <h2 id="kontakt">Du willst deinen Raum angehen?</h2>
+    <div class="panel hot">
+      <p>Schreib kurz, um welchen Raum es geht und was du vorhast. Dann klären wir, wie es weitergeht.</p>
+      <a class="btn" href="../#kontakt">Zum Kontakt <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <p class="foot">Alle Angaben zur Raumakustik sind eine Planungshilfe. Wie sich ein Raum tatsächlich verhält, zeigt erst die Messung vor Ort.</p>
+</main>
+</body>
+</html>
