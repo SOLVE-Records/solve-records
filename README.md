@@ -14,9 +14,15 @@ Reines HTML/CSS/JavaScript, kein Build-Schritt. Zum Ansehen `index.html` im Brow
 | `tools/delay-rechner.html` | Delay-Rechner |
 | `tools/raummoden-rechner.html` | Raummoden-Rechner |
 | `raumakustik/` | Raumakustik: Ablauf, Raummoden-Rechner, Kontakt |
+| `services/recording-mixing-production/` | Recording, Mixing & Production: Ablauf, Leistungsumfang, Kontakt |
+| `services/mastering/` | Mastering: Ablauf, Leistungsumfang, Kontakt |
 | `downloads/` | PDF-Vorlagen zum Ausdrucken (Notenblätter Violin-, Bassschlüssel, Klavier, Quintenzirkel). PDFs werden außerhalb des Repos erzeugt und hier abgelegt. |
 
-Hinweis: Die Links auf `tools/` und `raumakustik/` öffnen die jeweilige `index.html` nur über einen Webserver (GitHub Pages oder lokal `python -m http.server 8000`), nicht bei direkt geöffneter Datei.
+Die Services-Kacheln auf der Startseite verlinken auf die Service-Unterseiten und auf `raumakustik/`.
+
+`sitemap.xml` listet alle Seiten, `robots.txt` verweist darauf. Neue Seiten dort eintragen und mit `<title>`, Description, Canonical und Open-Graph-Tags versehen.
+
+Hinweis: Die Links auf `tools/`, `raumakustik/` und `services/…` öffnen die jeweilige `index.html` nur über einen Webserver (GitHub Pages oder lokal `python -m http.server 8000`), nicht bei direkt geöffneter Datei.
 
 ## Galerie
 
