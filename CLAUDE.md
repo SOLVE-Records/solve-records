@@ -12,10 +12,12 @@ Statische One-Page-Website für das Recording Studio „Solve Records“ (Michae
 
 | Datei | Inhalt |
 |---|---|
-| `index.html` | Die gesamte Seite. Sektionen in Reihenfolge: Nav → Hero (`#top`) → 01 Studio + Founder (`#studio`) → 02 Services (`#services`) → 03 Equipment (`#equipment`) → 04 Galerie (`#galerie`) + Lightbox → 05 Arbeiten/SoundCloud (`#works`) → 06 Booking (`#kontakt`) → Footer |
+| `index.html` | Die gesamte Seite. Sektionen in Reihenfolge: Nav → Hero (`#top`) → 01 Studio + Founder (`#studio`) → 02 Services (`#services`) → 03 Equipment (`#equipment`) → 04 Galerie (`#galerie`) + Lightbox → 05 Arbeiten/SoundCloud (`#works`) → 06 Kontakt (`#kontakt`) → Footer. Die Nav verlinkt zusätzlich auf `tools/` und `raumakustik/` |
 | `styles.css` | Design-Tokens in `:root` (Farben `--brass*`, `--tube*`, `--cream*`, Fonts, Spacing). Danach Blöcke pro Sektion; Galerie, Lightbox, Audio und Founder sind später angehängt (ab ca. Zeile 1026) und haben eigene `@media`-Blöcke. Breakpoints: 900 / 800 / 700 / 480 px |
 | `script.js` | Footer-Jahr, Sticky-Nav (`.scrolled` ab 50px), Mobile-Menü (`.nav-toggle`/`.nav-links.open`), Reveal-Animation (`.reveal` → `.visible` per IntersectionObserver), Smooth-Scroll mit 80px Offset, `handleSubmit()` (globale Funktion, Formular öffnet `mailto:`), Lightbox-IIFE |
 | `assets/` | `logo.svg` (Hero), `profile.svg` (Favicon + Footer), `og-image.png` (OG/Apple-Touch), `michael-portrait.jpeg`, `gallery/*.jpg` |
+| `tools/` | `index.html` (Übersicht mit `.tool-card`-Karten, lädt `../styles.css`), `metronom.html`, `stimmgeraet.html`, `delay-rechner.html`, `raummoden-rechner.html`. Die Tool-Seiten sind eigenständig (eigenes `<style>` mit Kopie der `:root`-Variablen, eigenes `<script>`) und haben oben `<nav class="crumbs">` mit Links nach `./` (Tools) und `../` (Startseite) |
+| `raumakustik/` | `index.html`: eigenständige Seite im selben Muster wie die Tool-Seiten, Crumbs-Link nach `../`; verlinkt auf `../tools/raummoden-rechner.html` und `../#kontakt` |
 
 ## Konventionen
 

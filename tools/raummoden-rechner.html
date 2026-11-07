@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solve Records Raummoden-Rechner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@300;400;500;600&display=swap">
+<style>
+  /* Layout: Raummaße oben, darunter Kennzahlen, eine Frequenzskala mit je einer Spur pro Achse
+     (Länge, Breite, Höhe), die Modenlisten, Auffälligkeiten und am Ende der Hinweis auf die
+     Raumakustik. Farben, Schriften und Radius sind die Variablen aus styles.css der Studio-Seite. */
+  :root {
+    --bg: #0a0705;
+    --bg-2: #15100a;
+    --bg-3: #1c130a;
+    --brass: #d4a24a;
+    --brass-bright: #f4cc6f;
+    --brass-deep: #8a5e1f;
+    --brass-glow: #ffb347;
+    --tube: #ff7a2e;
+    --tube-glow: #ffb066;
+    --cream: #f3e7c8;
+    --cream-soft: rgba(243, 231, 200, 0.75);
+    --cream-mute: rgba(243, 231, 200, 0.45);
+    --line: rgba(212, 162, 74, 0.22);
+    --line-soft: rgba(212, 162, 74, 0.12);
+    --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', serif;
+    --font-sans: 'Oswald', 'Helvetica Neue', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    --radius: 2px;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background-color: var(--bg);
+    background-image: radial-gradient(ellipse 70% 40% at 50% -5%, rgba(255, 122, 46, 0.10), transparent 70%);
+    background-repeat: no-repeat;
+    color: var(--cream);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.5;
+    padding-block: clamp(28px, 6vw, 64px);
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    min-height: 100vh;
+  }
+
+  .wrap { max-width: 900px; margin: 0 auto; }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin: 0;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(40px, 9vw, 64px);
+    line-height: 1.05;
+    color: var(--brass-bright);
+    margin: 10px 0 0;
+    text-wrap: balance;
+  }
+
+  .panel {
+    margin-top: 28px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: clamp(20px, 4vw, 36px);
+    box-shadow: inset 0 1px 0 rgba(244, 204, 111, 0.07);
+  }
+
+  .block { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line-soft); }
+  .block h2 { margin: 0 0 14px; font-family: var(--font-display); font-style: italic; font-weight: 700; font-size: 24px; line-height: 1.2; color: var(--brass-bright); }
+
+  /* Eingaben */
+  .head-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .tag {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--tube-glow); border: 1px solid var(--tube); border-radius: var(--radius); padding: 3px 8px;
+  }
+  .rooms { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 20px; }
+  .field { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+  .field-line { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+  .unit { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.2em; color: var(--cream-soft); }
+
+  input[type="number"] {
+    font-family: var(--font-display); font-weight: 700; font-size: clamp(30px, 8vw, 48px); line-height: 1.05;
+    color: var(--brass-bright); background: transparent; border: 0; border-bottom: 1px solid var(--line); border-radius: 0;
+    width: 100%; min-width: 0; padding: 0 0 4px; margin: 0;
+    font-variant-numeric: lining-nums tabular-nums;
+    -moz-appearance: textfield; appearance: textfield;
+  }
+  input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type="number"]:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 6px; }
+  input[type="number"].small { font-family: var(--font-mono); font-weight: 500; font-size: 22px; color: var(--cream); }
+
+  .settings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 20px; }
+  .hint { margin: 6px 0 0; font-size: 13px; color: var(--cream-soft); max-width: 60ch; }
+
+  fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+  legend { padding: 0; margin-bottom: 10px; }
+  .segs { display: flex; gap: 8px; }
+  .seg { position: relative; flex: 1 1 0; min-width: 0; }
+  .seg input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+  .seg span {
+    display: block; text-align: center; padding: 13px 4px;
+    background: var(--bg-3); border: 1px solid var(--line); border-radius: var(--radius);
+    font-family: var(--font-mono); font-size: 14px; color: var(--cream-soft);
+  }
+  .seg:hover span { border-color: var(--brass); }
+  .seg input:checked + span { background: rgba(212, 162, 74, 0.14); border-color: var(--brass); color: var(--brass-bright); }
+  .seg input:focus-visible + span { outline: 2px solid var(--brass-glow); outline-offset: 2px; }
+  .seg.wide { flex: 1 1 100%; }
+  .seg.wide span { text-align: left; padding: 13px 16px; }
+
+  /* Kennzahlen */
+  .figs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px 20px; margin: 0; }
+  .figs dt { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--brass); }
+  .figs dd { margin: 4px 0 0; font-family: var(--font-display); font-weight: 700; font-size: 30px; line-height: 1.1; color: var(--cream); font-variant-numeric: lining-nums tabular-nums; }
+  .figs dd small { font-family: var(--font-mono); font-size: 12px; font-weight: 400; color: var(--cream-soft); margin-left: 4px; }
+  .fig-note { margin: 12px 0 0; font-size: 14px; color: var(--cream-soft); max-width: 70ch; }
+
+  /* Skala */
+  .chart { width: 100%; overflow: hidden; }
+  .chart svg { display: block; }
+  .chart .lbl { font-family: var(--font-mono); font-size: 11px; fill: var(--cream-soft); }
+  .chart .base { stroke: var(--line-soft); stroke-width: 1; }
+  .chart .tick { stroke: var(--line); stroke-width: 1; }
+  .chart .shade { fill: rgba(255, 122, 46, 0.07); }
+  .chart .fs { stroke: var(--tube-glow); stroke-width: 1; stroke-dasharray: 4 3; }
+  .chart .fs-lbl { font-family: var(--font-mono); font-size: 11px; fill: var(--tube-glow); }
+  .chart .m0 { stroke: var(--brass-bright); stroke-width: 2; }
+  .chart .m1 { stroke: var(--tube); stroke-width: 2; }
+  .chart .m2 { stroke: var(--cream); stroke-width: 2; }
+  .chart .mx { stroke: var(--cream-mute); stroke-width: 1; }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 10px 0 0; padding: 0; list-style: none; font-family: var(--font-mono); font-size: 11px; color: var(--cream-soft); }
+  .legend i { display: inline-block; width: 14px; height: 3px; margin-right: 8px; vertical-align: middle; border-radius: 1px; }
+  .legend .dash { background: none; border-top: 1px dashed var(--tube-glow); height: 0; }
+
+  /* Listen */
+  .lists { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .lists h3 { margin: 0 0 6px; font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brass); }
+  .lists ol, .allist { margin: 0; padding: 0; list-style: none; }
+  .lists li { display: grid; grid-template-columns: 2ch 1fr auto; gap: 10px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--line-soft); }
+  .lists .n { font-family: var(--font-mono); font-size: 12px; color: var(--cream-soft); }
+  .lists .f { font-family: var(--font-display); font-weight: 700; font-size: 22px; color: var(--cream); font-variant-numeric: lining-nums tabular-nums; }
+  .lists .f small { font-family: var(--font-mono); font-size: 11px; font-weight: 400; color: var(--cream-soft); margin-left: 4px; }
+  .lists .nt { font-family: var(--font-mono); font-size: 11px; color: var(--cream-soft); text-align: right; }
+
+  .allwrap { max-height: 360px; overflow: auto; border: 1px solid var(--line-soft); border-radius: var(--radius); }
+  .allist li { display: grid; grid-template-columns: 7ch minmax(0, 1fr) 8ch minmax(0, 1fr); gap: 10px; align-items: baseline; padding: 8px 12px; border-bottom: 1px solid var(--line-soft); font-family: var(--font-mono); font-size: 12px; color: var(--cream-soft); }
+  .allist li.hd { position: sticky; top: 0; background: var(--bg-3); color: var(--brass); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; }
+  .allist .fq { color: var(--cream); font-variant-numeric: tabular-nums; }
+  .allist .kd.t { color: var(--cream-soft); }
+  .allist .kd.s { color: var(--cream-mute); }
+  .allist .kd.a { color: var(--brass-bright); }
+
+  .finds { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+  .finds li { padding: 10px 14px; background: var(--bg-3); border: 1px solid var(--line); border-radius: var(--radius); font-size: 15px; color: var(--cream); }
+  .finds li.ok { color: var(--cream-soft); }
+  .finds b { font-weight: 500; color: var(--brass-bright); }
+
+  .note { margin: 0; font-size: 14px; color: var(--cream-soft); max-width: 70ch; }
+  .note + .note { margin-top: 8px; }
+
+  .cta { margin-top: 28px; padding: clamp(18px, 4vw, 28px); background: var(--bg-3); border: 1px solid var(--brass); border-radius: var(--radius); }
+  .cta h2 { margin: 0 0 8px; font-family: var(--font-display); font-style: italic; font-weight: 700; font-size: 26px; line-height: 1.2; color: var(--brass-bright); }
+  .cta p { margin: 0; font-size: 15px; color: var(--cream-soft); max-width: 62ch; }
+  .cta a {
+    display: inline-flex; align-items: center; gap: 10px; margin-top: 16px; min-height: 48px; padding: 0 20px;
+    background: var(--brass); color: var(--bg); border: 1px solid var(--brass-bright); border-radius: var(--radius);
+    font-family: var(--font-sans); font-weight: 500; font-size: 15px; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none;
+    transition: background-color 120ms linear;
+  }
+  .cta a:hover { background: var(--brass-bright); }
+  .cta a:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
+  .cta-links { display: flex; flex-wrap: wrap; gap: 0 12px; }
+  .cta a.ghost { background: transparent; color: var(--brass-bright); border-color: var(--brass); }
+  .cta a.ghost:hover { background: rgba(212, 162, 74, 0.12); }
+
+  .foot { margin: 22px 0 0; font-family: var(--font-mono); font-size: 11px; line-height: 1.7; color: var(--cream-soft); }
+
+  @media (max-width: 720px) {
+    .figs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .lists { grid-template-columns: minmax(0, 1fr); }
+    .allist li { grid-template-columns: 7ch minmax(0, 1fr) 8ch; }
+    .allist li .nt { display: none; }
+  }
+  @media (max-width: 460px) {
+    .rooms { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .settings { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (prefers-reduced-motion: reduce) { .cta a { transition: none; } }
+
+  /* Rückweg zu Tools und Startseite */
+  .crumbs { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0 0 22px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; }
+  .crumbs a { color: var(--cream-soft); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 3px; }
+  .crumbs a:hover { color: var(--brass-bright); border-color: var(--brass); }
+  .crumbs a:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <header>
+    <nav class="crumbs" aria-label="Zurück">
+      <a href="./">← Tools</a>
+      <a href="../">Startseite</a>
+    </nav>
+    <p class="eyebrow">Solve Records</p>
+    <h1>Raummoden-Rechner</h1>
+  </header>
+
+  <section class="panel" aria-label="Raummoden-Rechner">
+    <div class="head-row">
+      <p class="eyebrow">Raumgröße</p>
+      <span class="tag" id="tag">Beispielwerte</span>
+    </div>
+    <div class="rooms">
+      <div class="field">
+        <label class="eyebrow" for="dimL">Länge</label>
+        <div class="field-line"><input id="dimL" type="number" inputmode="decimal" min="1.5" max="30" step="0.01" value="5"><span class="unit">m</span></div>
+      </div>
+      <div class="field">
+        <label class="eyebrow" for="dimW">Breite</label>
+        <div class="field-line"><input id="dimW" type="number" inputmode="decimal" min="1.5" max="30" step="0.01" value="4"><span class="unit">m</span></div>
+      </div>
+      <div class="field">
+        <label class="eyebrow" for="dimH">Höhe</label>
+        <div class="field-line"><input id="dimH" type="number" inputmode="decimal" min="1.5" max="30" step="0.01" value="2.5"><span class="unit">m</span></div>
+      </div>
+    </div>
+    <p class="hint">Bei Dachschräge die mittlere Raumhöhe eintragen. Die Rechnung gilt für einen Quader mit parallelen Wänden, bei Schrägen, Nischen und Möbeln ist sie nur eine grobe Näherung.</p>
+
+    <div class="block">
+      <div class="settings">
+        <div class="field">
+          <label class="eyebrow" for="temp">Raumtemperatur</label>
+          <div class="field-line"><input id="temp" class="small" type="number" inputmode="decimal" min="0" max="40" step="1" value="20"><span class="unit">°C</span></div>
+        </div>
+        <div class="field">
+          <label class="eyebrow" for="rt">Nachhallzeit T60</label>
+          <div class="field-line"><input id="rt" class="small" type="number" inputmode="decimal" min="0.1" max="3" step="0.05" value="0.4"><span class="unit">s</span></div>
+        </div>
+      </div>
+      <p class="hint">Die Nachhallzeit braucht nur die Schroeder-Frequenz. Grob: bedämpftes Studio etwa 0,3 bis 0,5 s, ein leerer Raum 0,6 s und mehr. Am besten misst du sie.</p>
+
+      <div class="settings" style="margin-top:22px">
+        <fieldset>
+          <legend class="eyebrow">Anzeigen bis</legend>
+          <div class="segs">
+            <label class="seg"><input type="radio" name="lim" value="200"><span>200 Hz</span></label>
+            <label class="seg"><input type="radio" name="lim" value="300" checked><span>300 Hz</span></label>
+            <label class="seg"><input type="radio" name="lim" value="500"><span>500 Hz</span></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend class="eyebrow">Weitere Moden</legend>
+          <div class="segs">
+            <label class="seg wide"><input type="checkbox" id="more"><span>Tangential- und Schrägmoden</span></label>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <div class="block">
+      <dl class="figs">
+        <div><dt>Volumen</dt><dd id="figV">–</dd></div>
+        <div><dt>Schroeder-Frequenz</dt><dd id="figFs">–</dd></div>
+        <div><dt>Tiefste Mode</dt><dd id="figF1">–</dd></div>
+        <div><dt>Schallgeschwindigkeit</dt><dd id="figC">–</dd></div>
+      </dl>
+      <p class="fig-note">Unterhalb der Schroeder-Frequenz bestimmen einzelne Raummoden den Bass. Darüber verteilen sich die Resonanzen so dicht, dass der Raum als diffuses Schallfeld behandelt wird.</p>
+    </div>
+
+    <div class="block">
+      <h2>Moden auf der Frequenzachse</h2>
+      <div class="chart" id="chart"></div>
+      <ul class="legend" aria-hidden="true">
+        <li><i style="background:var(--brass-bright)"></i>Länge</li>
+        <li><i style="background:var(--tube)"></i>Breite</li>
+        <li><i style="background:var(--cream)"></i>Höhe</li>
+        <li id="legXtra" hidden><i style="background:var(--cream-mute)"></i>T · S = Tangential und Schräg</li>
+        <li><i class="dash"></i>Schroeder-Frequenz</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <h2>Achsenmoden</h2>
+      <p class="note" style="margin-bottom:14px">Die ersten fünf Moden pro Richtung, soweit sie unter der gewählten Grenzfrequenz liegen. Skala und Auffälligkeiten rechnen mit denselben Moden.</p>
+      <div class="lists" id="lists"></div>
+    </div>
+
+    <div class="block" id="allBlock" hidden>
+      <h2>Alle Moden nach Frequenz</h2>
+      <div class="allwrap"><ul class="allist" id="allList"></ul></div>
+    </div>
+
+    <div class="block">
+      <h2>Auffälligkeiten</h2>
+      <ul class="finds" id="finds"></ul>
+    </div>
+  </section>
+
+  <aside class="cta" aria-label="Raumakustik">
+    <h2>Was in deinem Raum wirklich passiert</h2>
+    <p>Moden zu berechnen ist der erste Schritt. Wie stark sie im Raum auftreten und welche Maßnahmen sinnvoll sind, zeigt erst die Messung. Solve Records misst Räume aus und plant die Verkleidung, sei es als Do-it-yourself oder durch externe Anbieter.</p>
+    <div class="cta-links">
+      <a id="cta" href="../raumakustik/">Mehr unter Raumakustik <span aria-hidden="true">→</span></a>
+      <a class="ghost" href="../#kontakt">Zum Kontakt <span aria-hidden="true">→</span></a>
+    </div>
+  </aside>
+
+  <p class="foot">Formeln: f = c/2 · √((nx/L)² + (ny/B)² + (nz/H)²), Schallgeschwindigkeit c = 331,3 + 0,606 · Temperatur, Schroeder-Frequenz fS = 2000 · √(T60 / V). Notennamen mit A4 = 440 Hz.</p>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var DIMS = ['Länge', 'Breite', 'Höhe'];
+  var MAX_AXIAL = 5;   // so viele Achsenmoden pro Richtung werden angezeigt
+  var NAMES = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'B', 'H'];
+
+  // CALC-START
+  function soundSpeed(t) { return 331.3 + 0.606 * t; }
+  function schroeder(v, rt) { return 2000 * Math.sqrt(rt / v); }
+  // Raummoden bis zur Grenzfrequenz. all = false: nur Achsenmoden.
+  function roomModes(dims, c, limit, all) {
+    var res = [], nm = [], i, a, b, d, n, f, k;
+    for (i = 0; i < 3; i++) nm.push(Math.ceil(2 * limit * dims[i] / c));
+    if (!all) {
+      for (i = 0; i < 3; i++) {
+        for (n = 1; n <= nm[i]; n++) {
+          f = n * c / (2 * dims[i]);
+          if (f <= limit) res.push({ f: f, n: [i === 0 ? n : 0, i === 1 ? n : 0, i === 2 ? n : 0], kind: 1 });
+        }
+      }
+    } else {
+      for (a = 0; a <= nm[0]; a++) {
+        for (b = 0; b <= nm[1]; b++) {
+          for (d = 0; d <= nm[2]; d++) {
+            k = (a > 0) + (b > 0) + (d > 0);
+            if (k === 0) continue;
+            f = c / 2 * Math.sqrt(a * a / (dims[0] * dims[0]) + b * b / (dims[1] * dims[1]) + d * d / (dims[2] * dims[2]));
+            if (f <= limit) res.push({ f: f, n: [a, b, d], kind: k });
+          }
+        }
+      }
+    }
+    res.sort(function (p, q) { return p.f - q.f; });
+    return res;
+  }
+  // CALC-END
+
+  var $ = function (id) { return document.getElementById(id); };
+  var inL = $('dimL'), inW = $('dimW'), inH = $('dimH'), inT = $('temp'), inRt = $('rt'), inMore = $('more');
+  var tagEl = $('tag'), chartEl = $('chart'), listsEl = $('lists'), allBlock = $('allBlock'), allList = $('allList');
+  var findsEl = $('finds'), legXtra = $('legXtra');
+  var limRadios = document.querySelectorAll('input[name="lim"]');
+
+  var state = { L: 5, W: 4, H: 2.5, T: 20, rt: 0.4, lim: 300, more: false };
+  var example = true;
+
+  var KEY = 'solve-records-raummoden';
+  try {
+    var saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (saved) {
+      ['L', 'W', 'H'].forEach(function (k) { if (typeof saved[k] === 'number') state[k] = clamp(saved[k], 1.5, 30); });
+      if (typeof saved.T === 'number') state.T = clamp(saved.T, 0, 40);
+      if (typeof saved.rt === 'number') state.rt = clamp(saved.rt, 0.1, 3);
+      if (saved.lim === 200 || saved.lim === 300 || saved.lim === 500) state.lim = saved.lim;
+      state.more = !!saved.more;
+      example = false;
+    }
+  } catch (e) {}
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+  function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
+  var fmt = function (dec) { return new Intl.NumberFormat('de-DE', { minimumFractionDigits: dec, maximumFractionDigits: dec }); };
+  var f0 = fmt(0), f1 = fmt(1), f2 = fmt(2);
+
+  function noteOf(f) {
+    var m = 69 + 12 * Math.log2(f / 440), r = Math.round(m);
+    var cents = Math.round((m - r) * 100);
+    var name = NAMES[((r % 12) + 12) % 12] + (Math.floor(r / 12) - 1);
+    return name + ' ' + (cents > 0 ? '+' : cents < 0 ? '−' : '±') + Math.abs(cents) + ' ct';
+  }
+
+  function dims() { return [state.L, state.W, state.H]; }
+
+  // ---------- Anzeige ----------
+  function render() {
+    var d = dims();
+    var c = soundSpeed(state.T);
+    var vol = d[0] * d[1] * d[2];
+    var fs = schroeder(vol, state.rt);
+    var lim = state.lim;
+    // nur die ersten fünf Achsenmoden pro Richtung, für Liste, Skala und Auffälligkeiten
+    var axial = roomModes(d, c, lim, false).filter(function (m) { return Math.max(m.n[0], m.n[1], m.n[2]) <= MAX_AXIAL; });
+    var all = state.more ? roomModes(d, c, lim, true) : null;
+
+    $('figV').innerHTML = f1.format(vol) + '<small>m³</small>';
+    $('figFs').innerHTML = f0.format(fs) + '<small>Hz</small>';
+    var lowest = c / (2 * Math.max(d[0], d[1], d[2]));
+    $('figF1').innerHTML = f1.format(lowest) + '<small>Hz</small>';
+    $('figC').innerHTML = f1.format(c) + '<small>m/s</small>';
+
+    drawChart(axial, all, fs, lim);
+    renderLists(axial, d);
+    renderAll(all);
+    renderFinds(axial, d, lim);
+    legXtra.hidden = !state.more;
+  }
+
+  function drawChart(axial, all, fs, lim) {
+    var w = Math.max(280, chartEl.clientWidth || 640);
+    var ml = 54, mr = 10, mt = 6, laneH = 26, gap = 8;
+    var nl = state.more ? 4 : 3;
+    var lanesH = nl * (laneH + gap) - gap;
+    var h = mt + lanesH + 38;
+    var x = function (f) { return ml + (f - 20) / (lim - 20) * (w - ml - mr); };
+    var s = '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="Raummoden auf der Frequenzachse von 20 bis ' + lim + ' Hertz">';
+
+    if (fs > 20) {
+      var sx = x(Math.min(fs, lim));
+      s += '<rect class="shade" x="' + ml + '" y="' + mt + '" width="' + (sx - ml) + '" height="' + lanesH + '"/>';
+    }
+    var names = ['Länge', 'Breite', 'Höhe', 'T · S'];
+    for (var i = 0; i < nl; i++) {
+      var y0 = mt + i * (laneH + gap);
+      s += '<line class="base" x1="' + ml + '" x2="' + (w - mr) + '" y1="' + (y0 + laneH) + '" y2="' + (y0 + laneH) + '"/>';
+      s += '<text class="lbl" x="0" y="' + (y0 + laneH - 8) + '">' + names[i] + '</text>';
+    }
+    // Teilmoden (nur Tangential und Schräg) in der vierten Spur
+    if (all) {
+      all.forEach(function (m) {
+        if (m.kind === 1 || m.f < 20) return;
+        var xx = x(m.f).toFixed(1);
+        var y0 = mt + 3 * (laneH + gap);
+        s += '<line class="mx" x1="' + xx + '" x2="' + xx + '" y1="' + (y0 + 2) + '" y2="' + (y0 + laneH - 1) + '"/>';
+      });
+    }
+    axial.forEach(function (m) {
+      if (m.f < 20) return;
+      var axis = m.n[0] ? 0 : (m.n[1] ? 1 : 2);
+      var y0 = mt + axis * (laneH + gap);
+      var xx = x(m.f).toFixed(1);
+      s += '<line class="m' + axis + '" x1="' + xx + '" x2="' + xx + '" y1="' + (y0 + 1) + '" y2="' + (y0 + laneH - 1) + '"/>';
+    });
+
+    // Frequenzachse
+    var ty = mt + lanesH;
+    var ticks = [20];
+    for (var f = 50; f <= lim; f += 50) ticks.push(f);
+    ticks.forEach(function (t) {
+      var tx = x(t).toFixed(1);
+      s += '<line class="tick" x1="' + tx + '" x2="' + tx + '" y1="' + ty + '" y2="' + (ty + 5) + '"/>';
+      s += '<text class="lbl" x="' + tx + '" y="' + (ty + 18) + '" text-anchor="middle">' + t + '</text>';
+    });
+    s += '<text class="lbl" x="' + (w - mr) + '" y="' + (ty + 32) + '" text-anchor="end">Hz</text>';
+
+    if (fs >= 20 && fs <= lim) {
+      var fx = x(fs).toFixed(1);
+      var anchor = fs > lim * 0.8 ? 'end' : 'start';
+      var lx = anchor === 'end' ? (parseFloat(fx) - 4) : (parseFloat(fx) + 4);
+      s += '<line class="fs" x1="' + fx + '" x2="' + fx + '" y1="' + mt + '" y2="' + (ty + 5) + '"/>';
+      s += '<text class="fs-lbl" x="' + lx + '" y="' + (ty + 32) + '" text-anchor="' + anchor + '">Schroeder ' + f0.format(fs) + ' Hz</text>';
+    } else if (fs > lim) {
+      s += '<text class="fs-lbl" x="' + ml + '" y="' + (ty + 32) + '">Schroeder-Frequenz ' + f0.format(fs) + ' Hz, außerhalb der Anzeige</text>';
+    }
+    s += '</svg>';
+    chartEl.innerHTML = s;
+  }
+
+  function renderLists(axial, d) {
+    var html = '';
+    for (var i = 0; i < 3; i++) {
+      var rows = axial.filter(function (m) { return (m.n[i] > 0); });
+      html += '<div><h3>' + DIMS[i] + ' · ' + f2.format(d[i]) + ' m</h3><ol>';
+      if (!rows.length) html += '<li><span class="n"></span><span class="f">–</span><span class="nt"></span></li>';
+      rows.forEach(function (m) {
+        html += '<li><span class="n">' + m.n[i] + '</span><span class="f">' + f1.format(m.f) + '<small>Hz</small></span><span class="nt">' + noteOf(m.f) + '</span></li>';
+      });
+      html += '</ol></div>';
+    }
+    listsEl.innerHTML = html;
+  }
+
+  function renderAll(all) {
+    allBlock.hidden = !all;
+    if (!all) { allList.innerHTML = ''; return; }
+    var kinds = ['', 'Axial', 'Tangential', 'Schräg'];
+    var cls = ['', 'a', 't', 's'];
+    var MAXR = 400;
+    var html = '<li class="hd"><span>Hz</span><span>Art</span><span>(x, y, z)</span><span class="nt">Note</span></li>';
+    all.slice(0, MAXR).forEach(function (m) {
+      html += '<li><span class="fq">' + f1.format(m.f) + '</span><span class="kd ' + cls[m.kind] + '">' + kinds[m.kind] + '</span><span>(' + m.n.join(', ') + ')</span><span class="nt">' + noteOf(m.f) + '</span></li>';
+    });
+    if (all.length > MAXR) html += '<li><span></span><span>… ' + (all.length - MAXR) + ' weitere bis ' + state.lim + ' Hz</span><span></span><span></span></li>';
+    allList.innerHTML = html;
+  }
+
+  function renderFinds(axial, d, lim) {
+    var out = [];
+    // gleiche oder ganzzahlig verwandte Maße
+    for (var i = 0; i < 3; i++) {
+      for (var j = i + 1; j < 3; j++) {
+        var hi = Math.max(d[i], d[j]), lo = Math.min(d[i], d[j]), r = hi / lo;
+        var k = Math.round(r);
+        if (Math.abs(r - 1) < 0.05) {
+          out.push('<li><b>' + DIMS[i] + ' und ' + DIMS[j] + '</b> sind fast gleich (' + f2.format(d[i]) + ' m und ' + f2.format(d[j]) + ' m). Ihre Achsenmoden fallen zusammen und verstärken sich.</li>');
+        } else if (k >= 2 && k <= 4 && Math.abs(r - k) / k < 0.03) {
+          out.push('<li><b>' + DIMS[i] + ' und ' + DIMS[j] + '</b> stehen im Verhältnis von etwa 1 : ' + k + '. Jede ' + k + '. Mode der längeren Richtung trifft auf eine Mode der kürzeren.</li>');
+        }
+      }
+    }
+    // Überlagerungen zwischen Achsen
+    var pairs = [];
+    for (var a = 0; a < axial.length; a++) {
+      for (var b = a + 1; b < axial.length; b++) {
+        if (axial[b].f - axial[a].f >= 3) break;
+        var ax = axial[a].n[0] ? 0 : (axial[a].n[1] ? 1 : 2);
+        var bx = axial[b].n[0] ? 0 : (axial[b].n[1] ? 1 : 2);
+        if (ax !== bx) pairs.push([axial[a], ax, axial[b], bx]);
+      }
+    }
+    pairs.slice(0, 6).forEach(function (p) {
+      var oa = p[0].n[p[1]], ob = p[2].n[p[3]];
+      out.push('<li><b>' + f1.format(p[0].f) + ' Hz</b> (' + DIMS[p[1]] + ', ' + oa + '. Mode) und <b>' + f1.format(p[2].f) + ' Hz</b> (' + DIMS[p[3]] + ', ' + ob + '. Mode) liegen ' + f1.format(p[2].f - p[0].f) + ' Hz auseinander und überlagern sich.</li>');
+    });
+    if (pairs.length > 6) out.push('<li class="ok">Dazu kommen ' + (pairs.length - 6) + ' weitere Überlagerungen unter 3 Hz Abstand.</li>');
+    if (!out.length) out.push('<li class="ok">Keine Überlagerungen unter 3 Hz Abstand zwischen den ersten Achsenmoden und keine auffälligen Maßverhältnisse.</li>');
+    findsEl.innerHTML = out.join('');
+  }
+
+  // ---------- Eingaben ----------
+  function setExampleOff() {
+    if (example) { example = false; tagEl.hidden = true; }
+  }
+
+  function bindDim(el, key) {
+    el.addEventListener('input', function () {
+      var v = parseFloat(el.value);
+      if (!isNaN(v) && v >= 1.5 && v <= 30) { state[key] = v; setExampleOff(); render(); save(); }
+    });
+    el.addEventListener('change', function () {
+      var v = parseFloat(el.value);
+      state[key] = isNaN(v) ? state[key] : clamp(v, 1.5, 30);
+      el.value = state[key];
+      setExampleOff(); render(); save();
+    });
+  }
+  function bindNum(el, key, lo, hi) {
+    el.addEventListener('input', function () {
+      var v = parseFloat(el.value);
+      if (!isNaN(v) && v >= lo && v <= hi) { state[key] = v; setExampleOff(); render(); save(); }
+    });
+    el.addEventListener('change', function () {
+      var v = parseFloat(el.value);
+      state[key] = isNaN(v) ? state[key] : clamp(v, lo, hi);
+      el.value = state[key];
+      setExampleOff(); render(); save();
+    });
+  }
+  bindDim(inL, 'L'); bindDim(inW, 'W'); bindDim(inH, 'H');
+  bindNum(inT, 'T', 0, 40); bindNum(inRt, 'rt', 0.1, 3);
+  [inL, inW, inH, inT, inRt].forEach(function (el) {
+    el.addEventListener('keydown', function (e) { if (e.key === 'Enter') el.blur(); });
+  });
+
+  for (var i = 0; i < limRadios.length; i++) {
+    limRadios[i].addEventListener('change', function (e) {
+      if (e.target.checked) { state.lim = parseInt(e.target.value, 10); render(); save(); }
+    });
+  }
+  inMore.addEventListener('change', function () { state.more = inMore.checked; render(); save(); });
+
+  var rz = null;
+  window.addEventListener('resize', function () {
+    clearTimeout(rz);
+    rz = setTimeout(render, 120);
+  });
+
+  // Start
+  inL.value = state.L; inW.value = state.W; inH.value = state.H;
+  inT.value = state.T; inRt.value = state.rt; inMore.checked = state.more;
+  for (var q = 0; q < limRadios.length; q++) limRadios[q].checked = parseInt(limRadios[q].value, 10) === state.lim;
+  tagEl.hidden = !example;
+  render();
+})();
+</script>
+</body>
+</html>
