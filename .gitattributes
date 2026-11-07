@@ -1,0 +1,2 @@
+# PDFs nie als Text behandeln (keine Zeilenenden-Umwandlung)
+*.pdf binary
