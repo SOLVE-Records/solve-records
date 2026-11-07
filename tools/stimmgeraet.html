@@ -144,7 +144,7 @@
     box-shadow: 0 0 14px rgba(255, 122, 46, 0.6);
     border-radius: var(--radius);
     opacity: 0.25;
-    transition: left 90ms linear, opacity 150ms linear, background-color 120ms linear, box-shadow 120ms linear;
+    transition: left 160ms ease-out, opacity 150ms linear, background-color 120ms linear, box-shadow 120ms linear;
   }
   .needle.live { opacity: 1; }
   .needle.ok { background: var(--brass-bright); box-shadow: 0 0 18px rgba(244, 204, 111, 0.65); }
@@ -162,6 +162,15 @@
   .lamp.ok.on .bar { background: var(--brass-bright); border-color: var(--brass-bright); box-shadow: 0 0 22px rgba(244, 204, 111, 0.55); }
 
   .status { margin: 16px 0 0; font-family: var(--font-mono); font-size: 12px; line-height: 1.6; color: var(--cream-soft); min-height: 3em; }
+
+  /* Eingangspegel und Empfindlichkeit */
+  .level { position: relative; height: 10px; margin-top: 18px; background: var(--bg-3); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .lvl-fill { position: absolute; top: 0; bottom: 0; left: 0; width: 0; background: var(--brass-deep); transition: width 60ms linear; }
+  .lvl-fill.over { background: var(--tube); }
+  .lvl-gate { position: absolute; top: 0; bottom: 0; left: 33.33%; width: 2px; background: var(--brass-bright); }
+  .lvl-lbl { display: flex; justify-content: space-between; gap: 12px; margin-top: 6px; font-family: var(--font-mono); font-size: 10px; color: var(--cream-soft); }
+  .sens { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; margin-top: 18px; }
+  #sensTxt { font-family: var(--font-mono); font-size: 13px; color: var(--cream-soft); width: 4ch; text-align: right; font-variant-numeric: tabular-nums; }
 
   /* Saiten */
   .strings { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -309,6 +318,14 @@
         <button class="btn" id="mic" type="button">Mikrofon starten<small>Wird nur lokal ausgewertet</small></button>
         <button class="btn" id="demo" type="button">Demo<small>Beispielsignal ohne Mikrofon</small></button>
       </div>
+      <div class="level" aria-hidden="true"><span class="lvl-fill" id="lvlFill"></span><span class="lvl-gate"></span></div>
+      <div class="lvl-lbl" aria-hidden="true"><span>Eingangspegel</span><span>Marke: ab hier wird ausgewertet</span></div>
+      <div class="sens">
+        <label class="eyebrow" for="sens">Empfindlichkeit</label>
+        <input id="sens" type="range" min="0" max="100" step="1" value="65" aria-label="Mikrofon-Empfindlichkeit">
+        <span id="sensTxt">×13</span>
+      </div>
+      <p class="note">Reicht der Pegelbalken über die Marke, wird das Signal ausgewertet. Bei einer leisen Akustikgitarre die Empfindlichkeit erhöhen, bei Nebengeräuschen senken.</p>
     </div>
 
     <div class="block">
@@ -367,15 +384,15 @@
     bass:    { strings: [28, 33, 38, 43] }
   };
   var IN_TUNE = 5;       // Cent
-  var HOLD_MS = 700;     // so lange bleibt die letzte Anzeige ohne Signal stehen
+  var HOLD_MS = 1500;     // so lange bleibt die letzte Anzeige ohne Signal stehen
 
   // YIN-START
-  function yin(buf, sr, minF, maxF) {
+  function yin(buf, sr, minF, maxF, gate) {
     var THR = 0.15;
     var n = buf.length, W = n >> 1, i, j, tau;
     var e = 0;
     for (i = 0; i < n; i++) e += buf[i] * buf[i];
-    if (Math.sqrt(e / n) < 0.006) return null;
+    if (Math.sqrt(e / n) < (typeof gate === 'number' ? gate : 0.006)) return null;
     var tauMax = Math.min(W, Math.floor(sr / minF));
     var tauMin = Math.max(2, Math.floor(sr / maxF));
     var d = new Float32Array(tauMax + 1);
@@ -398,7 +415,11 @@
         break;
       }
     }
-    if (est < 0) return null;
+    if (est < 0) {
+      var minV = 1;
+      for (tau = tauMin; tau < tauMax; tau++) { if (d[tau] < minV) { minV = d[tau]; est = tau; } }
+      if (est < 0 || minV > 0.3) return null;
+    }
     var better = est;
     if (est > 1 && est < tauMax) {
       var s0 = d[est - 1], s1 = d[est], s2 = d[est + 1];
@@ -417,12 +438,14 @@
   var statusEl = $('status'), micBtn = $('mic'), demoBtn = $('demo');
   var stringsEl = $('strings'), strNote = $('strNote'), strLabel = $('strLabel');
   var refNum = $('refNum'), refRange = $('refRange');
+  var sensEl = $('sens'), sensTxt = $('sensTxt'), lvlFill = $('lvlFill');
   var modeRadios = document.querySelectorAll('input[name="mode"]');
   var notRadios = document.querySelectorAll('input[name="notation"]');
 
-  var mode = 'chrom', notation = 'DE', ref = 440, locked = -1;
+  var mode = 'chrom', notation = 'DE', ref = 440, locked = -1, sens = 65;
   var source = null;            // null | 'mic' | 'demo'
   var lastSeen = 0, hist = [], smCents = 0, smTarget = null, lastIdx = -1;
+  var outl = 0, lastRender = 0, tuned = false;
 
   // Einstellungen merken, falls der Browser es zulässt
   var KEY = 'solve-records-stimmgeraet';
@@ -432,10 +455,11 @@
       if (INSTR[saved.mode]) mode = saved.mode;
       if (saved.notation === 'DE' || saved.notation === 'EN') notation = saved.notation;
       if (typeof saved.ref === 'number') ref = Math.min(REF_MAX, Math.max(REF_MIN, Math.round(saved.ref * 10) / 10));
+      if (typeof saved.sens === 'number') sens = Math.min(100, Math.max(0, Math.round(saved.sens)));
     }
   } catch (e) {}
   function save() {
-    try { localStorage.setItem(KEY, JSON.stringify({ mode: mode, notation: notation, ref: ref })); } catch (e) {}
+    try { localStorage.setItem(KEY, JSON.stringify({ mode: mode, notation: notation, ref: ref, sens: sens })); } catch (e) {}
   }
 
   function fmt(x, dec) { return x.toFixed(dec).replace('.', ','); }
@@ -457,6 +481,7 @@
     readout.classList.toggle('example', !!example);
     tagEl.hidden = !example;
     if (f === null) {
+      tuned = false;
       noteEl.textContent = '–';
       noteEl.classList.remove('ok');
       octEl.textContent = '';
@@ -468,7 +493,9 @@
       setLamps(null);
       return;
     }
-    var ok = Math.abs(cents) <= IN_TUNE;
+    var ac = Math.abs(cents);
+    tuned = example ? false : (tuned ? ac <= IN_TUNE + 3 : ac <= IN_TUNE);
+    var ok = tuned;
     noteEl.textContent = noteName(target);
     noteEl.classList.toggle('ok', ok && !example);
     octEl.textContent = noteOct(target);
@@ -518,7 +545,7 @@
       return;
     }
     hist.push(69 + 12 * Math.log2(f / ref));
-    if (hist.length > 3) hist.shift();
+    if (hist.length > 5) hist.shift();
     var sorted = hist.slice().sort(function (a, b) { return a - b; });
     var midiF = sorted[Math.floor(sorted.length / 2)];
 
@@ -536,10 +563,14 @@
       target = s[idx];
     }
     var cents = (midiF - target) * 100;
-    if (smTarget !== target) { smCents = cents; smTarget = target; }
-    else smCents += 0.5 * (cents - smCents);
+    if (smTarget !== target) { smCents = cents; smTarget = target; outl = 0; }
+    else if (Math.abs(cents - smCents) > 35 && outl < 3) { outl++; }   // einzelne Ausreißer ignorieren
+    else { outl = 0; smCents += 0.22 * (cents - smCents); }
 
-    renderReading(f, target, smCents, false);
+    var nowT = performance.now();
+    if (nowT - lastRender < 100) return;   // Anzeige ruhig halten
+    lastRender = nowT;
+    renderReading(midiToFreq(target) * Math.pow(2, smCents / 1200), target, smCents, false);
     markDetected(idx);
   }
 
@@ -583,7 +614,7 @@
   }
 
   // ---------- Audio ----------
-  var ctx = null, analyser = null, buf = null, mute = null;
+  var ctx = null, analyser = null, buf = null, mute = null, inGain = null;
   var micStream = null, micSrc = null, demoOsc = null, demoGain = null, demoT0 = 0, timer = null;
 
   function ensureCtx() {
@@ -595,6 +626,9 @@
       analyser.fftSize = 4096;
       analyser.smoothingTimeConstant = 0;
       buf = new Float32Array(analyser.fftSize);
+      inGain = ctx.createGain();      // Eingangsverstärkung, einstellbar über die Empfindlichkeit
+      inGain.gain.value = sensGain();
+      inGain.connect(analyser);
       mute = ctx.createGain();
       mute.gain.value = 0;       // verhindert Rückkopplung, hält die Verarbeitung aber am Laufen
       analyser.connect(mute);
@@ -637,7 +671,8 @@
     if (micStream) { micStream.getTracks().forEach(function (t) { t.stop(); }); micStream = null; }
     if (demoOsc) { try { demoOsc.stop(); demoOsc.disconnect(); } catch (e) {} demoOsc = null; }
     setRunning(null);
-    hist = []; smTarget = null;
+    hist = []; smTarget = null; lvl = 0;
+    lvlFill.style.width = '0%';
     showExample();
   }
 
@@ -656,7 +691,7 @@
         stopSource();
         micStream = stream;
         micSrc = ctx.createMediaStreamSource(stream);
-        micSrc.connect(analyser);
+        micSrc.connect(inGain);
         setRunning('mic');
         show(null);
         startLoop();
@@ -675,10 +710,10 @@
     stopSource();
     demoOsc = ctx.createOscillator();
     demoGain = ctx.createGain();
-    demoGain.gain.value = 0.3;
+    demoGain.gain.value = 0.05;
     demoOsc.type = 'sawtooth';
     demoOsc.connect(demoGain);
-    demoGain.connect(analyser);
+    demoGain.connect(inGain);
     demoT0 = ctx.currentTime;
     demoStep();
     demoOsc.start();
@@ -695,18 +730,43 @@
     demoOsc.frequency.setValueAtTime(midiToFreq(n) * Math.pow(2, detune / 1200), ctx.currentTime);
   }
 
+  var GATE = 0.01;    // Mindestpegel nach der Verstärkung, entspricht der Marke im Pegelbalken
+  var lvl = 0;
+  function setLevel(rms) {
+    var pos = Math.max(0, Math.min(1, (20 * Math.log10(Math.max(rms, 1e-5)) + 60) / 60));
+    lvl = pos > lvl ? pos : lvl * 0.85 + pos * 0.15;
+    lvlFill.style.width = (lvl * 100) + '%';
+    lvlFill.classList.toggle('over', rms >= GATE);
+  }
+
   function analyze() {
     if (!source) return;
     if (source === 'demo') demoStep();
     analyser.getFloatTimeDomainData(buf);
-    var r = yin(buf, ctx.sampleRate, 30, 1500);
+    var e = 0;
+    for (var q = 0; q < buf.length; q++) e += buf[q] * buf[q];
+    var rms = Math.sqrt(e / buf.length);
+    setLevel(rms);
+    var r = rms >= GATE ? yin(buf, ctx.sampleRate, 30, 1500, GATE) : null;
     var now = performance.now();
-    if (r && r.clarity > 0.85) {
+    if (r && r.clarity > 0.7) {
       lastSeen = now;
       show(r.f);
     } else if (now - lastSeen > HOLD_MS) {
       show(null);
     }
+  }
+
+  // ---------- Empfindlichkeit ----------
+  function sensGain() { return Math.pow(10, sens / 100 * 1.7); }   // 0 bis 100 ergibt Faktor 1 bis 50
+  function setSens(v) {
+    if (isNaN(v)) return;
+    sens = Math.min(100, Math.max(0, Math.round(v)));
+    sensEl.value = sens;
+    sensEl.style.setProperty('--pct', sens + '%');
+    sensTxt.textContent = '×' + Math.round(sensGain());
+    if (inGain) inGain.gain.value = sensGain();
+    save();
   }
 
   // ---------- Kammerton ----------
@@ -766,6 +826,7 @@
   $('refMinus').addEventListener('click', function () { setRef(ref - 1); });
   $('refPlus').addEventListener('click', function () { setRef(ref + 1); });
   $('refReset').addEventListener('click', function () { setRef(440); });
+  sensEl.addEventListener('input', function () { setSens(parseInt(sensEl.value, 10)); });
 
   // Skala-Striche
   for (var t = -50; t <= 50; t += 10) {
@@ -779,6 +840,7 @@
   setMode(mode);
   setNotation(notation);
   setRef(ref);
+  setSens(sens);
 })();
 </script>
 </body>
