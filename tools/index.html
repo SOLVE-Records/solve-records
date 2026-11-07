@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tools — Solve Records</title>
+<meta name="description" content="Kleine Helfer aus dem Studio, kostenlos: Tools von Solve Records für Musikerinnen und Musiker.">
+<meta name="theme-color" content="#0a0705">
+
+<link rel="icon" type="image/svg+xml" href="../assets/profile.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,700;0,6..96,900;1,6..96,400&family=Oswald:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles.css">
+
+<style>
+  /* Nur für die Tools-Übersicht; alle Werte über die Variablen aus styles.css */
+  .tools-top {
+    padding-top: clamp(28px, 5vw, 48px);
+  }
+
+  .tools-back {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream-soft);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 3px;
+  }
+
+  .tools-back:hover {
+    color: var(--brass-bright);
+    border-color: var(--brass);
+  }
+
+  .tools-page {
+    padding-top: clamp(48px, 8vw, 96px);
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+    margin-top: 60px;
+  }
+
+  .tool-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 28px 26px 26px;
+    transition: border-color var(--transition-base), background var(--transition-base);
+  }
+
+  .tool-card:hover {
+    border-color: var(--brass);
+    background: var(--bg-3);
+  }
+
+  .tool-card:focus-visible {
+    outline: 2px solid var(--brass-glow);
+    outline-offset: 3px;
+  }
+
+  .tool-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--brass);
+  }
+
+  .tool-name {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 1.1;
+    color: var(--brass-bright);
+    margin-top: 14px;
+  }
+
+  .tool-card p {
+    font-size: 15px;
+    margin-top: 12px;
+  }
+
+  .tool-open {
+    margin-top: auto;
+    padding-top: 22px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--tube-glow);
+  }
+
+  .tool-card:hover .tool-open {
+    color: var(--tube);
+  }
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<div class="container tools-top">
+  <a class="tools-back" href="../">← Startseite</a>
+</div>
+
+<main class="section tools-page">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-label">Solve Records</span>
+      <span class="section-line"></span>
+    </div>
+
+    <h1 class="h-display">Tools</h1>
+    <p class="lead">Kleine Helfer aus dem Studio, kostenlos</p>
+
+    <div class="tools-grid">
+      <a class="tool-card" href="metronom.html">
+        <span class="tool-tag">Tempo</span>
+        <span class="tool-name">Metronom</span>
+        <p>Tempo von 40 bis 240 BPM, Tap-Tempo, Taktarten 2/4, 3/4, 4/4 und 6/8. Läuft direkt im Browser.</p>
+        <span class="tool-open">Öffnen →</span>
+      </a>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solve Records Metronom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@300;400;500;600&display=swap">
+<style>
+  /* Layout: ein Instrumentenpaneel auf dunklem Grund. Tempo-Zahl groß in Messing,
+     Schlaglampen in Röhren-Orange, Tap und Start als die zwei großen Bedienelemente.
+     Farben, Schriften und Radius sind die Variablen aus styles.css der Studio-Seite. */
+  :root {
+    --bg: #0a0705;
+    --bg-2: #15100a;
+    --bg-3: #1c130a;
+    --brass: #d4a24a;
+    --brass-bright: #f4cc6f;
+    --brass-deep: #8a5e1f;
+    --brass-glow: #ffb347;
+    --tube: #ff7a2e;
+    --tube-glow: #ffb066;
+    --cream: #f3e7c8;
+    --cream-soft: rgba(243, 231, 200, 0.75);
+    --cream-mute: rgba(243, 231, 200, 0.45);
+    --line: rgba(212, 162, 74, 0.22);
+    --line-soft: rgba(212, 162, 74, 0.12);
+    --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', serif;
+    --font-sans: 'Oswald', 'Helvetica Neue', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    --radius: 2px;
+    --pct: 50%;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background-color: var(--bg);
+    background-image: radial-gradient(ellipse 70% 40% at 50% -5%, rgba(255, 122, 46, 0.10), transparent 70%);
+    background-repeat: no-repeat;
+    color: var(--cream);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.5;
+    padding-block: clamp(28px, 6vw, 64px);
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    min-height: 100vh;
+  }
+
+  .wrap { max-width: 720px; margin: 0 auto; }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin: 0;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(40px, 9vw, 64px);
+    line-height: 1.05;
+    color: var(--brass-bright);
+    margin: 10px 0 0;
+    text-wrap: balance;
+  }
+
+  .panel {
+    margin-top: 28px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: clamp(20px, 4vw, 36px);
+    box-shadow: inset 0 1px 0 rgba(244, 204, 111, 0.07);
+  }
+
+  .block { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line-soft); }
+
+  /* Anzeige */
+  .readout { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 28px; }
+  .bpm-line { display: flex; align-items: baseline; gap: 12px; margin-top: 6px; }
+
+  .bpm-big {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(76px, 22vw, 128px);
+    line-height: 1;
+    color: var(--brass-bright);
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    width: 3.3ch;
+    padding: 0 0 4px;
+    margin: 0;
+    font-variant-numeric: lining-nums tabular-nums;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+  .bpm-big::-webkit-outer-spin-button,
+  .bpm-big::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .bpm-big:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 6px; }
+
+  .bpm-unit {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: var(--cream-soft);
+  }
+
+  .meta { display: grid; gap: 14px; margin: 0; min-width: 0; }
+  .meta dt { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--brass); }
+  .meta dd { margin: 2px 0 0; }
+  #term { font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 26px; line-height: 1.2; color: var(--cream); }
+  #ms { font-family: var(--font-mono); font-size: 18px; color: var(--cream); font-variant-numeric: tabular-nums; }
+
+  /* Schlaglampen */
+  .lamps { display: flex; gap: 8px; margin-top: 28px; }
+  .lamp { flex: 1 1 0; max-width: 96px; min-width: 0; display: flex; flex-direction: column; align-items: stretch; gap: 6px; }
+  .lamp .bar {
+    height: 16px;
+    background: var(--bg-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition: background-color 70ms linear, box-shadow 70ms linear, border-color 70ms linear;
+  }
+  .lamp .num { font-family: var(--font-mono); font-size: 10px; color: var(--cream-soft); text-align: center; }
+  .lamp.on .bar { background: var(--tube); border-color: var(--tube-glow); box-shadow: 0 0 18px rgba(255, 122, 46, 0.55); }
+  .lamp.on.l1 .bar { background: var(--tube-glow); }
+  .lamp.on.l2 .bar { background: var(--brass-bright); border-color: var(--brass-bright); box-shadow: 0 0 22px rgba(244, 204, 111, 0.55); }
+
+  /* Tempo einstellen */
+  .adjust { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; }
+  .step {
+    width: 48px; height: 48px;
+    background: var(--bg-3);
+    color: var(--brass);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  .step:hover { border-color: var(--brass); color: var(--brass-bright); }
+  .step:active { background: rgba(212, 162, 74, 0.16); }
+
+  input[type="range"] {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 32px; margin: 0;
+    background: transparent;
+    cursor: pointer;
+    touch-action: pan-y;
+  }
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 2px;
+    background: linear-gradient(to right, var(--brass) var(--pct), var(--line) var(--pct));
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 16px; height: 30px; margin-top: -14px;
+    background: var(--tube);
+    border: 1px solid var(--tube-glow);
+    border-radius: var(--radius);
+    box-shadow: 0 0 12px rgba(255, 122, 46, 0.4);
+  }
+  input[type="range"]::-moz-range-track { height: 2px; background: var(--line); }
+  input[type="range"]::-moz-range-progress { height: 2px; background: var(--brass); }
+  input[type="range"]::-moz-range-thumb {
+    width: 14px; height: 28px;
+    background: var(--tube);
+    border: 1px solid var(--tube-glow);
+    border-radius: var(--radius);
+  }
+  input[type="range"]:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 2px; }
+  .step:focus-visible, .btn:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
+
+  .scale { display: flex; justify-content: space-between; margin: 2px 62px 0; font-family: var(--font-mono); font-size: 10px; color: var(--cream-soft); }
+
+  /* Start und Tap */
+  .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .btn {
+    min-height: 84px;
+    border-radius: var(--radius);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none; -webkit-user-select: none;
+    transition: background-color 120ms linear, color 120ms linear, border-color 120ms linear;
+  }
+  .btn small { font-family: var(--font-mono); font-size: 10px; font-weight: 400; letter-spacing: 0.12em; line-height: 1.4; text-align: center; padding-inline: 8px; opacity: 0.85; }
+
+  #start { background: var(--brass); color: var(--bg); border: 1px solid var(--brass-bright); }
+  #start:hover { background: var(--brass-bright); }
+  #start.running { background: transparent; color: var(--brass-bright); border-color: var(--brass); }
+  #start.running:hover { background: rgba(212, 162, 74, 0.12); }
+
+  #tap { background: transparent; color: var(--tube-glow); border: 1px solid var(--tube); }
+  #tap:hover { background: rgba(255, 122, 46, 0.10); }
+  #tap.hit { background: var(--tube); color: var(--bg); border-color: var(--tube-glow); box-shadow: 0 0 26px rgba(255, 122, 46, 0.5); }
+
+  .tap-info { margin: 10px 0 0; font-family: var(--font-mono); font-size: 11px; color: var(--cream-soft); min-height: 1.5em; }
+
+  /* Taktart */
+  fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+  legend { padding: 0; margin-bottom: 12px; }
+  .segs { display: flex; gap: 8px; }
+  .seg { position: relative; flex: 1 1 0; min-width: 0; }
+  .seg input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+  .seg span {
+    display: block; text-align: center;
+    padding: 14px 0;
+    background: var(--bg-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 18px;
+    color: var(--cream-soft);
+  }
+  .seg:hover span { border-color: var(--brass); }
+  .seg input:checked + span { background: rgba(212, 162, 74, 0.14); border-color: var(--brass); color: var(--brass-bright); }
+  .seg input:focus-visible + span { outline: 2px solid var(--brass-glow); outline-offset: 2px; }
+
+  .note { margin: 12px 0 0; font-size: 14px; color: var(--cream-soft); max-width: 60ch; }
+
+  .vol { display: flex; align-items: center; gap: 16px; }
+  .vol label { flex: none; }
+  .vol input { flex: 1 1 auto; min-width: 0; }
+  #volTxt { flex: none; width: 4ch; text-align: right; font-family: var(--font-mono); font-size: 13px; color: var(--cream-soft); font-variant-numeric: tabular-nums; }
+
+  .foot { margin: 22px 0 0; font-family: var(--font-mono); font-size: 11px; line-height: 1.7; color: var(--cream-soft); }
+
+  @media (max-width: 460px) {
+    .scale { margin-inline: 62px; }
+    .btn { font-size: 16px; letter-spacing: 0.18em; }
+    .step { width: 44px; height: 44px; }
+    .scale { margin-inline: 58px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lamp .bar, .btn { transition: none; }
+  }
+
+  /* Rückweg zu Tools und Startseite */
+  .crumbs { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0 0 22px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; }
+  .crumbs a { color: var(--cream-soft); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 3px; }
+  .crumbs a:hover { color: var(--brass-bright); border-color: var(--brass); }
+  .crumbs a:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <header>
+    <nav class="crumbs" aria-label="Zurück">
+      <a href="./">← Tools</a>
+      <a href="../">Startseite</a>
+    </nav>
+    <p class="eyebrow">Solve Records</p>
+    <h1>Metronom</h1>
+  </header>
+
+  <section class="panel" aria-label="Metronom">
+    <div class="readout">
+      <div>
+        <label class="eyebrow" for="bpmNum">Tempo</label>
+        <div class="bpm-line">
+          <input id="bpmNum" class="bpm-big" type="number" inputmode="numeric" min="40" max="240" step="1" value="120">
+          <span class="bpm-unit">BPM</span>
+        </div>
+      </div>
+      <dl class="meta">
+        <div><dt>Tempobezeichnung</dt><dd id="term">Allegro</dd></div>
+        <div><dt id="msLabel">Viertelnote</dt><dd id="ms">500 ms</dd></div>
+      </dl>
+    </div>
+
+    <div class="lamps" id="lamps" aria-hidden="true"></div>
+
+    <div class="block">
+      <div class="adjust">
+        <button class="step" id="minus" type="button" aria-label="Tempo um 1 verringern">−</button>
+        <input id="bpmRange" type="range" min="40" max="240" step="1" value="120" aria-label="Tempo in BPM">
+        <button class="step" id="plus" type="button" aria-label="Tempo um 1 erhöhen">+</button>
+      </div>
+      <div class="scale" aria-hidden="true"><span>40</span><span>240</span></div>
+    </div>
+
+    <div class="block">
+      <div class="actions">
+        <button class="btn" id="start" type="button">Start<small>Handy: Tippen<br>PC: Linksklick oder Leertaste</small></button>
+        <button class="btn" id="tap" type="button">Tap<small>Handy: Tippen<br>PC: Linksklick</small></button>
+      </div>
+      <p class="tap-info" id="tapInfo" aria-live="polite">So geht's: Im Takt der Musik mehrmals mit der linken Maustaste auf Tap klicken (am Handy tippen). Aus dem Abstand der Klicks berechnet das Metronom das Tempo und übernimmt es sofort.</p>
+    </div>
+
+    <div class="block">
+      <fieldset>
+        <legend class="eyebrow">Taktart</legend>
+        <div class="segs">
+          <label class="seg"><input type="radio" name="meter" value="2/4"><span>2/4</span></label>
+          <label class="seg"><input type="radio" name="meter" value="3/4"><span>3/4</span></label>
+          <label class="seg"><input type="radio" name="meter" value="4/4" checked><span>4/4</span></label>
+          <label class="seg"><input type="radio" name="meter" value="6/8"><span>6/8</span></label>
+        </div>
+      </fieldset>
+      <p class="note" id="meterNote" hidden>Bei 6/8 gilt das Tempo für die punktierte Viertel, also zwei Hauptschläge pro Takt. Es klicken sechs Achtel, Schlag 1 am stärksten, Schlag 4 mittel.</p>
+    </div>
+
+    <div class="block vol">
+      <label class="eyebrow" for="vol">Lautstärke</label>
+      <input id="vol" type="range" min="0" max="100" step="1" value="70">
+      <span id="volTxt">70</span>
+    </div>
+  </section>
+
+  <p class="foot">Tap: im Takt mit der linken Maustaste auf die Taste klicken, am Handy tippen. Tastatur: Leertaste Start/Stop · T Tap · Pfeil hoch/runter ±1 BPM, mit Umschalt ±10.<br>Der erste Schlag klingt höher und lauter. Der Ton kommt aus dem Browser, es wird nichts geladen.</p>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var MIN = 40, MAX = 240;
+  var AHEAD = 0.15;      // Sekunden, die der Scheduler im Voraus plant
+  var TICK_MS = 25;      // Takt des Schedulers
+  var TAP_RESET_MS = 2000;
+  var TAP_MAX = 7;
+
+  // levels: 2 = erster Schlag, 1 = mittlerer Schlag, 0 = normal
+  var METERS = {
+    '2/4': { n: 2, per: 1, levels: [2, 0] },
+    '3/4': { n: 3, per: 1, levels: [2, 0, 0] },
+    '4/4': { n: 4, per: 1, levels: [2, 0, 0, 0] },
+    '6/8': { n: 6, per: 3, levels: [2, 0, 0, 1, 0, 0] }
+  };
+  var FREQ = [1000, 1250, 1650];
+  var PEAK = [0.55, 0.78, 1.0];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var numEl = $('bpmNum'), rangeEl = $('bpmRange'), volEl = $('vol'), volTxt = $('volTxt');
+  var startBtn = $('start'), tapBtn = $('tap'), tapInfo = $('tapInfo');
+  var lampsEl = $('lamps'), termEl = $('term'), msEl = $('ms'), msLabel = $('msLabel');
+  var noteEl = $('meterNote');
+  var radios = document.querySelectorAll('input[name="meter"]');
+
+  var bpm = 120, meter = '4/4', vol = 70;
+  var running = false;
+
+  // Einstellungen merken, falls der Browser es zulässt
+  var KEY = 'solve-records-metronom';
+  try {
+    var saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (saved) {
+      if (typeof saved.bpm === 'number') bpm = clamp(Math.round(saved.bpm));
+      if (METERS[saved.meter]) meter = saved.meter;
+      if (typeof saved.vol === 'number') vol = Math.min(100, Math.max(0, Math.round(saved.vol)));
+    }
+  } catch (e) {}
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify({ bpm: bpm, meter: meter, vol: vol })); } catch (e) {}
+  }
+
+  function clamp(v) { return Math.min(MAX, Math.max(MIN, v)); }
+
+  function tempoTerm(v) {
+    if (v < 60) return 'Largo';
+    if (v < 66) return 'Larghetto';
+    if (v < 76) return 'Adagio';
+    if (v < 108) return 'Andante';
+    if (v < 120) return 'Moderato';
+    if (v < 156) return 'Allegro';
+    if (v < 176) return 'Vivace';
+    if (v < 200) return 'Presto';
+    return 'Prestissimo';
+  }
+
+  function fmtMs(v) {
+    var ms = 60000 / v;
+    var r = Math.round(ms * 10) / 10;
+    return (r % 1 === 0 ? String(r) : r.toFixed(1)).replace('.', ',') + ' ms';
+  }
+
+  function renderTempo(skipInput) {
+    if (!skipInput) numEl.value = bpm;
+    rangeEl.value = bpm;
+    rangeEl.style.setProperty('--pct', ((bpm - MIN) / (MAX - MIN) * 100) + '%');
+    termEl.textContent = tempoTerm(bpm);
+    msEl.textContent = fmtMs(bpm);
+    msLabel.textContent = meter === '6/8' ? 'Punktierte Viertel' : 'Viertelnote';
+  }
+
+  function setBpm(v, skipInput) {
+    if (isNaN(v)) return;
+    bpm = clamp(Math.round(v));
+    renderTempo(skipInput);
+    save();
+  }
+
+  // Lampen
+  var lampEls = [];
+  function buildLamps() {
+    var m = METERS[meter];
+    lampsEl.innerHTML = '';
+    lampEls = [];
+    for (var i = 0; i < m.n; i++) {
+      var d = document.createElement('div');
+      d.className = 'lamp l' + m.levels[i];
+      d.innerHTML = '<span class="bar"></span><span class="num">' + (i + 1) + '</span>';
+      lampsEl.appendChild(d);
+      lampEls.push(d);
+    }
+  }
+  function light(idx) {
+    for (var i = 0; i < lampEls.length; i++) lampEls[i].classList.toggle('on', i === idx);
+  }
+
+  // Audio
+  var ctx = null, master = null;
+  function ensureCtx() {
+    if (!ctx) {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      ctx = new AC();
+      master = ctx.createGain();
+      master.connect(ctx.destination);
+    }
+    master.gain.value = Math.pow(vol / 100, 2) * 0.9;
+    if (ctx.state === 'suspended') ctx.resume();
+  }
+  function setVol(v) {
+    vol = v;
+    volTxt.textContent = v;
+    volEl.style.setProperty('--pct', v + '%');
+    if (master) master.gain.value = Math.pow(v / 100, 2) * 0.9;
+    save();
+  }
+
+  function click(time, level) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = 'triangle';
+    o.frequency.setValueAtTime(FREQ[level], time);
+    g.gain.setValueAtTime(0.0001, time);
+    g.gain.exponentialRampToValueAtTime(PEAK[level], time + 0.002);
+    g.gain.exponentialRampToValueAtTime(0.0001, time + 0.07);
+    o.connect(g);
+    g.connect(master);
+    o.start(time);
+    o.stop(time + 0.09);
+  }
+
+  // Scheduler: plant Klicks kurz voraus auf der Audio-Uhr, damit der Takt
+  // nicht von der Bildrate oder vom Timer-Jitter abhängt.
+  var nextTime = 0, beatIdx = 0, queue = [], worker = null, fallbackId = null, raf = 0;
+
+  function schedule() {
+    if (!running) return;
+    var m = METERS[meter];
+    while (nextTime < ctx.currentTime + AHEAD) {
+      if (beatIdx >= m.n) beatIdx = 0;
+      click(nextTime, m.levels[beatIdx]);
+      queue.push({ t: nextTime, i: beatIdx });
+      if (queue.length > 64) queue.shift();
+      nextTime += 60 / (bpm * m.per);
+      beatIdx = (beatIdx + 1) % m.n;
+    }
+  }
+
+  function startTimer() {
+    try {
+      var src = 'var id;onmessage=function(e){clearInterval(id);if(e.data===1){id=setInterval(function(){postMessage(1)},' + TICK_MS + ')}}';
+      var url = URL.createObjectURL(new Blob([src], { type: 'text/javascript' }));
+      worker = new Worker(url);
+      worker.onmessage = schedule;
+      worker.postMessage(1);
+    } catch (e) {
+      worker = null;
+      fallbackId = setInterval(schedule, TICK_MS);
+    }
+  }
+  function stopTimer() {
+    if (worker) { worker.postMessage(0); worker.terminate(); worker = null; }
+    if (fallbackId) { clearInterval(fallbackId); fallbackId = null; }
+  }
+
+  function frame() {
+    if (!running) return;
+    var now = ctx.currentTime - (ctx.outputLatency || 0);
+    var last = -1;
+    while (queue.length && queue[0].t <= now) last = queue.shift().i;
+    if (last >= 0) light(last);
+    raf = requestAnimationFrame(frame);
+  }
+
+  function start() {
+    ensureCtx();
+    running = true;
+    beatIdx = 0;
+    queue = [];
+    nextTime = ctx.currentTime + 0.06;
+    schedule();
+    startTimer();
+    raf = requestAnimationFrame(frame);
+    startBtn.classList.add('running');
+    startBtn.firstChild.nodeValue = 'Stop';
+  }
+  function stop() {
+    running = false;
+    stopTimer();
+    cancelAnimationFrame(raf);
+    queue = [];
+    light(-1);
+    startBtn.classList.remove('running');
+    startBtn.firstChild.nodeValue = 'Start';
+  }
+  function toggle() { running ? stop() : start(); }
+
+  // Tap-Tempo
+  var taps = [], tapTimer = null, tapFlash = null;
+  function doTap() {
+    var now = performance.now();
+    if (taps.length && now - taps[taps.length - 1] > TAP_RESET_MS) taps = [];
+    taps.push(now);
+    if (taps.length > TAP_MAX) taps.shift();
+
+    if (taps.length >= 2) {
+      var avg = (taps[taps.length - 1] - taps[0]) / (taps.length - 1);
+      setBpm(60000 / avg);
+      tapInfo.textContent = taps.length + ' Taps · Mittel ' + (60000 / avg).toFixed(1).replace('.', ',') + ' BPM, gesetzt auf ' + bpm;
+    } else {
+      tapInfo.textContent = '1 Tap · noch einmal tippen.';
+    }
+
+    tapBtn.classList.add('hit');
+    clearTimeout(tapFlash);
+    tapFlash = setTimeout(function () { tapBtn.classList.remove('hit'); }, 90);
+
+    clearTimeout(tapTimer);
+    tapTimer = setTimeout(function () {
+      taps = [];
+      tapInfo.textContent = 'Bereit. Der nächste Tap startet eine neue Messung.';
+    }, TAP_RESET_MS);
+  }
+
+  // Taktart
+  function setMeter(key) {
+    meter = key;
+    for (var i = 0; i < radios.length; i++) radios[i].checked = radios[i].value === key;
+    noteEl.hidden = key !== '6/8';
+    buildLamps();
+    beatIdx = 0;
+    renderTempo(true);
+    save();
+  }
+
+  // Ereignisse
+  numEl.addEventListener('input', function () {
+    var v = parseInt(numEl.value, 10);
+    if (!isNaN(v) && v >= MIN && v <= MAX) setBpm(v, true);
+  });
+  numEl.addEventListener('change', function () {
+    var v = parseInt(numEl.value, 10);
+    setBpm(isNaN(v) ? bpm : v);
+  });
+  numEl.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') numEl.blur();
+  });
+  rangeEl.addEventListener('input', function () { setBpm(parseInt(rangeEl.value, 10)); });
+  $('minus').addEventListener('click', function () { setBpm(bpm - 1); });
+  $('plus').addEventListener('click', function () { setBpm(bpm + 1); });
+  volEl.addEventListener('input', function () { setVol(parseInt(volEl.value, 10)); });
+  startBtn.addEventListener('click', toggle);
+
+  // Tap reagiert auf pointerdown, das spart die Wartezeit des Klicks.
+  tapBtn.addEventListener('pointerdown', function (e) { e.preventDefault(); doTap(); });
+  tapBtn.addEventListener('click', function (e) { if (e.detail === 0) doTap(); });
+
+  for (var r = 0; r < radios.length; r++) {
+    radios[r].addEventListener('change', function (e) { if (e.target.checked) setMeter(e.target.value); });
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.target !== document.body || e.metaKey || e.ctrlKey || e.altKey) return;
+    var step = e.shiftKey ? 10 : 1;
+    if (e.code === 'Space') { e.preventDefault(); toggle(); }
+    else if (e.key === 't' || e.key === 'T') { doTap(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); setBpm(bpm + step); }
+    else if (e.key === 'ArrowDown') { e.preventDefault(); setBpm(bpm - step); }
+  });
+
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden && running) { cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); }
+  });
+
+  // Start
+  volEl.value = vol;
+  volTxt.textContent = vol;
+  volEl.style.setProperty('--pct', vol + '%');
+  setMeter(meter);
+  setBpm(bpm);
+})();
+</script>
+</body>
+</html>
