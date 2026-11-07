@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mastering für Vinyl, Streaming und CD | Solve Records</title>
+<meta name="description" content="Mastering bei Solve Records am Bodensee: Finishing für Vinyl, Streaming und CD, auf den Punkt gebracht, ohne den Charakter der Produktion zu opfern.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@300;400;500;600&display=swap">
+<style>
+  /* Layout wie raumakustik/index.html: Kernsatz, nummerierte Schritte, Leistungsumfang,
+     verwandte Seiten und der Weg zum Kontakt.
+     Farben, Schriften und Radius sind die Variablen aus styles.css der Studio-Seite. */
+  :root {
+    --bg: #0a0705;
+    --bg-2: #15100a;
+    --bg-3: #1c130a;
+    --brass: #d4a24a;
+    --brass-bright: #f4cc6f;
+    --brass-deep: #8a5e1f;
+    --brass-glow: #ffb347;
+    --tube: #ff7a2e;
+    --tube-glow: #ffb066;
+    --cream: #f3e7c8;
+    --cream-soft: rgba(243, 231, 200, 0.75);
+    --cream-mute: rgba(243, 231, 200, 0.45);
+    --line: rgba(212, 162, 74, 0.22);
+    --line-soft: rgba(212, 162, 74, 0.12);
+    --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', serif;
+    --font-sans: 'Oswald', 'Helvetica Neue', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    --radius: 2px;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background-color: var(--bg);
+    background-image: radial-gradient(ellipse 70% 40% at 50% -5%, rgba(255, 122, 46, 0.10), transparent 70%);
+    background-repeat: no-repeat;
+    color: var(--cream);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.6;
+    padding-block: clamp(28px, 6vw, 64px);
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    min-height: 100vh;
+  }
+
+  .wrap { max-width: 860px; margin: 0 auto; }
+
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin: 0;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(44px, 10vw, 76px);
+    line-height: 1.05;
+    color: var(--brass-bright);
+    margin: 10px 0 0;
+    text-wrap: balance;
+  }
+
+  .lead { margin: 22px 0 0; font-size: clamp(18px, 3.2vw, 22px); line-height: 1.5; color: var(--cream); max-width: 40ch; text-wrap: pretty; }
+  .sub { margin: 14px 0 0; font-size: 16px; color: var(--cream-soft); max-width: 58ch; }
+
+  section { margin-top: clamp(40px, 8vw, 72px); }
+  h2 {
+    font-family: var(--font-display); font-style: italic; font-weight: 700;
+    font-size: clamp(26px, 5vw, 34px); line-height: 1.15; color: var(--brass-bright);
+    margin: 10px 0 0; text-wrap: balance;
+  }
+
+  .steps { margin: 22px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .steps li {
+    padding: 20px 20px 22px; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: inset 0 1px 0 rgba(244, 204, 111, 0.07); min-width: 0;
+  }
+  .steps .no { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.2em; color: var(--brass); }
+  .steps h3 { margin: 8px 0 6px; font-family: var(--font-display); font-weight: 700; font-size: 24px; line-height: 1.2; color: var(--cream); }
+  .steps p { margin: 0; font-size: 15px; color: var(--cream-soft); }
+
+  .panel { margin-top: 22px; padding: clamp(18px, 4vw, 28px); background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: inset 0 1px 0 rgba(244, 204, 111, 0.07); }
+  .panel p { margin: 0; font-size: 16px; color: var(--cream-soft); max-width: 60ch; }
+  .panel.hot { background: var(--bg-3); border-color: var(--brass); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px; margin-top: 18px; min-height: 48px; padding: 0 20px;
+    background: var(--brass); color: var(--bg); border: 1px solid var(--brass-bright); border-radius: var(--radius);
+    font-family: var(--font-sans); font-weight: 500; font-size: 15px; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none;
+    transition: background-color 120ms linear, color 120ms linear;
+  }
+  .btn:hover { background: var(--brass-bright); }
+  .btn.ghost { background: transparent; color: var(--brass-bright); border-color: var(--brass); }
+  .btn.ghost:hover { background: rgba(212, 162, 74, 0.12); }
+  .btn:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
+
+  .foot { margin: 40px 0 0; font-family: var(--font-mono); font-size: 11px; line-height: 1.7; color: var(--cream-soft); }
+
+  @media (max-width: 640px) {
+    .steps { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+
+  /* Rückweg zu den Services (Muster wie in tools/) */
+  .crumbs { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0 0 22px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; }
+  .crumbs a { color: var(--cream-soft); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 3px; }
+  .crumbs a:hover { color: var(--brass-bright); border-color: var(--brass); }
+  .crumbs a:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
+
+  /* Leistungsumfang und Button-Reihe (nur für die Service-Seiten) */
+  .list { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; }
+  .list li { position: relative; padding: 10px 0 10px 22px; border-bottom: 1px solid var(--line-soft); font-size: 16px; color: var(--cream-soft); }
+  .list li:last-child { border-bottom: 0; }
+  .list li::before { content: ''; position: absolute; left: 0; top: 1.15em; width: 10px; height: 1px; background: var(--brass); }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0 12px; }
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <header>
+    <nav class="crumbs" aria-label="Zurück">
+      <a href="../../#services">← Services</a>
+    </nav>
+    <p class="eyebrow">Services</p>
+    <h1>Mastering</h1>
+    <p class="lead">Finishing für Vinyl, Streaming und CD. Auf den Punkt gebracht, ohne den Charakter der Produktion zu opfern.</p>
+    <p class="sub">Seit 1996 entstehen bei Solve Records am Bodensee Produktionen von Brass über Hip-Hop bis Rock, Pop, Soul und RnB. Das Mastering macht den Mix fertig für das Medium, auf dem er gehört wird.</p>
+  </header>
+
+  <section aria-labelledby="ablauf">
+    <p class="eyebrow">Ablauf</p>
+    <h2 id="ablauf">Vom Mix zum Master</h2>
+    <ol class="steps">
+      <li>
+        <span class="no">01</span>
+        <h3>Material prüfen</h3>
+        <p>Der Mix wird angehört und auf technische Auffälligkeiten geprüft. Lässt sich etwas besser im Mix lösen, sprechen wir darüber.</p>
+        <!-- FAKT FEHLT: Anforderungen an die angelieferte Mixdatei (Format, Auflösung, Headroom) -->
+      </li>
+      <li>
+        <span class="no">02</span>
+        <h3>Mastern</h3>
+        <p>Klang, Dynamik und Lautheit werden auf das Zielmedium abgestimmt: Vinyl, Streaming oder CD.</p>
+      </li>
+      <li>
+        <span class="no">03</span>
+        <h3>Abstimmung</h3>
+        <p>Du hörst das Master und gibst Rückmeldung. Änderungswünsche besprechen wir gemeinsam.</p>
+        <!-- FAKT FEHLT: Anzahl der Korrekturschleifen -->
+      </li>
+      <li>
+        <span class="no">04</span>
+        <h3>Lieferung</h3>
+        <p>Du bekommst die fertigen Master für die vereinbarten Medien.</p>
+        <!-- FAKT FEHLT: Lieferformate (z. B. WAV, DDP) und Lieferzeit -->
+      </li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="umfang">
+    <p class="eyebrow">Was dich erwartet</p>
+    <h2 id="umfang">Leistungsumfang</h2>
+    <div class="panel">
+      <ul class="list">
+        <li>Mastering für Vinyl, Streaming und CD</li>
+        <li>Werkzeuge wie iZotope Ozone 12 Advanced, FabFilter Pro-Q 4 und die Waves SSL 4000 Collection</li>
+        <li>Abhören über Genelec 8020 + 7040A</li>
+        <li>Der Charakter der Produktion bleibt erhalten</li>
+        <!-- FAKT FEHLT: Umfang (Einzeltitel, EP, Album) und ob Stem-Mastering angeboten wird -->
+        <!-- FAKT FEHLT: Mastering auch für extern produzierte Mixe? -->
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="weiter">
+    <p class="eyebrow">Weiterlesen</p>
+    <h2 id="weiter">Passt dazu</h2>
+    <div class="panel">
+      <p>Vor dem Mastering stehen Aufnahme und Mix. Und wer zu Hause abhört, findet Hilfe bei der Raumakustik.</p>
+      <div class="btn-row">
+        <a class="btn ghost" href="../recording-mixing-production/">Recording, Mixing &amp; Production <span aria-hidden="true">→</span></a>
+        <a class="btn ghost" href="../../raumakustik/">Raumakustik <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="kontakt">
+    <p class="eyebrow">Kontakt</p>
+    <h2 id="kontakt">Dein Mix ist fertig?</h2>
+    <div class="panel hot">
+      <p>Schreib kurz, um welches Projekt es geht und für welches Medium es gemastert werden soll. Dann klären wir, wie es weitergeht.</p>
+      <a class="btn" href="../../#kontakt">Zum Kontakt <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <p class="foot">Solve Records · Tonstudio in Radolfzell am Bodensee · seit 1996</p>
+</main>
+
+</body>
+</html>
