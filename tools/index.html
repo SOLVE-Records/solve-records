@@ -103,6 +103,15 @@
   .tool-card:hover .tool-open {
     color: var(--tube);
   }
+
+  /* Downloads: gleiche Kacheln, nur Abstand und kleinere Abschnittsüberschrift */
+  .tools-downloads {
+    margin-top: clamp(72px, 10vw, 120px);
+  }
+
+  .tools-downloads .h-display {
+    font-size: clamp(30px, 4.5vw, 52px);
+  }
 </style>
 </head>
 <body>
@@ -152,6 +161,46 @@
         <span class="tool-open">Öffnen →</span>
       </a>
     </div>
+
+    <section class="tools-downloads" aria-labelledby="downloads-title">
+      <div class="section-head">
+        <span class="section-label">Downloads</span>
+        <span class="section-line"></span>
+      </div>
+
+      <h2 class="h-display" id="downloads-title">Vorlagen zum Ausdrucken</h2>
+      <p class="lead">Kostenlose PDFs im A4-Format, frei zum privaten Gebrauch.</p>
+
+      <div class="tools-grid">
+        <a class="tool-card" href="../downloads/notenblatt-violinschluessel.pdf" download>
+          <span class="tool-tag">PDF · A4</span>
+          <span class="tool-name">Notenblatt Violinschlüssel</span>
+          <p>12 leere Systeme, A4 hoch</p>
+          <span class="tool-open">PDF herunterladen <span aria-hidden="true">→</span></span>
+        </a>
+
+        <a class="tool-card" href="../downloads/notenblatt-bassschluessel.pdf" download>
+          <span class="tool-tag">PDF · A4</span>
+          <span class="tool-name">Notenblatt Bassschlüssel</span>
+          <p>12 leere Systeme, A4 hoch</p>
+          <span class="tool-open">PDF herunterladen <span aria-hidden="true">→</span></span>
+        </a>
+
+        <a class="tool-card" href="../downloads/notenblatt-klavier.pdf" download>
+          <span class="tool-tag">PDF · A4</span>
+          <span class="tool-name">Notenblatt Klavier</span>
+          <p>6 Doppelsysteme mit Violin- und Bassschlüssel, A4 hoch</p>
+          <span class="tool-open">PDF herunterladen <span aria-hidden="true">→</span></span>
+        </a>
+
+        <a class="tool-card" href="../downloads/quintenzirkel.pdf" download>
+          <span class="tool-tag">PDF · A4</span>
+          <span class="tool-name">Quintenzirkel</span>
+          <p>Dur, Moll und Vorzeichen auf einen Blick, A4 hoch</p>
+          <span class="tool-open">PDF herunterladen <span aria-hidden="true">→</span></span>
+        </a>
+      </div>
+    </section>
   </div>
 </main>
 

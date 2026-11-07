@@ -8,12 +8,13 @@ Reines HTML/CSS/JavaScript, kein Build-Schritt. Zum Ansehen `index.html` im Brow
 
 | Pfad | Inhalt |
 |---|---|
-| `tools/` | Übersicht der kostenlosen Tools |
+| `tools/` | Übersicht der kostenlosen Tools, darunter der Abschnitt „Downloads“ mit PDF-Vorlagen |
 | `tools/metronom.html` | Metronom |
 | `tools/stimmgeraet.html` | Stimmgerät |
 | `tools/delay-rechner.html` | Delay-Rechner |
 | `tools/raummoden-rechner.html` | Raummoden-Rechner |
 | `raumakustik/` | Raumakustik: Ablauf, Raummoden-Rechner, Kontakt |
+| `downloads/` | PDF-Vorlagen zum Ausdrucken (Notenblätter Violin-, Bassschlüssel, Klavier, Quintenzirkel). PDFs werden außerhalb des Repos erzeugt und hier abgelegt. |
 
 Hinweis: Die Links auf `tools/` und `raumakustik/` öffnen die jeweilige `index.html` nur über einen Webserver (GitHub Pages oder lokal `python -m http.server 8000`), nicht bei direkt geöffneter Datei.
 
