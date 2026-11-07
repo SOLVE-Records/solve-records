@@ -27,7 +27,7 @@ Statische One-Page-Website für das Recording Studio „Solve Records“ (Michae
 - Neue Elemente, die einblenden sollen, bekommen die Klasse `reveal`.
 - Sektionskopf-Muster: `.section-head` mit `.section-num` (01, 02 …), `.section-label`, `.section-line`. Bei neuen Sektionen die Nummerierung fortführen und Nav + Footer-Links ergänzen.
 - Akzentwörter in Überschriften mit `<em>` (wird brass-farbig/kursiv gestylt).
-- Galerie: jedes Bild ist ein `<a class="gallery-item gallery-tile-N" href="…" data-caption="…">` mit `<img>` und `.gallery-overlay`. Die Lightbox liest `href` und `data-caption`. Layout hängt an `gallery-tile-1` … `gallery-tile-5` in `styles.css`.
+- Galerie: jedes Bild ist ein `<a class="gallery-item gallery-tile-N" href="…" data-caption="…">` mit `<img>` und `.gallery-overlay`. Die Lightbox liest `href` und `data-caption`. Layout hängt an `gallery-tile-1` … `gallery-tile-6` in `styles.css`: 1–3 groß (Reihe 1: `studio-live-room.jpg`, `studio-control-room.jpg`, `studio-recording-room.jpg`), 4–6 klein (Reihe 2: `equipment-rack.jpg`, `equipment-manley.jpg`, `studio-mics.jpg`). ≤ 700px: große Tiles je volle Breite, kleine dreispaltig; ≤ 480px: eine Spalte. `studio-recording-room.jpg` ist ein Platzhalter und wird 1:1 durch das echte Foto ersetzt.
 - SoundCloud-Embeds: `.audio-item` mit `.audio-meta` + `.audio-embed`; URL-Parameter `&color=%23d4a24a&inverse=true` beibehalten (Brass-Optik).
 - Bilder vor dem Commit komprimieren (Ziel < 500 KB, JPG, Querformat).
 - Farben immer über die CSS-Variablen, keine neuen Hex-Werte verstreuen.

@@ -26,21 +26,26 @@ Hinweis: Die Links auf `tools/`, `raumakustik/` und `services/…` öffnen die j
 
 ## Galerie
 
-Fünf Bilder mit Lightbox: Klicken zum Vergrößern, Pfeiltasten zum Navigieren, ESC zum Schließen.
+Sechs Bilder mit Lightbox: Klicken zum Vergrößern, Pfeiltasten zum Navigieren, ESC zum Schließen.
 
 Die Bilder liegen in `assets/gallery/`:
 
 | Datei | Tile | Position |
 |---|---|---|
-| `studio-live-room.jpg` | `gallery-tile-1` | oben links, doppelt breit |
-| `equipment-rack.jpg` | `gallery-tile-2` | oben rechts |
-| `equipment-manley.jpg` | `gallery-tile-3` | unten links |
-| `studio-mics.jpg` | `gallery-tile-4` | unten Mitte |
-| `studio-control-room.jpg` | `gallery-tile-5` | unten rechts |
+| `studio-live-room.jpg` | `gallery-tile-1` | oben links, groß |
+| `studio-control-room.jpg` | `gallery-tile-2` | oben Mitte, groß |
+| `studio-recording-room.jpg` | `gallery-tile-3` | oben rechts, groß (derzeit Platzhalter) |
+| `equipment-rack.jpg` | `gallery-tile-4` | unten links, klein |
+| `equipment-manley.jpg` | `gallery-tile-5` | unten Mitte, klein |
+| `studio-mics.jpg` | `gallery-tile-6` | unten rechts, klein |
+
+Auf dem Tablet (bis 700px) stehen die drei großen Bilder untereinander über die volle Breite, die drei kleinen darunter nebeneinander. Auf dem Handy (bis 480px) steht alles in einer Spalte.
+
+`studio-recording-room.jpg` ist ein selbst erzeugter Platzhalter. Zum Ersetzen das echte Foto unter genau diesem Namen ablegen.
 
 **Bild austauschen:** Neue Datei unter gleichem Namen ablegen, oder in `index.html` beim passenden `<a class="gallery-item …">` sowohl `href` als auch `src` des `<img>` ändern. Die Bildunterschrift in der Lightbox steht in `data-caption`.
 
-**Bild hinzufügen oder entfernen:** Das Raster ist in `styles.css` (Abschnitt GALERIE) fest auf 3 Spalten × 2 Reihen mit fünf Positionen `gallery-tile-1` bis `gallery-tile-5` ausgelegt. Für ein sechstes Bild muss dort eine neue Klasse `gallery-tile-6` und ggf. eine weitere Reihe angelegt werden, auch in den `@media`-Blöcken für Mobilgeräte.
+**Bild hinzufügen oder entfernen:** Das Raster ist in `styles.css` (Abschnitt GALERIE) fest auf 3 Spalten × 2 Reihen mit sechs Positionen `gallery-tile-1` bis `gallery-tile-6` ausgelegt (Reihe 1 groß, Reihe 2 klein). Für ein siebtes Bild muss dort eine neue Klasse `gallery-tile-7` und eine weitere Reihe angelegt werden, auch in den `@media`-Blöcken für Mobilgeräte.
 
 Empfehlung: JPG im Querformat, mindestens 1600×1200 für das große Tile, unter 500 KB pro Bild (z.B. mit https://squoosh.app oder TinyPNG verkleinern).
 
