@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mastering für Vinyl, Streaming und CD | Solve Records</title>
-<meta name="description" content="Mastering bei Solve Records am Bodensee: Finishing für Vinyl, Streaming und CD, auf den Punkt gebracht, ohne den Charakter der Produktion zu opfern.">
+<title>Mastering am Bodensee, persönlich und analog | Solve Records</title>
+<meta name="description" content="Mastering am Bodensee mit analogem Equipment: Stereo ab 80 €, Stems bis 8 Spuren ab 150 €. Persönlich begleitet.">
 <link rel="canonical" href="https://solve-records.github.io/solve-records/services/mastering/">
 
 <!-- Open Graph -->
-<meta property="og:title" content="Mastering für Vinyl, Streaming und CD | Solve Records">
-<meta property="og:description" content="Mastering bei Solve Records am Bodensee: Finishing für Vinyl, Streaming und CD, auf den Punkt gebracht, ohne den Charakter der Produktion zu opfern.">
+<meta property="og:title" content="Mastering am Bodensee, persönlich und analog | Solve Records">
+<meta property="og:description" content="Mastering am Bodensee mit analogem Equipment: Stereo ab 80 €, Stems bis 8 Spuren ab 150 €. Persönlich begleitet.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://solve-records.github.io/solve-records/services/mastering/">
 <meta property="og:image" content="https://solve-records.github.io/solve-records/assets/og-image.png">
@@ -17,9 +17,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@300;400;500;600&display=swap">
 <style>
-  /* Layout wie raumakustik/index.html: Kernsatz, nummerierte Schritte, Leistungsumfang,
-     verwandte Seiten und der Weg zum Kontakt.
-     Farben, Schriften und Radius sind die Variablen aus styles.css der Studio-Seite. */
+  /* Layout: Preise zuerst. Oben der Kernsatz, direkt darunter zwei Preisoptionen nebeneinander,
+     dann der persönliche Ansatz und der Ablauf. Farben, Schriften und Radius entsprechen styles.css der Studio-Seite. */
   :root {
     --bg: #0a0705;
     --bg-2: #15100a;
@@ -29,12 +28,10 @@
     --brass-deep: #8a5e1f;
     --brass-glow: #ffb347;
     --tube: #ff7a2e;
-    --tube-glow: #ffb066;
     --cream: #f3e7c8;
     --cream-soft: rgba(243, 231, 200, 0.75);
-    --cream-mute: rgba(243, 231, 200, 0.45);
+    --cream-mute: rgba(243, 231, 200, 0.45);   /* Wert aus styles.css */
     --line: rgba(212, 162, 74, 0.22);
-    --line-soft: rgba(212, 162, 74, 0.12);
     --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', serif;
     --font-sans: 'Oswald', 'Helvetica Neue', sans-serif;
     --font-mono: 'JetBrains Mono', 'Courier New', monospace;
@@ -46,7 +43,7 @@
 
   body {
     background-color: var(--bg);
-    background-image: radial-gradient(ellipse 70% 40% at 50% -5%, rgba(255, 122, 46, 0.10), transparent 70%);
+    background-image: radial-gradient(ellipse 70% 40% at 50% -5%, rgba(255, 122, 46, 0.12), transparent 70%);
     background-repeat: no-repeat;
     color: var(--cream);
     font-family: var(--font-sans);
@@ -58,32 +55,19 @@
     min-height: 100vh;
   }
 
-  .wrap { max-width: 860px; margin: 0 auto; }
-
+  .wrap { max-width: 900px; margin: 0 auto; }
 
   .eyebrow {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--brass);
-    margin: 0;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+    letter-spacing: 0.3em; text-transform: uppercase; color: var(--brass); margin: 0;
   }
 
   h1 {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 700;
-    font-size: clamp(44px, 10vw, 76px);
-    line-height: 1.05;
-    color: var(--brass-bright);
-    margin: 10px 0 0;
-    text-wrap: balance;
+    font-family: var(--font-display); font-style: italic; font-weight: 700;
+    font-size: clamp(46px, 11vw, 82px); line-height: 1.05; color: var(--brass-bright);
+    margin: 10px 0 0; text-wrap: balance;
   }
-
-  .lead { margin: 22px 0 0; font-size: clamp(18px, 3.2vw, 22px); line-height: 1.5; color: var(--cream); max-width: 40ch; text-wrap: pretty; }
-  .sub { margin: 14px 0 0; font-size: 16px; color: var(--cream-soft); max-width: 58ch; }
+  .lead { margin: 20px 0 0; font-size: clamp(18px, 3.2vw, 22px); line-height: 1.5; color: var(--cream); max-width: 40ch; text-wrap: pretty; }
 
   section { margin-top: clamp(40px, 8vw, 72px); }
   h2 {
@@ -92,49 +76,74 @@
     margin: 10px 0 0; text-wrap: balance;
   }
 
-  .steps { margin: 22px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .steps li {
-    padding: 20px 20px 22px; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius);
-    box-shadow: inset 0 1px 0 rgba(244, 204, 111, 0.07); min-width: 0;
+  /* Preise */
+  .prices { margin-top: clamp(28px, 5vw, 44px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .price {
+    display: flex; flex-direction: column; min-width: 0;
+    padding: clamp(20px, 4vw, 30px); background: var(--bg-2);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: inset 0 1px 0 rgba(244, 204, 111, 0.07);
   }
-  .steps .no { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.2em; color: var(--brass); }
-  .steps h3 { margin: 8px 0 6px; font-family: var(--font-display); font-weight: 700; font-size: 24px; line-height: 1.2; color: var(--cream); }
-  .steps p { margin: 0; font-size: 15px; color: var(--cream-soft); }
+  .price.main { background: var(--bg-3); border-color: var(--brass); }
+  .price .kind { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--brass); margin: 0; }
+  .price h3 { margin: 10px 0 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(24px, 4vw, 30px); line-height: 1.15; color: var(--cream); }
+  .amount { margin: 18px 0 0; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .amount .from { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-mute); }
+  .amount .num { font-family: var(--font-display); font-weight: 800; font-size: clamp(48px, 9vw, 68px); line-height: 1; color: var(--brass-bright); font-variant-numeric: tabular-nums; }
+  .amount .cur { font-family: var(--font-display); font-weight: 700; font-size: clamp(24px, 4vw, 30px); color: var(--brass); }
+  .price .for { margin: 6px 0 0; font-size: 15px; color: var(--cream-soft); }
+  .incl { margin: 20px 0 0; padding: 18px 0 0; border-top: 1px solid var(--line); list-style: none; display: grid; gap: 10px; font-size: 15px; color: var(--cream-soft); }
+  .incl li { position: relative; padding-left: 20px; }
+  .incl li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 8px; height: 1px; background: var(--brass); }
 
-  .panel { margin-top: 22px; padding: clamp(18px, 4vw, 28px); background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: inset 0 1px 0 rgba(244, 204, 111, 0.07); }
-  .panel p { margin: 0; font-size: 16px; color: var(--cream-soft); max-width: 60ch; }
-  .panel.hot { background: var(--bg-3); border-color: var(--brass); }
+  .note { margin: 18px 0 0; font-size: 15px; color: var(--cream-soft); max-width: 62ch; }
 
+  /* Buttons */
   .btn {
     display: inline-flex; align-items: center; gap: 10px; margin-top: 18px; min-height: 48px; padding: 0 20px;
     background: var(--brass); color: var(--bg); border: 1px solid var(--brass-bright); border-radius: var(--radius);
     font-family: var(--font-sans); font-weight: 500; font-size: 15px; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none;
-    transition: background-color 120ms linear, color 120ms linear;
+    transition: background-color 120ms linear;
   }
   .btn:hover { background: var(--brass-bright); }
   .btn.ghost { background: transparent; color: var(--brass-bright); border-color: var(--brass); }
   .btn.ghost:hover { background: rgba(212, 162, 74, 0.12); }
   .btn:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0 12px; }
 
-  .foot { margin: 40px 0 0; font-family: var(--font-mono); font-size: 11px; line-height: 1.7; color: var(--cream-soft); }
+  /* Ansatz */
+  .ansatz { margin-top: 22px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+  .ansatz div { padding: 22px 22px 0 0; min-width: 0; }
+  .ansatz div + div { padding-left: 22px; border-left: 1px solid var(--line); }
+  .ansatz h3 { margin: 0 0 6px; font-family: var(--font-display); font-weight: 700; font-size: 22px; line-height: 1.2; color: var(--cream); }
+  .ansatz p { margin: 0; font-size: 15px; color: var(--cream-soft); }
 
-  @media (max-width: 640px) {
-    .steps { grid-template-columns: minmax(0, 1fr); }
+  /* Ablauf: echte Reihenfolge */
+  .steps { margin: 22px 0 0; padding: 0; list-style: none; display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .steps li { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 4px 16px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .steps .no { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.2em; color: var(--brass); padding-top: 6px; }
+  .steps h3 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 22px; line-height: 1.25; color: var(--cream); }
+  .steps p { margin: 4px 0 0; font-size: 15px; color: var(--cream-soft); grid-column: 2; max-width: 56ch; }
+
+  .cta { margin-top: clamp(40px, 8vw, 72px); padding: clamp(22px, 5vw, 36px); background: var(--bg-3); border: 1px solid var(--brass); border-radius: var(--radius); }
+  .cta p { margin: 12px 0 0; font-size: 16px; color: var(--cream-soft); max-width: 56ch; }
+
+  .foot { margin: 36px 0 0; font-family: var(--font-mono); font-size: 11px; line-height: 1.7; color: var(--cream-mute); }
+  .foot a { color: var(--brass); }
+
+  @media (max-width: 680px) {
+    .prices { grid-template-columns: minmax(0, 1fr); }
+    .ansatz { grid-template-columns: minmax(0, 1fr); }
+    .ansatz div, .ansatz div + div { padding: 18px 0 0; border-left: 0; }
+    .steps li { grid-template-columns: 36px minmax(0, 1fr); }
   }
   @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
 
-  /* Rückweg zu den Services (Muster wie in tools/) */
+  /* Rückweg (Muster wie in tools/) */
   .crumbs { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0 0 22px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; }
   .crumbs a { color: var(--cream-soft); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 3px; }
   .crumbs a:hover { color: var(--brass-bright); border-color: var(--brass); }
   .crumbs a:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
-
-  /* Leistungsumfang und Button-Reihe (nur für die Service-Seiten) */
-  .list { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; }
-  .list li { position: relative; padding: 10px 0 10px 22px; border-bottom: 1px solid var(--line-soft); font-size: 16px; color: var(--cream-soft); }
-  .list li:last-child { border-bottom: 0; }
-  .list li::before { content: ''; position: absolute; left: 0; top: 1.15em; width: 10px; height: 1px; background: var(--brass); }
-  .btn-row { display: flex; flex-wrap: wrap; gap: 0 12px; }
 </style>
 </head>
 <body>
@@ -144,79 +153,100 @@
     <nav class="crumbs" aria-label="Zurück">
       <a href="../../#services">← Services</a>
     </nav>
-    <p class="eyebrow">Services</p>
+    <p class="eyebrow">Solve Records</p>
     <h1>Mastering</h1>
-    <p class="lead">Finishing für Vinyl, Streaming und CD. Auf den Punkt gebracht, ohne den Charakter der Produktion zu opfern.</p>
-    <p class="sub">Seit 1996 entstehen bei Solve Records am Bodensee Produktionen von Brass über Hip-Hop bis Rock, Pop, Soul und RnB. Das Mastering macht den Mix fertig für das Medium, auf dem er gehört wird.</p>
+    <p class="lead">Persönlich begleitet, mit analogem Equipment. Kein Upload-Automat.</p>
   </header>
 
-  <section aria-labelledby="ablauf">
-    <p class="eyebrow">Ablauf</p>
-    <h2 id="ablauf">Vom Mix zum Master</h2>
-    <ol class="steps">
-      <li>
-        <span class="no">01</span>
-        <h3>Material prüfen</h3>
-        <p>Der Mix wird angehört und auf technische Auffälligkeiten geprüft. Lässt sich etwas besser im Mix lösen, sprechen wir darüber.</p>
-        <!-- FAKT FEHLT: Anforderungen an die angelieferte Mixdatei (Format, Auflösung, Headroom) -->
-      </li>
-      <li>
-        <span class="no">02</span>
-        <h3>Mastern</h3>
-        <p>Klang, Dynamik und Lautheit werden auf das Zielmedium abgestimmt: Vinyl, Streaming oder CD.</p>
-      </li>
-      <li>
-        <span class="no">03</span>
-        <h3>Abstimmung</h3>
-        <p>Du hörst das Master und gibst Rückmeldung. Änderungswünsche besprechen wir gemeinsam.</p>
-        <!-- FAKT FEHLT: Anzahl der Korrekturschleifen -->
-      </li>
-      <li>
-        <span class="no">04</span>
-        <h3>Lieferung</h3>
-        <p>Du bekommst die fertigen Master für die vereinbarten Medien.</p>
-        <!-- FAKT FEHLT: Lieferformate (z. B. WAV, DDP) und Lieferzeit -->
-      </li>
-    </ol>
-  </section>
-
-  <section aria-labelledby="umfang">
-    <p class="eyebrow">Was dich erwartet</p>
-    <h2 id="umfang">Leistungsumfang</h2>
-    <div class="panel">
-      <ul class="list">
-        <li>Mastering für Vinyl, Streaming und CD</li>
-        <li>Werkzeuge wie iZotope Ozone 12 Advanced, FabFilter Pro-Q 4 und die Waves SSL 4000 Collection</li>
-        <li>Abhören über Genelec 8020 + 7040A</li>
-        <li>Der Charakter der Produktion bleibt erhalten</li>
-        <!-- FAKT FEHLT: Umfang (Einzeltitel, EP, Album) und ob Stem-Mastering angeboten wird -->
-        <!-- FAKT FEHLT: Mastering auch für extern produzierte Mixe? -->
+  <div class="prices" role="list">
+    <article class="price main" role="listitem">
+      <p class="kind">Stereo</p>
+      <h3>Stereo-Mastering</h3>
+      <p class="amount"><span class="from">ab</span><span class="num">80</span><span class="cur">€</span></p>
+      <p class="for">Pro Song, aus deinem fertigen Stereo-Mix.</p>
+      <ul class="incl">
+        <li>Vorbereitung und Beratung zum Rohmix</li>
+        <li>Mastering mit analogem Equipment</li>
+        <li>Vorab-Version im gängigen Streaming-Format</li>
+        <li>Abstimmung und Lieferung</li>
       </ul>
-    </div>
-  </section>
+    </article>
 
-  <section aria-labelledby="weiter">
-    <p class="eyebrow">Weiterlesen</p>
-    <h2 id="weiter">Passt dazu</h2>
-    <div class="panel">
-      <p>Vor dem Mastering stehen Aufnahme und Mix. Und wer zu Hause abhört, findet Hilfe bei der Raumakustik.</p>
-      <div class="btn-row">
-        <a class="btn ghost" href="../recording-mixing-production/">Recording, Mixing &amp; Production <span aria-hidden="true">→</span></a>
-        <a class="btn ghost" href="../../raumakustik/">Raumakustik <span aria-hidden="true">→</span></a>
+    <article class="price" role="listitem">
+      <p class="kind">Stems</p>
+      <h3>Stem-Mastering</h3>
+      <p class="amount"><span class="from">ab</span><span class="num">150</span><span class="cur">€</span></p>
+      <p class="for">Pro Song, bis zu acht Spuren.</p>
+      <ul class="incl">
+        <li>Vorbereitung und Beratung zu deinen Stems</li>
+        <li>Mastering mit analogem Equipment</li>
+        <li>Vorab-Version im gängigen Streaming-Format</li>
+        <li>Abstimmung und Lieferung</li>
+      </ul>
+    </article>
+  </div>
+  <!-- FAKT FEHLT: Preise brutto/netto bzw. Kleinunternehmerregelung (USt-Hinweis) -->
+  <p class="note">Das sind Einstiegspreise für den Standardfall. Was darüber hinausgeht, klären wir im Vorgespräch. Dazu gibt es ein individuelles Angebot.</p>
+  <div class="actions">
+    <a class="btn" href="../../#kontakt">Mastering anfragen <span aria-hidden="true">→</span></a>
+  </div>
+
+  <section aria-labelledby="ansatz">
+    <p class="eyebrow">Ansatz</p>
+    <h2 id="ansatz">Warum persönlich</h2>
+    <div class="ansatz">
+      <div>
+        <h3>Begleitung statt Durchlauf</h3>
+        <p>Schon vor dem Master schauen wir auf deinen Rohmix oder deine Stems und klären, was sich vorher verbessern lässt.</p>
+      </div>
+      <div>
+        <h3>Analoger Weg</h3>
+        <p>Das Master entsteht mit analogem Equipment und Erfahrung aus vielen Jahren im Studio.</p>
+      </div>
+      <div>
+        <h3>Direkter Kontakt</h3>
+        <p>Du sprichst mit der Person, die dein Master macht, und bekommst persönliche Rückmeldung.</p>
       </div>
     </div>
   </section>
 
-  <section aria-labelledby="kontakt">
-    <p class="eyebrow">Kontakt</p>
-    <h2 id="kontakt">Dein Mix ist fertig?</h2>
-    <div class="panel hot">
-      <p>Schreib kurz, um welches Projekt es geht und für welches Medium es gemastert werden soll. Dann klären wir, wie es weitergeht.</p>
-      <a class="btn" href="../../#kontakt">Zum Kontakt <span aria-hidden="true">→</span></a>
-    </div>
+  <section aria-labelledby="ablauf">
+    <p class="eyebrow">Ablauf</p>
+    <h2 id="ablauf">Von deinem Mix zum fertigen Master</h2>
+    <ol class="steps">
+      <li>
+        <span class="no">01</span>
+        <h3>Vorgespräch</h3>
+        <p>Du schickst dein Material und sagst, wohin der Song soll. Wir klären Umfang und Preis.</p>
+      </li>
+      <li>
+        <span class="no">02</span>
+        <h3>Vorab-Version</h3>
+        <p>Du bekommst eine Version im gängigen Streaming-Format zum Anhören.</p>
+      </li>
+      <li>
+        <span class="no">03</span>
+        <h3>Abstimmung</h3>
+        <p>Wir gehen deine Rückmeldung durch. Braucht es mehr Aufwand, sagen wir das offen vorab.</p>
+      </li>
+      <li>
+        <span class="no">04</span>
+        <h3>Lieferung</h3>
+        <p>Das fertige Master geht an dich, bereit für Streaming und Veröffentlichung.</p>
+      </li>
+    </ol>
   </section>
 
-  <p class="foot">Solve Records · Tonstudio in Radolfzell am Bodensee · seit 1996</p>
+  <aside class="cta" aria-label="Kontakt">
+    <h2>Dein Song, dein Master</h2>
+    <p>Schreib kurz, worum es geht und was du vorhast. Wir klären gemeinsam, welcher Weg passt.</p>
+    <div class="actions">
+      <a class="btn" href="../../#kontakt">Zum Kontakt <span aria-hidden="true">→</span></a>
+      <a class="btn ghost" href="../recording-mixing-production/">Recording, Mixing und Production <span aria-hidden="true">→</span></a>
+    </div>
+  </aside>
+
+  <p class="foot">Alle Preise sind Einstiegspreise ("ab"). Den genauen Umfang legen wir im Vorgespräch fest.</p>
 </main>
 
 </body>
