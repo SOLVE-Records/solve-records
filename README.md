@@ -68,6 +68,9 @@ Alternativ gehen auch Spotify- oder Bandcamp-Embeds.
 Die Seite wird über GitHub Pages direkt aus dem Branch `main` veröffentlicht
 (`Settings → Pages → Source: Deploy from a branch → main → / (root)`).
 
-Live: https://solve-records.github.io/solve-records/
+Live: https://solverecords.de/ (eigene Domain, Hauptadresse ohne www; die Seite liegt im Domain-Root).
+Früher lief die Seite unter https://solve-records.github.io/solve-records/ — GitHub leitet diese Adresse auf die eigene Domain um.
 
-Jede Änderung auf `main` ist nach etwa einer Minute online. Pfade zu Dateien immer relativ angeben (`assets/…`, nicht `/assets/…`), weil die Seite im Unterordner `/solve-records/` liegt.
+Die Datei `CNAME` im Repo-Root (Inhalt: `solverecords.de`) verbindet GitHub Pages mit der Domain. **Nicht löschen**, sonst ist die Seite nicht mehr unter solverecords.de erreichbar.
+
+Jede Änderung auf `main` ist nach etwa einer Minute online. Pfade zu Dateien immer relativ angeben (`assets/…`, `../styles.css`, nicht `/assets/…`), damit die Seite auch lokal und unabhängig vom Hosting-Pfad funktioniert. Absolute URLs (Canonical, Open Graph, JSON-LD, Sitemap) beginnen mit `https://solverecords.de/`.

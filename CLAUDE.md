@@ -31,18 +31,20 @@ Statische One-Page-Website für das Recording Studio „Solve Records“ (Michae
 - SoundCloud-Embeds: `.audio-item` mit `.audio-meta` + `.audio-embed`; URL-Parameter `&color=%23d4a24a&inverse=true` beibehalten (Brass-Optik).
 - Bilder vor dem Commit komprimieren (Ziel < 500 KB, JPG, Querformat).
 - Farben immer über die CSS-Variablen, keine neuen Hex-Werte verstreuen.
-- Jede Seite hat `<html lang="de">`, eigenes `<title>` (ca. 60 Zeichen, mit „Solve Records“), eigene `<meta name="description">` (ca. 155 Zeichen), `<link rel="canonical">` und Open-Graph-Tags (`og:title`, `og:description`, `og:type`, `og:url`, `og:image` = `assets/og-image.png`), alle mit absoluter URL `https://solve-records.github.io/solve-records/…`. Neue Seiten zusätzlich in `sitemap.xml` eintragen.
+- Jede Seite hat `<html lang="de">`, eigenes `<title>` (ca. 60 Zeichen, mit „Solve Records“), eigene `<meta name="description">` (ca. 155 Zeichen), `<link rel="canonical">` und Open-Graph-Tags (`og:title`, `og:description`, `og:type`, `og:url`, `og:image` = `assets/og-image.png`), alle mit absoluter URL `https://solverecords.de/…`. Neue Seiten zusätzlich in `sitemap.xml` eintragen.
 
 ## Deploy
 
 - **GitHub Pages**, Source: *Deploy from a branch → `main` → `/ (root)`*.
 - Repo: `https://github.com/SOLVE-Records/solve-records` (öffentlich).
-- Live-URL: `https://solve-records.github.io/solve-records/` (kein CNAME / keine eigene Domain konfiguriert).
+- Live-URL: `https://solverecords.de/` (eigene Domain, Hauptadresse ohne www). Die Seite liegt im Domain-Root.
+- `CNAME` im Repo-Root enthält genau eine Zeile `solverecords.de`. **Nicht löschen oder ändern** — ohne sie verliert GitHub Pages die Custom Domain.
 - Jeder Push auf `main` geht nach ca. 1 Minute live. Es gibt keine Staging-Umgebung — vor dem Push lokal im Browser prüfen.
-- Weil die Seite unter dem Unterpfad `/solve-records/` liegt: **nur relative Pfade** verwenden (`assets/…`, nicht `/assets/…`).
+- **Nur relative Pfade** verwenden (`assets/…`, `../styles.css`, nicht `/assets/…`), damit die Seite lokal per Datei/`http.server` und unabhängig vom Hosting-Pfad funktioniert.
 - Bisher wurde über die GitHub-Weboberfläche committet („Add files via upload“, „Update index.html“). Lokal vorher `git pull`, um Konflikte zu vermeiden.
 
-## Bekannte offene Punkte (Stand 2026-11-02)
+## Bekannte offene Punkte (Stand 2026-11-10)
 
-- `og:image` ist absolut auf die Pages-URL gesetzt. Bei Umzug auf eine eigene Domain dort mitändern.
+- Alle absoluten URLs (Canonical, `og:url`, `og:image`, JSON-LD, Sitemap, robots.txt) zeigen auf `https://solverecords.de/`. Bei einem erneuten Domainwechsel dort und in `CNAME` mitändern.
+- Impressum und Datenschutzerklärung fehlen noch (nicht verlinkt). Google Fonts werden extern von `fonts.googleapis.com`/`fonts.gstatic.com` geladen (Datenschutz-relevant).
 - Das Kontaktformular hat kein Backend, es öffnet nur das Mailprogramm (mailto). Hinweis im Code: Formspree o. Ä. wäre der nächste Schritt.
