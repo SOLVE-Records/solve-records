@@ -115,6 +115,30 @@
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
+
+  // ===== Hash-Sprung beim Laden nachführen =====
+  // Bei Aufruf mit #anker (z. B. Rücklink ../#services) springt der Browser,
+  // bevor die Webfonts da sind; danach verschiebt sich das Layout. Nach load +
+  // fonts.ready einmal erneut springen, falls der Nutzer nicht selbst gescrollt hat.
+  // Offset weiterhin allein über scroll-padding-top.
+  if (location.hash.length > 1) {
+    let userScrolled = false;
+    const stop = () => { userScrolled = true; };
+    ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(ev =>
+      window.addEventListener(ev, stop, { once: true, passive: true }));
+
+    const resync = () => {
+      if (userScrolled) return;
+      let target = null;
+      try { target = document.querySelector(decodeURIComponent(location.hash)); } catch (err) { return; }
+      if (target) target.scrollIntoView({ block: 'start' });
+    };
+
+    window.addEventListener('load', () => {
+      const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
+      fontsReady.then(() => requestAnimationFrame(resync));
+    });
+  }
 })();
 
 // ===== Form-Handling =====
