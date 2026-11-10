@@ -38,7 +38,7 @@
      --header-h = Höhe der fixen .nav im gescrollten (kleineren) Zustand, gemessen.
      Einziger Offset-Mechanismus: html { scroll-padding-top } unten; script.js nutzt scrollIntoView. */
   --header-h: 60px;
-  --anchor-gap: 14px;
+  --anchor-gap: 12px;
 
   /* ===== EFFECTS ===== */
   --transition-base: 350ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -62,8 +62,10 @@
   box-sizing: border-box;
 }
 
+/* Kein scroll-behavior: smooth hier: sonst animiert der Browser auch den
+   Hash-Sprung beim Laden (z. B. ../#services) zu einer Zielposition, die
+   veraltet, sobald Webfonts nachladen. Smooth-Scroll für Klicks macht script.js. */
 html {
-  scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-h) + var(--anchor-gap));
   -webkit-text-size-adjust: 100%;
 }

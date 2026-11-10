@@ -13,6 +13,11 @@
   padding: 0;
 }
 
+/* Tools-Seiten (tools/index.html + tools/*.html): Inhalt startet näher am Button */
+.subnav.subnav--tight {
+  margin-bottom: clamp(14px, 1.4vw, 20px);
+}
+
 .subnav a {
   display: inline-flex;
   align-items: center;
