@@ -16,6 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="../../subnav.css">
 <style>
   /* Layout wie raumakustik/index.html: Kernsatz, nummerierte Schritte, Leistungsumfang,
      verwandte Seiten und der Weg zum Kontakt.
@@ -123,11 +124,6 @@
   }
   @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
 
-  /* Rückweg zu den Services (Muster wie in tools/) */
-  .crumbs { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0 0 22px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; }
-  .crumbs a { color: var(--cream-soft); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 3px; }
-  .crumbs a:hover { color: var(--brass-bright); border-color: var(--brass); }
-  .crumbs a:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
 
   /* Leistungsumfang und Button-Reihe (nur für die Service-Seiten) */
   .list { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; }
@@ -136,7 +132,7 @@
   .list li::before { content: ''; position: absolute; left: 0; top: 1.15em; width: 10px; height: 1px; background: var(--brass); }
   .btn-row { display: flex; flex-wrap: wrap; gap: 0 12px; }
 
-  /* Footer: Impressum / Datenschutz, klein in Mono, Hover/Fokus wie .crumbs */
+  /* Footer: Impressum / Datenschutz, klein in Mono, Hover/Fokus wie die Rücklinks */
   .legal { margin: 48px auto 0; padding-top: 18px; border-top: 1px solid var(--line); }
   .legal-links { display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; }
   .legal-links a { color: var(--cream-soft); text-decoration: none; }
@@ -148,7 +144,7 @@
 
 <main class="wrap">
   <header>
-    <nav class="crumbs" aria-label="Zurück">
+    <nav class="subnav" aria-label="Zurück">
       <a href="../../#services">← Services</a>
     </nav>
     <p class="eyebrow">Services</p>
