@@ -1,0 +1,56 @@
+/* ============================================================
+   UNTERSEITEN-NAVIGATION (Rücklinks „← Services“, „← Tools“, „Startseite“)
+   Einzige Quelle für die Leiste. Geladen von allen Unterseiten
+   (services/*, raumakustik/, tools/*, impressum/, datenschutz/).
+   Farben, Schriften und Radius kommen aus den :root-Variablen der Seite.
+   ============================================================ */
+
+.subnav {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  margin: 0 0 clamp(24px, 4vw, 36px);
+  padding: 0;
+}
+
+.subnav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--cream);
+  text-decoration: none;
+  border: 1px solid var(--brass-deep);
+  border-radius: var(--radius);
+  transition: color 150ms linear, border-color 150ms linear;
+}
+
+.subnav a:hover {
+  color: var(--brass-bright);
+  border-color: var(--brass-bright);
+}
+
+.subnav a:focus-visible {
+  color: var(--brass-bright);
+  border-color: var(--brass-bright);
+  outline: 2px solid var(--brass-bright);
+  outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  .subnav a {
+    font-size: 0.9rem;
+    padding: 0 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .subnav a { transition: none; }
+}

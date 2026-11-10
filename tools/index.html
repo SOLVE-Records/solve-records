@@ -22,26 +22,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,700;0,6..96,900;1,6..96,400&family=Oswald:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../subnav.css">
 
 <style>
   /* Nur für die Tools-Übersicht; alle Werte über die Variablen aus styles.css */
   .tools-top {
     padding-top: clamp(28px, 5vw, 48px);
-  }
-
-  .tools-back {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--cream-soft);
-    border-bottom: 1px solid var(--line);
-    padding-bottom: 3px;
-  }
-
-  .tools-back:hover {
-    color: var(--brass-bright);
-    border-color: var(--brass);
   }
 
   .tools-page {
@@ -127,7 +113,9 @@
 <div class="grain" aria-hidden="true"></div>
 
 <div class="container tools-top">
-  <a class="tools-back" href="../">← Startseite</a>
+  <nav class="subnav" aria-label="Zurück">
+    <a href="../">← Startseite</a>
+  </nav>
 </div>
 
 <main class="section tools-page">

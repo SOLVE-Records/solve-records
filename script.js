@@ -101,7 +101,8 @@
 
   revealElements.forEach(el => observer.observe(el));
 
-  // ===== Smooth-Scroll Anchor-Links (mit Nav-Offset) =====
+  // ===== Smooth-Scroll Anchor-Links =====
+  // Offset kommt allein aus html { scroll-padding-top } (styles.css, --header-h + --anchor-gap)
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       const href = this.getAttribute('href');
@@ -111,13 +112,7 @@
       if (!target) return;
 
       e.preventDefault();
-      const offset = 80;
-      const targetPos = target.getBoundingClientRect().top + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: targetPos,
-        behavior: 'smooth'
-      });
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 })();
