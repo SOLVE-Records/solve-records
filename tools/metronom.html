@@ -270,6 +270,13 @@
   .crumbs a { color: var(--cream-soft); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 3px; }
   .crumbs a:hover { color: var(--brass-bright); border-color: var(--brass); }
   .crumbs a:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
+
+  /* Footer: Impressum / Datenschutz, klein in Mono, Hover/Fokus wie .crumbs */
+  .legal { margin: 48px auto 0; padding-top: 18px; border-top: 1px solid var(--line); }
+  .legal-links { display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; }
+  .legal-links a { color: var(--cream-soft); text-decoration: none; }
+  .legal-links a:hover, .legal-links a:focus-visible { color: var(--brass-bright); }
+  .legal-links a:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
 </style>
 </head>
 <body>
@@ -340,6 +347,13 @@
 
   <p class="foot">Tap: im Takt mit der linken Maustaste auf die Taste klicken, am Handy tippen. Tastatur: Leertaste Start/Stop · T Tap · Pfeil hoch/runter ±1 BPM, mit Umschalt ±10.<br>Der erste Schlag klingt höher und lauter. Der Ton kommt aus dem Browser, es wird nichts geladen.</p>
 </main>
+
+<footer class="wrap legal">
+  <nav class="legal-links" aria-label="Rechtliches">
+    <a href="../impressum/">Impressum</a>
+    <a href="../datenschutz/">Datenschutz</a>
+  </nav>
+</footer>
 
 <script>
 (function () {

@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Datenschutzerklärung – Solve Records</title>
+<meta name="description" content="Datenschutzerklärung von Solve Records: welche Daten beim Besuch anfallen (Hosting, Google Fonts, SoundCloud, Kontakt), keine Cookies, kein Tracking.">
+<link rel="canonical" href="https://solverecords.de/datenschutz/">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Datenschutzerklärung – Solve Records">
+<meta property="og:description" content="Datenschutzerklärung von Solve Records: welche Daten beim Besuch anfallen (Hosting, Google Fonts, SoundCloud, Kontakt), keine Cookies, kein Tracking.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://solverecords.de/datenschutz/">
+<meta property="og:image" content="https://solverecords.de/assets/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@300;400;500;600&display=swap">
+<style>
+  /* Muster wie raumakustik/index.html. Farben, Schriften und Radius entsprechen styles.css. */
+  :root {
+    --bg: #0a0705;
+    --bg-2: #15100a;
+    --brass: #d4a24a;
+    --brass-bright: #f4cc6f;
+    --brass-glow: #ffb347;
+    --cream: #f3e7c8;
+    --cream-soft: rgba(243, 231, 200, 0.75);
+    --cream-mute: rgba(243, 231, 200, 0.45);
+    --line: rgba(212, 162, 74, 0.22);
+    --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', serif;
+    --font-sans: 'Oswald', 'Helvetica Neue', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    --radius: 2px;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background-color: var(--bg);
+    background-image: radial-gradient(ellipse 70% 40% at 50% -5%, rgba(255, 122, 46, 0.12), transparent 70%);
+    background-repeat: no-repeat;
+    color: var(--cream);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.6;
+    padding-block: clamp(28px, 6vw, 64px);
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    min-height: 100vh;
+  }
+
+  .wrap { max-width: 900px; margin: 0 auto; }
+
+  .eyebrow {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+    letter-spacing: 0.3em; text-transform: uppercase; color: var(--brass); margin: 0;
+  }
+
+  h1 {
+    font-family: var(--font-display); font-style: italic; font-weight: 700;
+    font-size: clamp(34px, 8vw, 64px); line-height: 1.05; color: var(--brass-bright);
+    margin: 10px 0 0; text-wrap: balance; hyphens: auto; overflow-wrap: break-word;
+  }
+  .lead { margin: 20px 0 0; font-size: clamp(17px, 3vw, 20px); line-height: 1.5; color: var(--cream); max-width: 48ch; text-wrap: pretty; }
+
+  section { margin-top: clamp(32px, 6vw, 52px); }
+  h2 {
+    font-family: var(--font-display); font-style: italic; font-weight: 700;
+    font-size: clamp(22px, 4vw, 28px); line-height: 1.2; color: var(--brass-bright);
+    margin: 0; text-wrap: balance;
+  }
+
+  .text p, .text address, .text ul { margin: 12px 0 0; font-size: 16px; font-style: normal; color: var(--cream-soft); max-width: 62ch; overflow-wrap: break-word; }
+  .text ul { padding-left: 20px; }
+  .text li + li { margin-top: 4px; }
+  .text strong { font-weight: 500; color: var(--cream); }
+  .text code { font-family: var(--font-mono); font-size: 13px; color: var(--cream); }
+  .text a { color: var(--cream); text-decoration: none; border-bottom: 1px solid var(--line); }
+  .text a:hover { color: var(--brass-bright); border-color: var(--brass); }
+  .text a:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
+
+  .stand { margin: 40px 0 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; color: var(--cream-mute); }
+
+  /* Rückweg (Muster wie in tools/) */
+  .crumbs { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0 0 22px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; }
+  .crumbs a { color: var(--cream-soft); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 3px; }
+  .crumbs a:hover { color: var(--brass-bright); border-color: var(--brass); }
+  .crumbs a:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
+
+  /* Footer: Impressum / Datenschutz, klein in Mono, Hover/Fokus wie .crumbs */
+  .legal { margin: 48px auto 0; padding-top: 18px; border-top: 1px solid var(--line); }
+  .legal-links { display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; }
+  .legal-links a { color: var(--cream-soft); text-decoration: none; }
+  .legal-links a:hover, .legal-links a:focus-visible { color: var(--brass-bright); }
+  .legal-links a:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
+  .legal-links a[aria-current="page"] { color: var(--brass); }
+</style>
+</head>
+<body>
+
+<main class="wrap text">
+  <header>
+    <nav class="crumbs" aria-label="Zurück">
+      <a href="../">← Startseite</a>
+    </nav>
+    <p class="eyebrow">Solve Records</p>
+    <h1>Datenschutz&shy;erklärung</h1>
+    <p class="lead">Diese Website setzt keine Cookies und nutzt keine Analyse- oder Tracking-Tools. Hier steht, welche Daten beim Besuch trotzdem anfallen und wer sie erhält.</p>
+  </header>
+
+  <section aria-labelledby="verantwortlicher">
+    <h2 id="verantwortlicher">Verantwortlicher</h2>
+    <address>
+      <strong>Michael Solf</strong><br>
+      Solve Records (Studio, privat betrieben)<br>
+      Kapellenweg 5<br>
+      78315 Radolfzell<br>
+      E-Mail: <a href="mailto:solfmichael5@gmail.com">solfmichael5@gmail.com</a>
+    </address>
+  </section>
+
+  <section aria-labelledby="hosting">
+    <h2 id="hosting">Hosting über GitHub Pages</h2>
+    <p>Die Website wird über GitHub Pages bereitgestellt. Anbieter ist GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA, ein Unternehmen des Microsoft-Konzerns.</p>
+    <!-- PRÜFEN: Anschrift GitHub, Inc. aktuell? -->
+    <p>Beim Aufruf einer Seite verarbeitet der Hoster technische Daten, die dein Browser automatisch übermittelt, und speichert sie in Server-Logfiles. Dazu gehören zum Beispiel deine IP-Adresse, Datum und Uhrzeit, die aufgerufene Seite, die Seite, von der du kommst, sowie Angaben zu Browser und Betriebssystem. Ohne diese Verarbeitung kann die Seite nicht ausgeliefert werden.</p>
+    <p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Das berechtigte Interesse liegt in einer sicheren und zuverlässigen Bereitstellung der Website.</p>
+    <!-- PRÜFEN: Rechtsgrundlage; ob mit GitHub ein Auftragsverarbeitungsvertrag (Art. 28 DSGVO) besteht bzw. nötig ist; Speicherdauer der Logfiles (nicht bekannt). -->
+    <p>Dabei können Daten in die USA übermittelt werden. Weitere Informationen stehen in der <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">Datenschutzerklärung von GitHub</a>.</p>
+    <!-- PRÜFEN: Grundlage der Drittlandübermittlung (z. B. Angemessenheitsbeschluss / Zertifizierung, Standardvertragsklauseln) – bewusst keine konkrete Behauptung. Link auf GitHub-Datenschutzerklärung aktuell? -->
+  </section>
+
+  <section aria-labelledby="dns">
+    <h2 id="dns">Domain und DNS</h2>
+    <p>Die Domain solverecords.de wird über die Nameserver der Hetzner Online GmbH, Industriestr. 25, 91710 Gunzenhausen, verwaltet. Die Nameserver übersetzen den Domainnamen in die Adresse des Servers.</p>
+    <p>Die Anfrage an die Nameserver stellt in der Regel nicht dein Gerät selbst, sondern der DNS-Dienst deines Internetanbieters. Hetzner erhält dabei üblicherweise dessen Adresse und nicht deine IP-Adresse.</p>
+    <!-- PRÜFEN: Anschrift Hetzner; Aussage zur Namensauflösung (hängt vom DNS-Resolver des Besuchers ab); ob Hetzner Abfragen protokolliert; Rechtsgrundlage, falls doch personenbezogene Daten anfallen. -->
+  </section>
+
+  <section aria-labelledby="fonts">
+    <h2 id="fonts">Google Fonts</h2>
+    <p>Für die Schriften nutzt diese Website Google Fonts. Die Schriften werden nicht von unserem Server, sondern beim Aufruf jeder Seite direkt von Servern von Google geladen (<code>fonts.googleapis.com</code>, <code>fonts.gstatic.com</code>). Dabei stellt dein Browser eine Verbindung zu Google her und übermittelt deine IP-Adresse, Angaben zu Browser und Betriebssystem sowie die Adresse der aufgerufenen Seite.</p>
+    <p>Anbieter ist die Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Muttergesellschaft ist die Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA. Weitere Informationen stehen in der <a href="https://policies.google.com/privacy?hl=de" target="_blank" rel="noopener">Datenschutzerklärung von Google</a>.</p>
+    <!-- PRÜFEN: Rechtsgrundlage. Die dynamische Einbindung ohne Einwilligung ist rechtlich umstritten (vgl. LG München I, Urteil vom 20.01.2022, Az. 3 O 17493/20). Alternative: Schriften lokal hosten. -->
+    <!-- PRÜFEN: Drittlandübermittlung an Google LLC in die USA und deren Grundlage. -->
+  </section>
+
+  <section aria-labelledby="soundcloud">
+    <h2 id="soundcloud">SoundCloud</h2>
+    <p>Auf der Startseite sind im Bereich „Arbeiten“ Player von SoundCloud eingebettet. Sie werden beim Aufruf der Startseite sofort geladen, nicht erst beim Abspielen. Dabei stellt dein Browser eine Verbindung zu Servern von SoundCloud her (<code>w.soundcloud.com</code>) und übermittelt unter anderem deine IP-Adresse, Angaben zu Browser und Betriebssystem sowie die Adresse der Startseite. SoundCloud kann dabei eigene Cookies setzen. Bist du bei SoundCloud angemeldet, kann SoundCloud den Besuch deinem Konto zuordnen.</p>
+    <p>Anbieter ist die SoundCloud Global Limited &amp; Co. KG, Rheinsberger Str. 76/77, 10115 Berlin. Weitere Informationen stehen in der <a href="https://soundcloud.com/pages/privacy" target="_blank" rel="noopener">Datenschutzerklärung von SoundCloud</a>.</p>
+    <!-- PRÜFEN: Anbieter und Anschrift SoundCloud; Rechtsgrundlage (Art. 6 Abs. 1 lit. f DSGVO oder Einwilligung, Art. 6 Abs. 1 lit. a DSGVO i. V. m. § 25 Abs. 1 TDDDG, weil die Player beim Laden Cookies/Speicher auf deinem Gerät nutzen können); ob Daten in Drittländer übermittelt werden; Link aktuell? -->
+  </section>
+
+  <section aria-labelledby="kontaktwege">
+    <h2 id="kontaktwege">Kontakt per E-Mail, Telefon und Formular</h2>
+    <p>Du kannst uns per E-Mail oder Telefon erreichen. Das Kontaktformular auf der Startseite sendet keine Daten an einen Server. Beim Klick auf „Anfrage senden“ setzt die Seite aus deinen Eingaben (Name, E-Mail-Adresse, Projektart, Nachricht) eine E-Mail zusammen und öffnet damit dein E-Mail-Programm. Abgeschickt wird erst, wenn du die E-Mail dort selbst sendest.</p>
+    <p>Wir verwenden die Angaben aus deiner Nachricht nur, um deine Anfrage zu beantworten und ein mögliches Projekt abzuwickeln. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, wenn es um ein Projekt oder einen Vertrag geht, sonst Art. 6 Abs. 1 lit. f DSGVO (Interesse an der Beantwortung von Anfragen). Wir löschen die Daten, wenn sie dafür nicht mehr gebraucht werden und keine gesetzlichen Aufbewahrungspflichten bestehen.</p>
+    <p>Die E-Mail-Adresse ist ein Postfach bei Gmail. E-Mails an uns werden daher bei Google gespeichert und verarbeitet.</p>
+    <!-- PRÜFEN: Gmail-Postfach (privates Konto) für geschäftliche Anfragen; Anbieter/Drittland Google; konkrete Speicherdauer; Rechtsgrundlagen. -->
+  </section>
+
+  <section aria-labelledby="lokal">
+    <h2 id="lokal">Einstellungen in den Tools, Mikrofon</h2>
+    <p>Metronom, Stimmgerät, Delay-Rechner und Raummoden-Rechner merken sich deine Einstellungen (zum Beispiel Tempo oder Raummaße) im lokalen Speicher deines Browsers (<code>localStorage</code>). Diese Daten bleiben auf deinem Gerät, werden nicht an uns oder Dritte übertragen und lassen sich über die Einstellungen deines Browsers löschen.</p>
+    <!-- PRÜFEN: Einordnung nach § 25 TDDDG (Speichern auf dem Endgerät; Komfortfunktion, ggf. „unbedingt erforderlich“ nach § 25 Abs. 2 Nr. 2 TDDDG). -->
+    <p>Das Stimmgerät nutzt das Mikrofon nur, wenn du es startest und im Browser erlaubst. Das Signal wird direkt im Browser ausgewertet. Es wird nichts aufgenommen, gespeichert oder gesendet.</p>
+  </section>
+
+  <section aria-labelledby="keine-cookies">
+    <h2 id="keine-cookies">Keine Cookies, kein Tracking</h2>
+    <p>Diese Website selbst setzt keine Cookies und verwendet keine Analyse-, Statistik- oder Tracking-Tools. Cookies können nur durch die eingebetteten SoundCloud-Player entstehen (siehe oben).</p>
+  </section>
+
+  <section aria-labelledby="rechte">
+    <h2 id="rechte">Deine Rechte</h2>
+    <p>Du hast im Rahmen der gesetzlichen Vorgaben das Recht auf:</p>
+    <ul>
+      <li>Auskunft über die zu dir gespeicherten Daten (Art. 15 DSGVO)</li>
+      <li>Berichtigung unrichtiger Daten (Art. 16 DSGVO)</li>
+      <li>Löschung (Art. 17 DSGVO)</li>
+      <li>Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
+      <li>Datenübertragbarkeit (Art. 20 DSGVO)</li>
+      <li>Widerspruch gegen die Verarbeitung (Art. 21 DSGVO)</li>
+    </ul>
+    <p>Wende dich dafür einfach per E-Mail an uns.</p>
+    <p>Außerdem kannst du dich bei einer Datenschutz-Aufsichtsbehörde beschweren. Zuständig ist der Landesbeauftragte für den Datenschutz und die Informationsfreiheit Baden-Württemberg, Lautenschlagerstraße 20, 70173 Stuttgart, <a href="https://www.baden-wuerttemberg.datenschutz.de/" target="_blank" rel="noopener">www.baden-wuerttemberg.datenschutz.de</a>.</p>
+    <!-- PRÜFEN: Anschrift und Website des LfDI Baden-Württemberg aktuell? -->
+  </section>
+
+  <p class="stand">Stand: 10. November 2026</p>
+</main>
+
+<footer class="wrap legal">
+  <nav class="legal-links" aria-label="Rechtliches">
+    <a href="../impressum/">Impressum</a>
+    <a href="../datenschutz/" aria-current="page">Datenschutz</a>
+  </nav>
+</footer>
+
+</body>
+</html>

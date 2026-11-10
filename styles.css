@@ -980,6 +980,38 @@ a.contact-value:hover {
   font-style: italic;
 }
 
+/* Impressum / Datenschutz: klein, Mono, wie die übrigen Footer-Links */
+.legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+}
+
+.legal-links a {
+  color: var(--cream-soft);
+  transition: color var(--transition-base);
+}
+
+.legal-links a:hover,
+.legal-links a:focus-visible {
+  color: var(--brass-bright);
+}
+
+.legal-links a:focus-visible {
+  outline: 2px solid var(--brass-glow);
+  outline-offset: 3px;
+}
+
+/* Schlanker Footer für Unterseiten, die styles.css laden (tools/) */
+.legal-foot {
+  border-top: 1px solid var(--line-soft);
+  padding-top: 24px;
+  padding-bottom: 40px;
+}
+
 /* ===== REVEAL ANIMATIONS ===== */
 .reveal {
   opacity: 0;
@@ -1099,6 +1131,10 @@ a.contact-value:hover {
   .footer-bottom {
     flex-direction: column;
     text-align: center;
+  }
+
+  .footer-bottom .legal-links {
+    justify-content: center;
   }
 
   .hero-cta {

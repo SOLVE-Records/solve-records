@@ -16,13 +16,17 @@ Reines HTML/CSS/JavaScript, kein Build-Schritt. Zum Ansehen `index.html` im Brow
 | `raumakustik/` | Raumakustik: Ablauf, Raummoden-Rechner, Kontakt |
 | `services/recording-mixing-production/` | Recording, Mixing & Production: Ablauf, Leistungsumfang, Kontakt |
 | `services/mastering/` | Mastering: Ablauf, Leistungsumfang, Kontakt |
+| `impressum/` | Impressum (Angaben nach § 5 DDG, § 18 Abs. 2 MStV) |
+| `datenschutz/` | Datenschutzerklärung (Hosting, DNS, Google Fonts, SoundCloud, Kontakt, lokale Tool-Einstellungen) |
 | `downloads/` | PDF-Vorlagen zum Ausdrucken (Notenblätter Violin-, Bassschlüssel, Klavier, Quintenzirkel). PDFs werden außerhalb des Repos erzeugt und hier abgelegt. |
 
 Der Services-Abschnitt der Startseite hat drei Kacheln: Recording, Mixing und Production, Mastering (ab 80 €) und Raumakustik (ab 300 €). Jede Kachel ist ein Link auf die jeweilige Unterseite mit der Aktionszeile „Mehr erfahren →“.
 
 `sitemap.xml` listet alle Seiten, `robots.txt` verweist darauf. Neue Seiten dort eintragen und mit `<title>`, Description, Canonical und Open-Graph-Tags versehen.
 
-Hinweis: Die Links auf `tools/`, `raumakustik/` und `services/…` öffnen die jeweilige `index.html` nur über einen Webserver (GitHub Pages oder lokal `python -m http.server 8000`), nicht bei direkt geöffneter Datei.
+Footer: Jede Seite verlinkt unten klein (Mono-Schrift) auf `impressum/` und `datenschutz/`. Auf der Startseite sitzen die Links in `.footer-bottom`, in `tools/index.html` in `footer.legal-foot` (beides `.legal-links` aus `styles.css`), auf den eigenständigen Seiten in `footer.legal` mit eigenem CSS im `<style>`. Neue Seiten bekommen diesen Footer mit passenden relativen Pfaden (`../`, `../../`). Wenn sich Dienste ändern (z. B. Schriften lokal statt Google Fonts, andere Embeds, Formular-Backend), muss `datenschutz/index.html` mitgeändert werden.
+
+Hinweis: Die Links auf `tools/`, `raumakustik/`, `services/…`, `impressum/` und `datenschutz/` öffnen die jeweilige `index.html` nur über einen Webserver (GitHub Pages oder lokal `python -m http.server 8000`), nicht bei direkt geöffneter Datei.
 
 ## Galerie
 

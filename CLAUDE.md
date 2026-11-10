@@ -19,6 +19,7 @@ Statische One-Page-Website für das Recording Studio „Solve Records“ (Michae
 | `tools/` | `index.html` (Übersicht mit `.tool-card`-Karten, lädt `../styles.css`; darunter Abschnitt „Downloads“ `.tools-downloads` mit je einer `.tool-card` pro PDF, `href="../downloads/….pdf" download`), `metronom.html`, `stimmgeraet.html`, `delay-rechner.html`, `raummoden-rechner.html`. Die Tool-Seiten sind eigenständig (eigenes `<style>` mit Kopie der `:root`-Variablen, eigenes `<script>`) und haben oben `<nav class="crumbs">` mit Links nach `./` (Tools) und `../` (Startseite) |
 | `raumakustik/` | `index.html`: eigenständige Seite im selben Muster wie die Tool-Seiten, Crumbs-Link nach `../`; verlinkt auf `../tools/raummoden-rechner.html` und `../#kontakt` |
 | `services/` | `recording-mixing-production/index.html` und `mastering/index.html`: Service-Unterseiten im Muster von `raumakustik/index.html` (Pfade mit `../../`), Crumbs-Link „← Services“ nach `../../#services`. Fehlende Fakten sind im HTML als `<!-- FAKT FEHLT: … -->` markiert |
+| `impressum/`, `datenschutz/` | `index.html`: Impressum (§ 5 DDG, § 18 Abs. 2 MStV) und Datenschutzerklärung, eigenständige Seiten im Muster von `raumakustik/index.html`, nicht in der Haupt-Nav. Unsichere Aussagen sind als `<!-- PRÜFEN: … -->` markiert. Die Datenschutzerklärung beschreibt die tatsächlichen Datenflüsse (GitHub Pages, Hetzner-DNS, Google Fonts, SoundCloud-Embeds, mailto-Formular/Gmail, `localStorage` der Tools, Mikrofon im Stimmgerät) — **bei jedem neuen externen Dienst, Embed, Cookie oder Formular-Backend mitändern** und das „Stand“-Datum aktualisieren |
 | `sitemap.xml`, `robots.txt` | Sitemap mit allen Seiten (absolute URLs, keine `#`-Fragmente); `robots.txt` verweist auf die Sitemap |
 | `downloads/` | PDF-Vorlagen (A4), verlinkt aus dem Abschnitt „Downloads“ in `tools/index.html`: `notenblatt-violinschluessel.pdf`, `notenblatt-bassschluessel.pdf`, `notenblatt-klavier.pdf`, `quintenzirkel.pdf`. PDFs werden außerhalb des Repos erzeugt und hier abgelegt. Neue PDF: Datei hier ablegen und eine Kachel in `tools/index.html` ergänzen |
 
@@ -32,6 +33,7 @@ Statische One-Page-Website für das Recording Studio „Solve Records“ (Michae
 - Bilder vor dem Commit komprimieren (Ziel < 500 KB, JPG, Querformat).
 - Farben immer über die CSS-Variablen, keine neuen Hex-Werte verstreuen.
 - Jede Seite hat `<html lang="de">`, eigenes `<title>` (ca. 60 Zeichen, mit „Solve Records“), eigene `<meta name="description">` (ca. 155 Zeichen), `<link rel="canonical">` und Open-Graph-Tags (`og:title`, `og:description`, `og:type`, `og:url`, `og:image` = `assets/og-image.png`), alle mit absoluter URL `https://solverecords.de/…`. Neue Seiten zusätzlich in `sitemap.xml` eintragen.
+- Footer-Links „Impressum“ und „Datenschutz“ stehen auf **jeder** Seite, klein in `--font-mono` (`.legal-links`): Startseite in `.footer-bottom`, `tools/index.html` in `<footer class="container legal-foot">` (CSS jeweils in `styles.css`), eigenständige Seiten in `<footer class="wrap legal">` direkt nach `</main>` mit eigenem CSS im `<style>`. Neue Seiten bekommen diesen Footer mit relativen Pfaden passend zur Tiefe (`impressum/`, `../impressum/`, `../../impressum/`).
 
 ## Deploy
 
@@ -46,5 +48,5 @@ Statische One-Page-Website für das Recording Studio „Solve Records“ (Michae
 ## Bekannte offene Punkte (Stand 2026-11-10)
 
 - Alle absoluten URLs (Canonical, `og:url`, `og:image`, JSON-LD, Sitemap, robots.txt) zeigen auf `https://solverecords.de/`. Bei einem erneuten Domainwechsel dort und in `CNAME` mitändern.
-- Impressum und Datenschutzerklärung fehlen noch (nicht verlinkt). Google Fonts werden extern von `fonts.googleapis.com`/`fonts.gstatic.com` geladen (Datenschutz-relevant).
+- Impressum und Datenschutzerklärung sind angelegt, die `<!-- PRÜFEN -->`-Stellen sind noch rechtlich zu klären. Google Fonts werden weiterhin extern von `fonts.googleapis.com`/`fonts.gstatic.com` geladen, die SoundCloud-Player laden sofort beim Seitenaufruf (beides Datenschutz-relevant, bewusst unverändert).
 - Das Kontaktformular hat kein Backend, es öffnet nur das Mailprogramm (mailto). Hinweis im Code: Formspree o. Ä. wäre der nächste Schritt.
