@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://solve-records.github.io/solve-records/sitemap.xml
+Sitemap: https://solverecords.de/sitemap.xml
