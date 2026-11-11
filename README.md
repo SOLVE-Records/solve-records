@@ -8,7 +8,7 @@ Reines HTML/CSS/JavaScript, kein Build-Schritt. Zum Ansehen `index.html` im Brow
 
 | Pfad | Inhalt |
 |---|---|
-| `tools/` | Übersicht der kostenlosen Tools, darunter der Abschnitt „Downloads“ mit PDF-Vorlagen |
+| `tools/` | Übersicht der kostenlosen Tools für Musiker und Homestudio, darunter der Abschnitt „Downloads“ mit PDF-Vorlagen |
 | `tools/metronom.html` | Metronom |
 | `tools/stimmgeraet.html` | Stimmgerät |
 | `tools/delay-rechner.html` | Delay-Rechner |
@@ -78,3 +78,13 @@ Früher lief die Seite unter https://solve-records.github.io/solve-records/ — 
 Die Datei `CNAME` im Repo-Root (Inhalt: `solverecords.de`) verbindet GitHub Pages mit der Domain. **Nicht löschen**, sonst ist die Seite nicht mehr unter solverecords.de erreichbar.
 
 Jede Änderung auf `main` ist nach etwa einer Minute online. Pfade zu Dateien immer relativ angeben (`assets/…`, `../styles.css`, nicht `/assets/…`), damit die Seite auch lokal und unabhängig vom Hosting-Pfad funktioniert. Absolute URLs (Canonical, Open Graph, JSON-LD, Sitemap) beginnen mit `https://solverecords.de/`.
+
+## SEO
+
+- Jede Seite hat genau eine `<h1>` (Startseite: `h1.sr-only`, weil der sichtbare Hero-Titel das Logo ist), Überschriften ohne Sprünge.
+- `<title>` max. 60 Zeichen, `<meta name="description">` max. 155 Zeichen, beide je Seite eindeutig.
+- Open Graph: `og:title`, `og:description`, `og:type`, `og:url`, `og:image` (`assets/og/og-….png`, 1200 × 630) mit Breite/Höhe, `og:locale` de_DE, `twitter:card` summary_large_image.
+- Strukturdaten (JSON-LD): Startseite `LocalBusiness`, Tool-Seiten `WebApplication` + `BreadcrumbList`, Services und Raumakustik `Service` + `BreadcrumbList`.
+- Tool-Seiten haben unter der Oberfläche einen Erklärtext, „So funktioniert es“, „Häufige Fragen“ und „Mehr aus dem Studio“ (Styles in `tools/tool-info.css`).
+- Share-Bilder neu erzeugen: `pip install playwright pillow`, `python -m playwright install chromium`, dann im Repo-Root `python dev/og/generate.py`. Texte der Bilder stehen in `IMAGES` in `dev/og/generate.py`.
+- Statistik: derzeit keine. Ein späteres cookieloses Snippet gehört zentral in den `<head>` aller Seiten (mit `defer`, nur auf `solverecords.de`), und die Datenschutzerklärung muss ergänzt werden.

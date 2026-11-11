@@ -3,20 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Raummoden-Rechner: Moden aus Raummaßen | Solve Records</title>
+<title>Raummoden-Rechner – Moden aus Raummaßen | Solve Records</title>
 <meta name="description" content="Raummoden aus Länge, Breite und Höhe berechnen, mit Schroeder-Frequenz, Frequenzachse und Überlagerungen. Kostenlos, läuft direkt im Browser.">
 <link rel="canonical" href="https://solverecords.de/tools/raummoden-rechner.html">
 
-<!-- Open Graph -->
-<meta property="og:title" content="Raummoden-Rechner: Moden aus Raummaßen | Solve Records">
+<!-- Open Graph / Social -->
+<meta property="og:title" content="Raummoden-Rechner – Moden aus Raummaßen | Solve Records">
 <meta property="og:description" content="Raummoden aus Länge, Breite und Höhe berechnen, mit Schroeder-Frequenz, Frequenzachse und Überlagerungen. Kostenlos, läuft direkt im Browser.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://solverecords.de/tools/raummoden-rechner.html">
-<meta property="og:image" content="https://solverecords.de/assets/og-image.png">
+<meta property="og:image" content="https://solverecords.de/assets/og/og-raummoden-rechner.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="Solve Records">
+<meta name="twitter:card" content="summary_large_image">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@300;400;500;600&display=swap">
 <link rel="stylesheet" href="../subnav.css">
+<link rel="stylesheet" href="tool-info.css">
 <style>
   /* Layout: Raummaße oben, darunter Kennzahlen, eine Frequenzskala mit je einer Spur pro Achse
      (Länge, Breite, Höhe), die Modenlisten, Auffälligkeiten und am Ende der Hinweis auf die
@@ -222,6 +229,58 @@
   .legal-links a:hover, .legal-links a:focus-visible { color: var(--brass-bright); }
   .legal-links a:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Raummoden-Rechner",
+      "url": "https://solverecords.de/tools/raummoden-rechner.html",
+      "description": "Raummoden aus Länge, Breite und Höhe berechnen, mit Schroeder-Frequenz, Frequenzachse und Überlagerungen. Kostenlos, läuft direkt im Browser.",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Moderner Browser mit JavaScript und Web Audio",
+      "isAccessibleForFree": true,
+      "inLanguage": "de",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      },
+      "publisher": {
+        "@type": "LocalBusiness",
+        "@id": "https://solverecords.de/#studio",
+        "name": "Solve Records",
+        "url": "https://solverecords.de/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Startseite",
+          "item": "https://solverecords.de/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tools",
+          "item": "https://solverecords.de/tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Raummoden-Rechner",
+          "item": "https://solverecords.de/tools/raummoden-rechner.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -336,6 +395,41 @@
   </aside>
 
   <p class="foot">Formeln: f = c/2 · √((nx/L)² + (ny/B)² + (nz/H)²), Schallgeschwindigkeit c = 331,3 + 0,606 · Temperatur, Schroeder-Frequenz fS = 2000 · √(T60 / V). Notennamen mit A4 = 440 Hz.</p>
+
+  <div class="tool-info">
+    <section aria-labelledby="info-was">
+      <h2 id="info-was">Raummoden berechnen, bevor du Absorber kaufst</h2>
+      <p>Der Raummoden-Rechner zeigt, bei welchen tiefen Frequenzen ein rechteckiger Raum mitschwingt. Diese Raummoden sind der Grund, warum einzelne Basstöne im Raum dröhnen und andere fast verschwinden, je nachdem, wo du sitzt. Der Rechner ist für alle gedacht, die ein Homestudio, einen Proberaum oder einen Hörraum einrichten und vorab verstehen wollen, wo Probleme liegen können. Trag Länge, Breite und Höhe in Metern ein, bei einer Dachschräge die mittlere Höhe. Temperatur und Nachhallzeit sind optional, die Nachhallzeit braucht nur die Schroeder-Frequenz. Der Rechner listet die ersten fünf Achsenmoden pro Richtung, zeigt sie auf einer Frequenzachse und weist auf Überlagerungen und ungünstige Maßverhältnisse hin. Auf Wunsch kommen Tangential- und Schrägmoden dazu.</p>
+    </section>
+
+    <section aria-labelledby="info-wie">
+      <h2 id="info-wie">So funktioniert es</h2>
+      <p>Die Schallgeschwindigkeit hängt von der Temperatur ab, bei 20 °C sind es rund 343 m/s. Eine Achsenmode entsteht zwischen zwei gegenüberliegenden Flächen. Für Breite und Höhe gilt dieselbe Formel mit B und H:</p>
+      <code class="formula">c = 331,3 + 0,606 · T &nbsp;(m/s, T in °C)<br>Achsenmoden: f = n · c / (2 · L)<br>alle Moden: f = c/2 · √((nx/L)² + (ny/B)² + (nz/H)²)<br>Schroeder-Frequenz: fS = 2000 · √(T60 / V)</code>
+      <p>Beispiel: Ein Raum mit 5 m Länge hat bei 20 °C seine tiefste Längsmode bei 343,4 / 10 = 34,3 Hz, die nächsten bei 68,7 und 103,0 Hz. Als Überlagerung meldet der Rechner zwei Achsenmoden verschiedener Richtungen, die weniger als 3 Hz auseinanderliegen. Als ungünstig gelten fast gleiche Maße (unter 5 % Unterschied) und Verhältnisse nahe 1 : 2, 1 : 3 oder 1 : 4.</p>
+    </section>
+
+    <section aria-labelledby="info-faq">
+      <h2 id="info-faq">Häufige Fragen</h2>
+      <h3>Was ist eine Raummode?</h3>
+      <p>Eine stehende Welle zwischen Wänden, Boden und Decke. Bei ihrer Frequenz addiert sich der Schall an manchen Stellen im Raum und löscht sich an anderen aus. Im Bass klingt der Raum dadurch je nach Hörplatz sehr unterschiedlich.</p>
+      <h3>Wie genau ist die Berechnung?</h3>
+      <p>Sie gilt für einen Quader mit parallelen, schallharten Flächen. Dachschrägen, Nischen, offene Türen und Möbel verschieben die Moden. Das Ergebnis ist ein guter Anhaltspunkt. Wie stark die Moden wirklich auftreten, zeigt erst eine Messung.</p>
+      <h3>Was sagt die Schroeder-Frequenz?</h3>
+      <p>Unterhalb davon prägen einzelne Moden den Bass. Darüber liegen die Resonanzen so dicht, dass sich der Raum wie ein gleichmäßiges, diffuses Schallfeld verhält.</p>
+      <h3>Welche Moden sind am wichtigsten?</h3>
+      <p>In der Regel die Achsenmoden, weil sie zwischen nur zwei Flächen entstehen und am meisten Energie haben. Tangential- und Schrägmoden sind schwächer, liegen aber dichter beieinander.</p>
+    </section>
+
+    <section class="tool-more" aria-labelledby="info-mehr">
+      <h2 id="info-mehr">Mehr aus dem Studio</h2>
+      <ul>
+        <li><a href="../services/recording-mixing-production/">Aufnehmen im Studio: Recording, Mixing und Production</a></li>
+        <li><a href="../services/mastering/">Der letzte Schliff: Mastering</a></li>
+        <li><a href="delay-rechner.html">Delay-Zeiten zum Tempo: Delay-Rechner</a></li>
+      </ul>
+    </section>
+  </div>
 </main>
 
 <footer class="wrap legal">

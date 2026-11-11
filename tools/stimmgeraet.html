@@ -3,20 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Online-Stimmgerät für Gitarre, Ukulele, Bass | Solve Records</title>
+<title>Stimmgerät – Gitarre, Ukulele, Bass | Solve Records</title>
 <meta name="description" content="Chromatisches Online-Stimmgerät für Gitarre, Ukulele und E-Bass mit einstellbarem Kammerton von 430 bis 450 Hz. Läuft direkt im Browser.">
 <link rel="canonical" href="https://solverecords.de/tools/stimmgeraet.html">
 
-<!-- Open Graph -->
-<meta property="og:title" content="Online-Stimmgerät für Gitarre, Ukulele, Bass | Solve Records">
+<!-- Open Graph / Social -->
+<meta property="og:title" content="Stimmgerät – Gitarre, Ukulele, Bass | Solve Records">
 <meta property="og:description" content="Chromatisches Online-Stimmgerät für Gitarre, Ukulele und E-Bass mit einstellbarem Kammerton von 430 bis 450 Hz. Läuft direkt im Browser.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://solverecords.de/tools/stimmgeraet.html">
-<meta property="og:image" content="https://solverecords.de/assets/og-image.png">
+<meta property="og:image" content="https://solverecords.de/assets/og/og-stimmgeraet.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="Solve Records">
+<meta name="twitter:card" content="summary_large_image">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@300;400;500;600&display=swap">
 <link rel="stylesheet" href="../subnav.css">
+<link rel="stylesheet" href="tool-info.css">
 <style>
   /* Layout: Instrumentenpaneel wie beim Metronom. Große Note in Messing, darunter die
      Cent-Skala mit Nadel, drei Lampen (tief, gestimmt, hoch), Saitenwahl und Kammerton.
@@ -278,6 +285,58 @@
   .legal-links a:hover, .legal-links a:focus-visible { color: var(--brass-bright); }
   .legal-links a:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Stimmgerät",
+      "url": "https://solverecords.de/tools/stimmgeraet.html",
+      "description": "Chromatisches Online-Stimmgerät für Gitarre, Ukulele und E-Bass mit einstellbarem Kammerton von 430 bis 450 Hz. Läuft direkt im Browser.",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Moderner Browser mit JavaScript und Web Audio",
+      "isAccessibleForFree": true,
+      "inLanguage": "de",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      },
+      "publisher": {
+        "@type": "LocalBusiness",
+        "@id": "https://solverecords.de/#studio",
+        "name": "Solve Records",
+        "url": "https://solverecords.de/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Startseite",
+          "item": "https://solverecords.de/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tools",
+          "item": "https://solverecords.de/tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Stimmgerät",
+          "item": "https://solverecords.de/tools/stimmgeraet.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -377,6 +436,43 @@
   </section>
 
   <p class="foot">Die Tonhöhe wird im Browser berechnet. Es wird nichts aufgenommen, gespeichert oder gesendet.<br>Handy: Tippen · PC: Linksklick. Saite antippen wählt den Zielton und spielt ihn an.</p>
+
+  <div class="tool-info">
+    <section aria-labelledby="info-was">
+      <h2 id="info-was">Online-Stimmgerät über das Mikrofon</h2>
+      <p>Das Stimmgerät hört über das Mikrofon deines Handys oder Computers zu und zeigt, welchen Ton du spielst und wie weit er vom Zielton entfernt ist. Für Gitarre, Ukulele und E-Bass gibt es eigene Modi mit den Saiten der Standardstimmung. Der chromatische Modus erkennt jeden Halbton und eignet sich für Instrumente, die einen klaren Einzelton spielen, zum Beispiel Trompete, Posaune oder Saxofon. Wähle den Modus, tippe auf „Mikrofon starten“ und erlaube den Zugriff. Spiel dann eine Saite oder einen Ton einzeln an und lass ihn ausklingen. Die Nadel zeigt die Abweichung in Cent, bei „Gestimmt“ passt der Ton. Den Kammerton A4 stellst du zwischen 430 und 450 Hz ein, die Notennamen wahlweise deutsch mit H oder englisch mit B. Ohne Mikrofon zeigt die Demo, wie die Anzeige reagiert.</p>
+    </section>
+
+    <section aria-labelledby="info-wie">
+      <h2 id="info-wie">So funktioniert es</h2>
+      <p>Das Stimmgerät bestimmt die Grundfrequenz mit dem YIN-Verfahren im Bereich von 30 bis 1.500 Hz. Die Sollfrequenz eines Tons ergibt sich aus dem Kammerton, die Abweichung wird in Cent angegeben, ein Halbton hat 100 Cent:</p>
+      <code class="formula">f<sub>soll</sub> = A4 · 2<sup>(n − 69) / 12</sup> &nbsp;(n = MIDI-Notennummer, A4 = 69)<br>Abweichung (Cent) = 1200 · log<sub>2</sub>(f<sub>gemessen</sub> / f<sub>soll</sub>)</code>
+      <p>Aus den letzten fünf Messwerten nimmt es den Median und glättet die Anzeige, damit die Nadel ruhig steht. Als gestimmt gilt ein Ton mit höchstens ±5 Cent Abweichung. In den Instrument-Modi wählt es automatisch die nächstgelegene Saite: Gitarre E2 A2 D3 G3 H3 E4, Ukulele G4 C4 E4 A4, E-Bass E1 A1 D2 G2. Tippst du eine Saite an, bleibt sie als Ziel fest eingestellt, und der Zielton wird zum Gegenhören abgespielt.</p>
+    </section>
+
+    <section aria-labelledby="info-faq">
+      <h2 id="info-faq">Häufige Fragen</h2>
+      <h3>Wird mein Spiel aufgenommen?</h3>
+      <p>Nein. Das Mikrofonsignal wird nur im Browser ausgewertet, es wird nichts aufgenommen, gespeichert oder gesendet. Lokal merkt sich der Browser nur Modus, Kammerton, Notenschreibweise und Empfindlichkeit.</p>
+      <h3>Warum zeigt das Stimmgerät nichts an?</h3>
+      <p>Der Pegelbalken muss über die Marke reichen. Bei leisen Instrumenten die Empfindlichkeit erhöhen, bei Nebengeräuschen senken. Außerdem muss der Browser den Mikrofonzugriff erlauben.</p>
+      <h3>Welche Stimmung hat die Ukulele?</h3>
+      <p>Die Standardstimmung G C E A mit hoher G-Saite, also G4 C4 E4 A4.</p>
+      <h3>Was zeigt es bei transponierenden Instrumenten an?</h3>
+      <p>Immer den klingenden Ton. Ein gegriffenes C auf einer B-Trompete erscheint deshalb als B (deutsche Schreibweise) beziehungsweise A♯ (englische Schreibweise).</p>
+      <h3>Welchen Kammerton soll ich nehmen?</h3>
+      <p>Standard ist 440 Hz. Manche Orchester und Ensembles stimmen etwas höher, zum Beispiel auf 442 oder 443 Hz. Spielst du mit anderen zusammen, nimm deren Wert.</p>
+    </section>
+
+    <section class="tool-more" aria-labelledby="info-mehr">
+      <h2 id="info-mehr">Mehr aus dem Studio</h2>
+      <ul>
+        <li><a href="../services/recording-mixing-production/">Gestimmt ins Studio: Recording, Mixing und Production</a></li>
+        <li><a href="metronom.html">Im Tempo üben: Metronom</a></li>
+        <li><a href="delay-rechner.html">Delay-Zeiten zum Tempo: Delay-Rechner</a></li>
+      </ul>
+    </section>
+  </div>
 </main>
 
 <footer class="wrap legal">

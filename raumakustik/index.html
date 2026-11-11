@@ -7,12 +7,18 @@
 <meta name="description" content="Raumakustik am Bodensee: Messung und Plan ab 300 €, Ausarbeitung für DIY oder externe Absorber ab zusätzlich 100 €. Für Studio, Büro und Wohnraum.">
 <link rel="canonical" href="https://solverecords.de/raumakustik/">
 
-<!-- Open Graph -->
+<!-- Open Graph / Social -->
 <meta property="og:title" content="Raumakustik: Raum ausmessen und planen | Solve Records">
 <meta property="og:description" content="Raumakustik am Bodensee: Messung und Plan ab 300 €, Ausarbeitung für DIY oder externe Absorber ab zusätzlich 100 €. Für Studio, Büro und Wohnraum.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://solverecords.de/raumakustik/">
-<meta property="og:image" content="https://solverecords.de/assets/og-image.png">
+<meta property="og:image" content="https://solverecords.de/assets/og/og-raumakustik.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="Solve Records">
+<meta name="twitter:card" content="summary_large_image">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@300;400;500;600&display=swap">
@@ -88,7 +94,7 @@
   }
   .price.main { background: var(--bg-3); border-color: var(--brass); }
   .price .kind { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--brass); margin: 0; }
-  .price h3 { margin: 10px 0 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(24px, 4vw, 30px); line-height: 1.15; color: var(--cream); }
+  .price h2 { margin: 10px 0 0; font-family: var(--font-display); font-style: normal; text-wrap: wrap; font-weight: 700; font-size: clamp(24px, 4vw, 30px); line-height: 1.15; color: var(--cream); }
   .amount { margin: 18px 0 0; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
   .amount .from { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-mute); }
   .amount .num { font-family: var(--font-display); font-weight: 800; font-size: clamp(48px, 9vw, 68px); line-height: 1; color: var(--brass-bright); font-variant-numeric: tabular-nums; }
@@ -152,6 +158,69 @@
   .legal-links a:hover, .legal-links a:focus-visible { color: var(--brass-bright); }
   .legal-links a:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "name": "Raumakustik",
+      "serviceType": "Raumakustische Messung und Planung",
+      "url": "https://solverecords.de/raumakustik/",
+      "description": "Raumakustik am Bodensee: Messung und Plan ab 300 €, Ausarbeitung für DIY oder externe Absorber ab zusätzlich 100 €. Für Studio, Büro und Wohnraum.",
+      "provider": {
+        "@type": "LocalBusiness",
+        "@id": "https://solverecords.de/#studio",
+        "name": "Solve Records",
+        "url": "https://solverecords.de/"
+      },
+      "areaServed": "Bodensee",
+      "inLanguage": "de",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Messung und Plan",
+          "description": "Für einen überschaubaren Raum, Anfahrt zusätzlich.",
+          "priceCurrency": "EUR",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "minPrice": 300,
+            "priceCurrency": "EUR"
+          }
+        },
+        {
+          "@type": "Offer",
+          "name": "Ausarbeitung der Verkleidung",
+          "description": "Zusätzlich zu Messung und Plan, für Do-it-yourself oder externe Absorber.",
+          "priceCurrency": "EUR",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "minPrice": 100,
+            "priceCurrency": "EUR"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Startseite",
+          "item": "https://solverecords.de/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Raumakustik",
+          "item": "https://solverecords.de/raumakustik/"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -169,7 +238,7 @@
   <div class="prices" role="list">
     <article class="price main" role="listitem">
       <p class="kind">Stufe 1</p>
-      <h3>Messung und Plan</h3>
+      <h2>Messung und Plan</h2>
       <p class="amount"><span class="from">ab</span><span class="num">300</span><span class="cur">€</span></p>
       <p class="for">Für einen überschaubaren Raum.</p>
       <ul class="incl">
@@ -181,7 +250,7 @@
 
     <article class="price" role="listitem">
       <p class="kind">Stufe 2, nach Stufe 1</p>
-      <h3>Ausarbeitung der Verkleidung</h3>
+      <h2>Ausarbeitung der Verkleidung</h2>
       <p class="amount"><span class="from">ab zusätzlich</span><span class="num">100</span><span class="cur">€</span></p>
       <p class="for">Für Do-it-yourself oder externe Absorber.</p>
       <ul class="incl">
@@ -258,6 +327,7 @@
     <p>Schreib kurz, um welchen Raum es geht und was du vorhast. Dann klären wir, wie es weitergeht.</p>
     <div class="actions">
       <a class="btn" href="../#kontakt">Zum Kontakt <span aria-hidden="true">→</span></a>
+      <a class="btn ghost" href="../services/mastering/">Mastering <span aria-hidden="true">→</span></a>
     </div>
   </aside>
 
