@@ -3,20 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Online-Metronom mit Tap-Tempo | Solve Records</title>
+<title>Metronom – online mit Tap-Tempo | Solve Records</title>
 <meta name="description" content="Kostenloses Online-Metronom von 40 bis 240 BPM mit Tap-Tempo und den Taktarten 2/4, 3/4, 4/4 und 6/8. Läuft direkt im Browser.">
 <link rel="canonical" href="https://solverecords.de/tools/metronom.html">
 
-<!-- Open Graph -->
-<meta property="og:title" content="Online-Metronom mit Tap-Tempo | Solve Records">
+<!-- Open Graph / Social -->
+<meta property="og:title" content="Metronom – online mit Tap-Tempo | Solve Records">
 <meta property="og:description" content="Kostenloses Online-Metronom von 40 bis 240 BPM mit Tap-Tempo und den Taktarten 2/4, 3/4, 4/4 und 6/8. Läuft direkt im Browser.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://solverecords.de/tools/metronom.html">
-<meta property="og:image" content="https://solverecords.de/assets/og-image.png">
+<meta property="og:image" content="https://solverecords.de/assets/og/og-metronom.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="Solve Records">
+<meta name="twitter:card" content="summary_large_image">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@300;400;500;600&display=swap">
 <link rel="stylesheet" href="../subnav.css">
+<link rel="stylesheet" href="tool-info.css">
 <style>
   /* Layout: ein Instrumentenpaneel auf dunklem Grund. Tempo-Zahl groß in Messing,
      Schlaglampen in Röhren-Orange, Tap und Start als die zwei großen Bedienelemente.
@@ -274,6 +281,58 @@
   .legal-links a:hover, .legal-links a:focus-visible { color: var(--brass-bright); }
   .legal-links a:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Metronom",
+      "url": "https://solverecords.de/tools/metronom.html",
+      "description": "Kostenloses Online-Metronom von 40 bis 240 BPM mit Tap-Tempo und den Taktarten 2/4, 3/4, 4/4 und 6/8. Läuft direkt im Browser.",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Moderner Browser mit JavaScript und Web Audio",
+      "isAccessibleForFree": true,
+      "inLanguage": "de",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      },
+      "publisher": {
+        "@type": "LocalBusiness",
+        "@id": "https://solverecords.de/#studio",
+        "name": "Solve Records",
+        "url": "https://solverecords.de/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Startseite",
+          "item": "https://solverecords.de/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tools",
+          "item": "https://solverecords.de/tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Metronom",
+          "item": "https://solverecords.de/tools/metronom.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -342,6 +401,44 @@
   </section>
 
   <p class="foot">Tap: im Takt mit der linken Maustaste auf die Taste klicken, am Handy tippen. Tastatur: Leertaste Start/Stop · T Tap · Pfeil hoch/runter ±1 BPM, mit Umschalt ±10.<br>Der erste Schlag klingt höher und lauter. Der Ton kommt aus dem Browser, es wird nichts geladen.</p>
+
+  <div class="tool-info">
+    <section aria-labelledby="info-was">
+      <h2 id="info-was">Online-Metronom zum Üben und Einspielen</h2>
+      <p>Das Metronom gibt einen gleichmäßigen Klick zwischen 40 und 240 BPM aus. Es hilft beim Üben, beim Einzählen im Proberaum und beim Einspielen zu einem festen Tempo, für Einzelne genauso wie für die ganze Band. Stell das Tempo über die große Zahl, den Schieberegler oder die Tasten Plus und Minus ein, wähle die Taktart und starte mit „Start“ oder der Leertaste. Kennst du das Tempo eines Songs nicht, tippst du im Takt auf „Tap“, das Metronom übernimmt den gemessenen Wert sofort. Der erste Schlag jedes Takts klingt höher und lauter, so behältst du die Eins im Ohr. Neben dem Tempo stehen die italienische Tempobezeichnung und die Länge einer Viertel in Millisekunden. Tempo, Taktart und Lautstärke merkt sich dein Browser für den nächsten Besuch.</p>
+    </section>
+
+    <section aria-labelledby="info-wie">
+      <h2 id="info-wie">So funktioniert es</h2>
+      <p>Ein Schlag dauert 60.000 Millisekunden geteilt durch das Tempo:</p>
+      <code class="formula">Schlagdauer (ms) = 60.000 / BPM &nbsp;·&nbsp; Beispiel: 120 BPM → 500 ms</code>
+      <p>Bei 6/8 gilt das Tempo für die punktierte Viertel. Es klicken sechs Achtel pro Takt, jeweils im Abstand von 60.000 / (BPM × 3) ms, Schlag 1 am stärksten, Schlag 4 mittel. Beim Tap-Tempo bildet das Metronom den Mittelwert der Abstände aus bis zu sieben Taps und rechnet ihn mit BPM = 60.000 / Abstand in ms um, gerundet auf ganze BPM. Nach zwei Sekunden ohne Tap beginnt eine neue Messung. Die Klicks werden im Browser erzeugt und über die Audio-Uhr kurz im Voraus geplant, damit der Takt nicht von der Bildrate des Bildschirms abhängt.</p>
+    </section>
+
+    <section aria-labelledby="info-faq">
+      <h2 id="info-faq">Häufige Fragen</h2>
+      <h3>Welche Taktarten gibt es?</h3>
+      <p>2/4, 3/4, 4/4 und 6/8. Bei allen ist der erste Schlag betont, bei 6/8 zusätzlich die vierte Achtel etwas schwächer.</p>
+      <h3>Wie genau ist das Tap-Tempo?</h3>
+      <p>Es zählt der Mittelwert aus bis zu sieben Taps. Je gleichmäßiger und je öfter du tippst, desto ruhiger wird der Wert. Danach kannst du mit Plus und Minus feinjustieren.</p>
+      <h3>Funktioniert das Metronom auf dem Handy?</h3>
+      <p>Ja, es läuft im Browser ohne App. Der Ton startet erst nach dem ersten Tippen auf „Start“, das verlangen die Browser.</p>
+      <!-- PRÜFEN: Auf dem iPhone bleibt Web-Audio bei eingeschaltetem Stummschalter je nach iOS-Version stumm; ggf. Hinweis ergänzen -->
+      <h3>Was bedeuten Allegro, Andante und Co.?</h3>
+      <p>Das sind die klassischen italienischen Tempobezeichnungen. Das Metronom zeigt die passende Bezeichnung zum eingestellten Tempo an. Die Grenzen zwischen den Bereichen sind Richtwerte, in der Literatur werden sie unterschiedlich angegeben.</p>
+      <h3>Werden Daten gesendet?</h3>
+      <p>Nein. Der Klick entsteht im Browser, es wird nichts geladen oder übertragen. Nur Tempo, Taktart und Lautstärke speichert der Browser lokal auf deinem Gerät.</p>
+    </section>
+
+    <section class="tool-more" aria-labelledby="info-mehr">
+      <h2 id="info-mehr">Mehr aus dem Studio</h2>
+      <ul>
+        <li><a href="../services/recording-mixing-production/">Aufnehmen im Studio: Recording, Mixing und Production</a></li>
+        <li><a href="delay-rechner.html">Delay-Zeiten zum Tempo: Delay-Rechner</a></li>
+        <li><a href="stimmgeraet.html">Vor dem Üben stimmen: Stimmgerät</a></li>
+      </ul>
+    </section>
+  </div>
 </main>
 
 <footer class="wrap legal">

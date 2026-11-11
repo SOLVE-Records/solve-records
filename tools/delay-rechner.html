@@ -3,20 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Delay-Rechner: BPM in Millisekunden | Solve Records</title>
+<title>Delay-Rechner – BPM in Millisekunden | Solve Records</title>
 <meta name="description" content="Delay-Zeiten in Millisekunden und LFO-Raten in Hertz zum Songtempo, normal, punktiert und triolisch, mit Tap-Tempo. Läuft direkt im Browser.">
 <link rel="canonical" href="https://solverecords.de/tools/delay-rechner.html">
 
-<!-- Open Graph -->
-<meta property="og:title" content="Delay-Rechner: BPM in Millisekunden | Solve Records">
+<!-- Open Graph / Social -->
+<meta property="og:title" content="Delay-Rechner – BPM in Millisekunden | Solve Records">
 <meta property="og:description" content="Delay-Zeiten in Millisekunden und LFO-Raten in Hertz zum Songtempo, normal, punktiert und triolisch, mit Tap-Tempo. Läuft direkt im Browser.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://solverecords.de/tools/delay-rechner.html">
-<meta property="og:image" content="https://solverecords.de/assets/og-image.png">
+<meta property="og:image" content="https://solverecords.de/assets/og/og-delay-rechner.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="Solve Records">
+<meta name="twitter:card" content="summary_large_image">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@300;400;500;600&display=swap">
 <link rel="stylesheet" href="../subnav.css">
+<link rel="stylesheet" href="tool-info.css">
 <style>
   /* Layout: Tempo oben (Zahl, Regler, Tap), darunter drei Spalten Normal, Punktiert, Triole.
      Jede Zeile ist ein Notenwert, jede Karte zeigt groß die Millisekunden und klein die Hertz
@@ -211,6 +218,58 @@
   .legal-links a:hover, .legal-links a:focus-visible { color: var(--brass-bright); }
   .legal-links a:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Delay-Rechner",
+      "url": "https://solverecords.de/tools/delay-rechner.html",
+      "description": "Delay-Zeiten in Millisekunden und LFO-Raten in Hertz zum Songtempo, normal, punktiert und triolisch, mit Tap-Tempo. Läuft direkt im Browser.",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Moderner Browser mit JavaScript und Web Audio",
+      "isAccessibleForFree": true,
+      "inLanguage": "de",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      },
+      "publisher": {
+        "@type": "LocalBusiness",
+        "@id": "https://solverecords.de/#studio",
+        "name": "Solve Records",
+        "url": "https://solverecords.de/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Startseite",
+          "item": "https://solverecords.de/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tools",
+          "item": "https://solverecords.de/tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Delay-Rechner",
+          "item": "https://solverecords.de/tools/delay-rechner.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -262,6 +321,41 @@
   </section>
 
   <p class="foot">Tastatur: T Tap · Pfeil hoch/runter ±1 BPM, mit Umschalt ±10. Kopiert wird die Zahl ohne Einheit, mit Punkt als Dezimaltrenner.</p>
+
+  <div class="tool-info">
+    <section aria-labelledby="info-was">
+      <h2 id="info-was">Delay-Zeiten passend zum Songtempo</h2>
+      <p>Der Delay-Rechner zeigt, wie lang ein Notenwert bei deinem Songtempo in Millisekunden dauert, von der Ganzen bis zur 64tel, jeweils normal, punktiert und als Triole. Das brauchst du, wenn ein Delay- oder Reverb-Plugin keinen Tempo-Sync hat oder du ein Hardware-Gerät von Hand einstellst. Bei jedem Wert steht außerdem die passende LFO-Rate in Hertz, etwa für Chorus, Tremolo oder Auto-Pan. Gib das Tempo als Zahl ein, zieh den Regler oder tippe im Takt des Songs auf „Tap“. Ein Klick auf eine Karte kopiert den Wert in Millisekunden in die Zwischenablage, ohne Einheit und mit Punkt als Dezimaltrenner, so lässt er sich direkt in ein Plugin einfügen. Das zuletzt gewählte Tempo merkt sich dein Browser.</p>
+    </section>
+
+    <section aria-labelledby="info-wie">
+      <h2 id="info-wie">So funktioniert es</h2>
+      <p>Eine Viertel dauert 60.000 ms geteilt durch das Tempo. Für jeden Notenwert 1/n rechnet der Rechner:</p>
+      <code class="formula">ms = 240.000 / (BPM × n) × Faktor<br>Faktor: 1 normal · 1,5 punktiert · ⅔ Triole<br>LFO-Rate (Hz) = 1000 / ms</code>
+      <p>Beispiel bei 120 BPM: Viertel 500 ms, Achtel 250 ms, punktierte Achtel 375 ms, Achteltriole 166,7 ms. Die passende LFO-Rate zur Viertel ist 2 Hz. Beim Tap-Tempo zählt der Mittelwert der Abstände aus bis zu acht Taps, gerundet auf 0,1 BPM. Nach zwei Sekunden ohne Tap beginnt eine neue Messung.</p>
+    </section>
+
+    <section aria-labelledby="info-faq">
+      <h2 id="info-faq">Häufige Fragen</h2>
+      <h3>Was heißt punktiert und triolisch?</h3>
+      <p>Ein punktierter Notenwert ist anderthalbmal so lang wie der normale. Eine Triole teilt den nächstgrößeren Wert in drei statt zwei gleiche Teile, jede Note ist also zwei Drittel so lang wie normal.</p>
+      <h3>Welcher Wert passt für das Pre-Delay im Reverb?</h3>
+      <p>Ein üblicher Startpunkt sind die kurzen Notenwerte 1/64 und 1/32, bei 120 BPM also 31,3 ms oder 62,5 ms. Das ist eine Faustregel, entscheidend ist, wie es im Mix klingt.</p>
+      <h3>Wozu die Angabe in Hertz?</h3>
+      <p>Viele Modulationseffekte stellen die Geschwindigkeit in Hertz ein. Mit der angegebenen Rate pendelt der LFO genau im Songtempo, auch wenn das Plugin keinen Tempo-Sync hat.</p>
+      <h3>Wie genau sind die Werte?</h3>
+      <p>Angezeigt werden Millisekunden mit einer Nachkommastelle und Hertz mit zwei Nachkommastellen. Kopiert wird der Millisekundenwert mit einer Nachkommastelle.</p>
+    </section>
+
+    <section class="tool-more" aria-labelledby="info-mehr">
+      <h2 id="info-mehr">Mehr aus dem Studio</h2>
+      <ul>
+        <li><a href="../services/recording-mixing-production/">Mixing im Studio: Recording, Mixing und Production</a></li>
+        <li><a href="../services/mastering/">Der letzte Schliff: Mastering</a></li>
+        <li><a href="metronom.html">Tempo hörbar machen: Metronom</a></li>
+      </ul>
+    </section>
+  </div>
 </main>
 
 <footer class="wrap legal">

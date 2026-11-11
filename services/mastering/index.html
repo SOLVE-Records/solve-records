@@ -7,12 +7,18 @@
 <meta name="description" content="Mastering am Bodensee mit analogem Equipment: Stereo ab 80 €, Stems bis 8 Spuren ab 150 €. Persönlich begleitet.">
 <link rel="canonical" href="https://solverecords.de/services/mastering/">
 
-<!-- Open Graph -->
+<!-- Open Graph / Social -->
 <meta property="og:title" content="Mastering am Bodensee, persönlich und analog | Solve Records">
 <meta property="og:description" content="Mastering am Bodensee mit analogem Equipment: Stereo ab 80 €, Stems bis 8 Spuren ab 150 €. Persönlich begleitet.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://solverecords.de/services/mastering/">
-<meta property="og:image" content="https://solverecords.de/assets/og-image.png">
+<meta property="og:image" content="https://solverecords.de/assets/og/og-mastering.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="Solve Records">
+<meta name="twitter:card" content="summary_large_image">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@300;400;500;600&display=swap">
@@ -87,7 +93,7 @@
   }
   .price.main { background: var(--bg-3); border-color: var(--brass); }
   .price .kind { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--brass); margin: 0; }
-  .price h3 { margin: 10px 0 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(24px, 4vw, 30px); line-height: 1.15; color: var(--cream); }
+  .price h2 { margin: 10px 0 0; font-family: var(--font-display); font-style: normal; text-wrap: wrap; font-weight: 700; font-size: clamp(24px, 4vw, 30px); line-height: 1.15; color: var(--cream); }
   .amount { margin: 18px 0 0; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
   .amount .from { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-mute); }
   .amount .num { font-family: var(--font-display); font-weight: 800; font-size: clamp(48px, 9vw, 68px); line-height: 1; color: var(--brass-bright); font-variant-numeric: tabular-nums; }
@@ -148,6 +154,75 @@
   .legal-links a:hover, .legal-links a:focus-visible { color: var(--brass-bright); }
   .legal-links a:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "name": "Mastering",
+      "serviceType": "Audio-Mastering",
+      "url": "https://solverecords.de/services/mastering/",
+      "description": "Mastering am Bodensee mit analogem Equipment: Stereo ab 80 €, Stems bis 8 Spuren ab 150 €. Persönlich begleitet.",
+      "provider": {
+        "@type": "LocalBusiness",
+        "@id": "https://solverecords.de/#studio",
+        "name": "Solve Records",
+        "url": "https://solverecords.de/"
+      },
+      "areaServed": "Bodensee",
+      "inLanguage": "de",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Stereo-Mastering",
+          "description": "Pro Song, aus dem fertigen Stereo-Mix.",
+          "priceCurrency": "EUR",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "minPrice": 80,
+            "priceCurrency": "EUR"
+          }
+        },
+        {
+          "@type": "Offer",
+          "name": "Stem-Mastering",
+          "description": "Pro Song, bis zu acht Spuren.",
+          "priceCurrency": "EUR",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "minPrice": 150,
+            "priceCurrency": "EUR"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Startseite",
+          "item": "https://solverecords.de/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": "https://solverecords.de/#services"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Mastering",
+          "item": "https://solverecords.de/services/mastering/"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -164,7 +239,7 @@
   <div class="prices" role="list">
     <article class="price main" role="listitem">
       <p class="kind">Stereo</p>
-      <h3>Stereo-Mastering</h3>
+      <h2>Stereo-Mastering</h2>
       <p class="amount"><span class="from">ab</span><span class="num">80</span><span class="cur">€</span></p>
       <p class="for">Pro Song, aus deinem fertigen Stereo-Mix.</p>
       <ul class="incl">
@@ -177,7 +252,7 @@
 
     <article class="price" role="listitem">
       <p class="kind">Stems</p>
-      <h3>Stem-Mastering</h3>
+      <h2>Stem-Mastering</h2>
       <p class="amount"><span class="from">ab</span><span class="num">150</span><span class="cur">€</span></p>
       <p class="for">Pro Song, bis zu acht Spuren.</p>
       <ul class="incl">
@@ -246,6 +321,7 @@
     <div class="actions">
       <a class="btn" href="../../#kontakt">Zum Kontakt <span aria-hidden="true">→</span></a>
       <a class="btn ghost" href="../recording-mixing-production/">Recording, Mixing und Production <span aria-hidden="true">→</span></a>
+      <a class="btn ghost" href="../../raumakustik/">Raumakustik <span aria-hidden="true">→</span></a>
     </div>
   </aside>
 
