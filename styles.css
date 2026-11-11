@@ -363,6 +363,7 @@ p em {
 /* ===== HERO ===== */
 .hero {
   min-height: 100vh;
+  min-height: 100svh; /* iOS: kleine Viewport-Höhe, kein Sprung durch die Adressleiste */
   position: relative;
   display: flex;
   align-items: center;
