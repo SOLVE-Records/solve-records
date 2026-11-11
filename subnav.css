@@ -1,6 +1,6 @@
 /* ============================================================
    UNTERSEITEN-NAVIGATION (Rücklinks „← Services“, „← Tools“, „Startseite“)
-   Einzige Quelle für die Leiste. Geladen von allen Unterseiten
+   Einzige Quelle für die Leiste. Größen = 80 % der vorherigen Werte (2026-11-11). Geladen von allen Unterseiten
    (services/*, raumakustik/, tools/*, impressum/, datenschutz/).
    Farben, Schriften und Radius kommen aus den :root-Variablen der Seite.
    ============================================================ */
@@ -8,7 +8,7 @@
 .subnav {
   display: flex;
   flex-wrap: nowrap;
-  gap: 10px;
+  gap: 8px;
   margin: 0 0 clamp(24px, 4vw, 36px);
   padding: 0;
 }
@@ -21,10 +21,10 @@
 .subnav a {
   display: inline-flex;
   align-items: center;
-  min-height: 44px;
-  padding: 0 16px;
+  min-height: 35.2px; /* Desktop; Mobil min. 40px, siehe unten */
+  padding: 0 12.8px;
   font-family: var(--font-mono);
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 500;
   line-height: 1;
   letter-spacing: 0.2em;
@@ -46,13 +46,20 @@
   color: var(--brass-bright);
   border-color: var(--brass-bright);
   outline: 2px solid var(--brass-bright);
-  outline-offset: 3px;
+  outline-offset: 2.4px;
+}
+
+/* Mobil (Touch): Klickhöhe nicht unter 40px */
+@media (max-width: 900px) {
+  .subnav a {
+    min-height: 40px;
+  }
 }
 
 @media (max-width: 480px) {
   .subnav a {
-    font-size: 0.9rem;
-    padding: 0 12px;
+    font-size: 0.72rem;
+    padding: 0 9.6px;
   }
 }
 
