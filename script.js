@@ -101,6 +101,77 @@
 
   revealElements.forEach(el => observer.observe(el));
 
+  // ===== Anker-Ziel festhalten, solange das Layout sich noch setzt =====
+  // Beim ersten Besuch kommen die Webfonts erst nach dem Sprung an; der Font-Swap
+  // verschiebt alles unterhalb des Hero (#services ca. 50px, #kontakt ca. 125px).
+  // Safari/iOS gleicht das nicht aus, Ziel landet daneben; mit Cache passt es.
+  // Daher: nach Hash-Aufruf oder Anker-Klick das Ziel kurz "festhalten" und bei
+  // jeder Layout-Änderung neu ausrichten, bis load + fonts.ready durch sind
+  // (plus kurze Nachlaufzeit, max. 15 s). Abbruch, sobald der Nutzer selbst
+  // scrollt/tippt. Offset weiterhin allein über scroll-padding-top.
+  const pageSettled = new Promise(resolve => {
+    const afterLoad = () => (document.fonts ? document.fonts.ready : Promise.resolve()).then(resolve);
+    if (document.readyState === 'complete') afterLoad();
+    else window.addEventListener('load', afterLoad, { once: true });
+  });
+
+  let pin = null; // { target, top, smooth, idleTimer, endTimer }
+
+  function docTop(el) {
+    return el.getBoundingClientRect().top + window.pageYOffset;
+  }
+
+  function unpin() {
+    if (!pin) return;
+    clearTimeout(pin.idleTimer);
+    clearTimeout(pin.endTimer);
+    pin = null;
+  }
+
+  // Ziel hat sich im Dokument verschoben → neu ausrichten. Während der
+  // Smooth-Animation eines Klicks wird die Animation neu angesetzt (kein Ruck),
+  // danach sofort (ResizeObserver läuft vor dem Paint, die Korrektur ist unsichtbar).
+  function realign() {
+    if (!pin) return;
+    const top = docTop(pin.target);
+    if (Math.abs(top - pin.top) < 1) return;
+    pin.top = top;
+    pin.target.scrollIntoView(pin.smooth ? { behavior: 'smooth', block: 'start' } : { block: 'start' });
+  }
+
+  // Smooth-Scroll gilt als beendet, wenn 150 ms lang kein scroll-Event kam
+  function armIdle() {
+    if (!pin || !pin.smooth) return;
+    clearTimeout(pin.idleTimer);
+    pin.idleTimer = setTimeout(() => {
+      if (!pin) return;
+      pin.smooth = false;
+      realign();
+    }, 150);
+  }
+
+  function pinTo(target, smooth) {
+    unpin();
+    pin = { target, top: docTop(target), smooth, idleTimer: 0, endTimer: 0 };
+    const p = pin;
+    p.endTimer = setTimeout(() => { if (pin === p) unpin(); }, 15000);
+    armIdle();
+    pageSettled.then(() => {
+      if (pin !== p) return;
+      realign();
+      if (!p.smooth) p.target.scrollIntoView({ block: 'start' });
+      // Nachlauf für späte Font-Faces/Bilder
+      setTimeout(() => { if (pin === p) unpin(); }, 1500);
+    });
+  }
+
+  ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(ev =>
+    window.addEventListener(ev, unpin, { passive: true }));
+  window.addEventListener('scroll', armIdle, { passive: true });
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(realign).observe(document.body);
+  }
+
   // ===== Smooth-Scroll Anchor-Links =====
   // Offset kommt allein aus html { scroll-padding-top } (styles.css, --header-h + --anchor-gap)
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -113,31 +184,20 @@
 
       e.preventDefault();
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      pinTo(target, true);
     });
   });
 
-  // ===== Hash-Sprung beim Laden nachführen =====
-  // Bei Aufruf mit #anker (z. B. Rücklink ../#services) springt der Browser,
-  // bevor die Webfonts da sind; danach verschiebt sich das Layout. Nach load +
-  // fonts.ready einmal erneut springen, falls der Nutzer nicht selbst gescrollt hat.
-  // Offset weiterhin allein über scroll-padding-top.
+  // ===== Aufruf mit #anker (z. B. Rücklink ../#services) =====
+  // Nicht bei Reload/Zurück: dort stellt der Browser die alte Scrollposition wieder her.
   if (location.hash.length > 1) {
-    let userScrolled = false;
-    const stop = () => { userScrolled = true; };
-    ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(ev =>
-      window.addEventListener(ev, stop, { once: true, passive: true }));
-
-    const resync = () => {
-      if (userScrolled) return;
-      let target = null;
-      try { target = document.querySelector(decodeURIComponent(location.hash)); } catch (err) { return; }
-      if (target) target.scrollIntoView({ block: 'start' });
-    };
-
-    window.addEventListener('load', () => {
-      const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
-      fontsReady.then(() => requestAnimationFrame(resync));
-    });
+    const navEntry = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+    const navType = navEntry ? navEntry.type : 'navigate';
+    let target = null;
+    try { target = document.querySelector(decodeURIComponent(location.hash)); } catch (err) { /* ungültiger Selektor */ }
+    if (target && navType !== 'reload' && navType !== 'back_forward') {
+      pinTo(target, false);
+    }
   }
 })();
 
