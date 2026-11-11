@@ -1025,6 +1025,28 @@ a.contact-value:hover {
   outline-offset: 3px;
 }
 
+/* Kopf der Tools-Übersicht (tools/index.html): enger als die Sektionen der Startseite.
+   Die allgemeinen Abstände (.section-head 50px, .lead 28px, .tools-grid 60px) sind für
+   große Sektionen gedacht und summieren sich hier zu viel Leerraum. Margins so gewählt,
+   dass die sichtbaren Abstände (inkl. Zeilenabstand der Schrift) im Ziel liegen. */
+.tools-head .section-head {
+  margin-bottom: 14px;
+}
+
+.tools-head .lead {
+  margin-top: 7px;
+}
+
+.tools-head + .tools-grid {
+  margin-top: 17px;
+}
+
+@media (min-width: 901px) {
+  .tools-head .section-head { margin-bottom: 17px; }
+  .tools-head .lead { margin-top: 10px; }
+  .tools-head + .tools-grid { margin-top: 24px; }
+}
+
 /* Schlanker Footer für Unterseiten, die styles.css laden (tools/) */
 .legal-foot {
   border-top: 1px solid var(--line-soft);
