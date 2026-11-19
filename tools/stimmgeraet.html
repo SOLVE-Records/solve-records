@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stimmgerät – Gitarre, Ukulele, Bass | Solve Records</title>
-<meta name="description" content="Chromatisches Online-Stimmgerät für Gitarre, Ukulele und E-Bass mit einstellbarem Kammerton von 430 bis 450 Hz. Läuft direkt im Browser.">
+<title>Stimmgerät und Tongenerator – Gitarre, Bass | Solve Records</title>
+<meta name="description" content="Online-Stimmgerät für Gitarre, Ukulele und E-Bass mit Tongenerator für alle Halbtöne. Kammerton A4 von 430 bis 450 Hz einstellbar. Im Browser.">
 <link rel="canonical" href="https://solverecords.de/tools/stimmgeraet.html">
 
 <!-- Open Graph / Social -->
-<meta property="og:title" content="Stimmgerät – Gitarre, Ukulele, Bass | Solve Records">
-<meta property="og:description" content="Chromatisches Online-Stimmgerät für Gitarre, Ukulele und E-Bass mit einstellbarem Kammerton von 430 bis 450 Hz. Läuft direkt im Browser.">
+<meta property="og:title" content="Stimmgerät und Tongenerator – Gitarre, Bass | Solve Records">
+<meta property="og:description" content="Online-Stimmgerät für Gitarre, Ukulele und E-Bass mit Tongenerator für alle Halbtöne. Kammerton A4 von 430 bis 450 Hz einstellbar. Im Browser.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://solverecords.de/tools/stimmgeraet.html">
 <meta property="og:image" content="https://solverecords.de/assets/og/og-stimmgeraet.png">
@@ -265,8 +265,52 @@
 
   .foot { margin: 22px 0 0; font-family: var(--font-mono); font-size: 11px; line-height: 1.7; color: var(--cream-soft); }
 
+  /* Tongenerator: eigenes Paneel unter dem Stimmgerät, gleiche Bausteine (.seg, .step, Regler) */
+  .gen-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; }
+  .gen-title {
+    margin: 0; font-family: var(--font-display); font-style: italic; font-weight: 700;
+    font-size: clamp(28px, 6vw, 36px); line-height: 1.1; color: var(--brass-bright);
+  }
+  .gen-state { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--cream-soft); border: 1px solid var(--line); border-radius: var(--radius); padding: 3px 8px; }
+  .gen-state.on { color: var(--tube-glow); border-color: var(--tube); }
+  .gen-readout { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; margin-top: 22px; }
+  .gen-note { display: flex; align-items: baseline; gap: 6px; }
+  .gen-note .note-big { font-size: clamp(64px, 18vw, 96px); color: var(--cream-soft); }
+  .gen-note.on .note-big { color: var(--brass-bright); text-shadow: 0 0 30px rgba(244, 204, 111, 0.4); }
+  .gen-hz { font-family: var(--font-mono); font-size: 26px; color: var(--cream); font-variant-numeric: tabular-nums; }
+  .gen-oct { display: grid; grid-template-columns: auto auto auto; align-items: center; gap: 12px; }
+  .gen-oct-val { font-family: var(--font-mono); font-size: 20px; color: var(--cream); min-width: 2ch; text-align: center; font-variant-numeric: tabular-nums; }
+  .gen-vol-txt { font-family: var(--font-mono); font-size: 13px; color: var(--cream-soft); width: 4ch; text-align: right; font-variant-numeric: tabular-nums; }
+  .step:disabled { opacity: 0.35; cursor: default; border-color: var(--line); color: var(--brass); }
+
+  .keys { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; margin-top: 22px; }
+  .key {
+    min-width: 0; min-height: 56px; padding: 0;
+    background: var(--bg-3); color: var(--cream); border: 1px solid var(--line); border-radius: var(--radius);
+    font-family: var(--font-display); font-weight: 700; font-size: 22px; line-height: 1;
+    cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none;
+    transition: background-color 120ms linear, border-color 120ms linear, color 120ms linear;
+  }
+  .key.sharp { background: var(--bg); color: var(--cream-soft); }
+  .key:hover { border-color: var(--brass); }
+  .key[aria-pressed="true"] { background: rgba(255, 122, 46, 0.16); border-color: var(--tube); color: var(--tube-glow); }
+  .key:focus-visible, .gen-stop:focus-visible { outline: 2px solid var(--brass-glow); outline-offset: 3px; }
+
+  .gen-ctrl { display: grid; gap: 22px; margin-top: 24px; }
+  .gen-stop {
+    min-height: 56px; background: transparent; color: var(--brass-bright); border: 1px solid var(--brass); border-radius: var(--radius);
+    font-family: var(--font-sans); font-weight: 500; font-size: 16px; letter-spacing: 0.2em; text-transform: uppercase;
+    cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  }
+  .gen-stop:hover:not(:disabled) { background: rgba(212, 162, 74, 0.12); }
+  .gen-stop:disabled { opacity: 0.4; cursor: default; }
+
   @media (min-width: 560px) {
     .segs.modes { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  @media (min-width: 720px) {
+    .keys { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 6px; }
+    .key { min-height: 64px; font-size: 20px; }
   }
   @media (max-width: 460px) {
     .btn { font-size: 15px; letter-spacing: 0.14em; }
@@ -291,9 +335,9 @@
   "@graph": [
     {
       "@type": "WebApplication",
-      "name": "Stimmgerät",
+      "name": "Stimmgerät und Tongenerator",
       "url": "https://solverecords.de/tools/stimmgeraet.html",
-      "description": "Chromatisches Online-Stimmgerät für Gitarre, Ukulele und E-Bass mit einstellbarem Kammerton von 430 bis 450 Hz. Läuft direkt im Browser.",
+      "description": "Online-Stimmgerät für Gitarre, Ukulele und E-Bass mit Tongenerator für alle Halbtöne. Kammerton A4 von 430 bis 450 Hz einstellbar. Im Browser.",
       "applicationCategory": "MultimediaApplication",
       "operatingSystem": "Any",
       "browserRequirements": "Moderner Browser mit JavaScript und Web Audio",
@@ -329,7 +373,7 @@
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "Stimmgerät",
+          "name": "Stimmgerät und Tongenerator",
           "item": "https://solverecords.de/tools/stimmgeraet.html"
         }
       ]
@@ -435,12 +479,58 @@
     </div>
   </section>
 
-  <p class="foot">Die Tonhöhe wird im Browser berechnet. Es wird nichts aufgenommen, gespeichert oder gesendet.<br>Handy: Tippen · PC: Linksklick. Saite antippen wählt den Zielton und spielt ihn an.</p>
+  <section class="panel" aria-labelledby="gen-title">
+    <div class="gen-head">
+      <h2 class="gen-title" id="gen-title">Tongenerator</h2>
+      <span class="gen-state" id="genState">Aus</span>
+    </div>
+
+    <div class="gen-readout">
+      <div class="gen-note" id="genNote" role="status" aria-label="Gewählter Ton">
+        <span class="note-big" id="genName">A</span><span class="oct" id="genOctTxt">4</span>
+      </div>
+      <span class="gen-hz" id="genHz">440,00 Hz</span>
+    </div>
+
+    <div class="keys" id="keys" role="group" aria-label="Töne der gewählten Oktave"></div>
+
+    <div class="gen-ctrl">
+      <div class="refrow" style="margin-bottom:0">
+        <div>
+          <p class="eyebrow" id="genOctLabel" style="margin-bottom:10px">Oktave</p>
+          <div class="gen-oct" role="group" aria-labelledby="genOctLabel">
+            <button class="step" id="octMinus" type="button" aria-label="Eine Oktave tiefer">−</button>
+            <span class="gen-oct-val" id="octVal" aria-live="polite">4</span>
+            <button class="step" id="octPlus" type="button" aria-label="Eine Oktave höher">+</button>
+          </div>
+        </div>
+        <fieldset style="flex:1 1 220px">
+          <legend class="eyebrow" style="margin-bottom:10px">Wellenform</legend>
+          <div class="segs">
+            <label class="seg"><input type="radio" name="wave" value="sine" checked><span>Sinus</span></label>
+            <label class="seg"><input type="radio" name="wave" value="triangle"><span>Dreieck</span></label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="sens" style="margin-top:0">
+        <label class="eyebrow" for="genVol">Lautstärke</label>
+        <input id="genVol" type="range" min="0" max="100" step="1" value="50" aria-label="Lautstärke des Tongenerators">
+        <span id="genVolTxt" class="gen-vol-txt">50</span>
+      </div>
+
+      <button class="gen-stop" id="genStop" type="button" disabled>Stopp</button>
+    </div>
+
+    <p class="status" id="genStatus" aria-live="polite">Taste antippen: Dauerton an. Nochmal antippen oder Stopp: Ton aus. Solange der Ton läuft, ist das Mikrofon pausiert.</p>
+  </section>
+
+  <p class="foot">Die Tonhöhe wird im Browser berechnet. Es wird nichts aufgenommen, gespeichert oder gesendet.<br>Handy: Tippen · PC: Linksklick. Saite antippen wählt den Zielton und spielt ihn an. Taste im Tongenerator antippen spielt einen Dauerton.</p>
 
   <div class="tool-info">
     <section aria-labelledby="info-was">
       <h2 id="info-was">Online-Stimmgerät über das Mikrofon</h2>
-      <p>Das Stimmgerät hört über das Mikrofon deines Handys oder Computers zu und zeigt, welchen Ton du spielst und wie weit er vom Zielton entfernt ist. Für Gitarre, Ukulele und E-Bass gibt es eigene Modi mit den Saiten der Standardstimmung. Der chromatische Modus erkennt jeden Halbton und eignet sich für Instrumente, die einen klaren Einzelton spielen, zum Beispiel Trompete, Posaune oder Saxofon. Wähle den Modus, tippe auf „Mikrofon starten“ und erlaube den Zugriff. Spiel dann eine Saite oder einen Ton einzeln an und lass ihn ausklingen. Die Nadel zeigt die Abweichung in Cent, bei „Gestimmt“ passt der Ton. Den Kammerton A4 stellst du zwischen 430 und 450 Hz ein, die Notennamen wahlweise deutsch mit H oder englisch mit B. Ohne Mikrofon zeigt die Demo, wie die Anzeige reagiert.</p>
+      <p>Das Stimmgerät hört über das Mikrofon deines Handys oder Computers zu und zeigt, welchen Ton du spielst und wie weit er vom Zielton entfernt ist. Für Gitarre, Ukulele und E-Bass gibt es eigene Modi mit den Saiten der Standardstimmung. Der chromatische Modus erkennt jeden Halbton und eignet sich für Instrumente, die einen klaren Einzelton spielen, zum Beispiel Trompete, Posaune oder Saxofon. Wähle den Modus, tippe auf „Mikrofon starten“ und erlaube den Zugriff. Spiel dann eine Saite oder einen Ton einzeln an und lass ihn ausklingen. Die Nadel zeigt die Abweichung in Cent, bei „Gestimmt“ passt der Ton. Den Kammerton A4 stellst du zwischen 430 und 450 Hz ein, die Notennamen wahlweise deutsch mit H oder englisch mit B. Ohne Mikrofon zeigt die Demo, wie die Anzeige reagiert. Darunter spielt der Tongenerator jeden Halbton von C2 bis H6 als Dauerton, als Sinus oder Dreieck, zum Beispiel zum Einstimmen nach Gehör oder als Referenz für den Gesang.</p>
     </section>
 
     <section aria-labelledby="info-wie">
@@ -448,12 +538,15 @@
       <p>Das Stimmgerät bestimmt die Grundfrequenz mit dem YIN-Verfahren im Bereich von 30 bis 1.500 Hz. Die Sollfrequenz eines Tons ergibt sich aus dem Kammerton, die Abweichung wird in Cent angegeben, ein Halbton hat 100 Cent:</p>
       <code class="formula">f<sub>soll</sub> = A4 · 2<sup>(n − 69) / 12</sup> &nbsp;(n = MIDI-Notennummer, A4 = 69)<br>Abweichung (Cent) = 1200 · log<sub>2</sub>(f<sub>gemessen</sub> / f<sub>soll</sub>)</code>
       <p>Aus den letzten fünf Messwerten nimmt es den Median und glättet die Anzeige, damit die Nadel ruhig steht. Als gestimmt gilt ein Ton mit höchstens ±5 Cent Abweichung. In den Instrument-Modi wählt es automatisch die nächstgelegene Saite: Gitarre E2 A2 D3 G3 H3 E4, Ukulele G4 C4 E4 A4, E-Bass E1 A1 D2 G2. Tippst du eine Saite an, bleibt sie als Ziel fest eingestellt, und der Zielton wird zum Gegenhören abgespielt.</p>
+      <p>Der Tongenerator rechnet in gleichstufiger Stimmung: Jeder Halbton liegt um den Faktor 2<sup>1/12</sup> über dem vorigen, Bezug ist der eingestellte Kammerton A4 zwischen 430 und 450 Hz. Bei 440 Hz klingt C4 (n = 60) mit 261,63 Hz:</p>
+      <code class="formula">f = A4 · 2<sup>(n − 69) / 12</sup> &nbsp;(n = MIDI-Notennummer, A4 = 69)<br>C4 bei A4 = 440 Hz: 440 · 2<sup>−9/12</sup> = 261,63 Hz</code>
+      <p>Änderst du den Kammerton, während ein Ton läuft, spielt er sofort mit der neuen Frequenz weiter. Beim Ein- und Ausschalten wird der Ton über 25 ms ein- und ausgeblendet, damit nichts knackt.</p>
     </section>
 
     <section aria-labelledby="info-faq">
       <h2 id="info-faq">Häufige Fragen</h2>
       <h3>Wird mein Spiel aufgenommen?</h3>
-      <p>Nein. Das Mikrofonsignal wird nur im Browser ausgewertet, es wird nichts aufgenommen, gespeichert oder gesendet. Lokal merkt sich der Browser nur Modus, Kammerton, Notenschreibweise und Empfindlichkeit.</p>
+      <p>Nein. Das Mikrofonsignal wird nur im Browser ausgewertet, es wird nichts aufgenommen, gespeichert oder gesendet. Lokal merkt sich der Browser nur Modus, Kammerton, Notenschreibweise und Empfindlichkeit sowie Wellenform, Oktave und Lautstärke des Tongenerators.</p>
       <h3>Warum zeigt das Stimmgerät nichts an?</h3>
       <p>Der Pegelbalken muss über die Marke reichen. Bei leisen Instrumenten die Empfindlichkeit erhöhen, bei Nebengeräuschen senken. Außerdem muss der Browser den Mikrofonzugriff erlauben.</p>
       <h3>Welche Stimmung hat die Ukulele?</h3>
@@ -462,6 +555,13 @@
       <p>Immer den klingenden Ton. Ein gegriffenes C auf einer B-Trompete erscheint deshalb als B (deutsche Schreibweise) beziehungsweise A♯ (englische Schreibweise).</p>
       <h3>Welchen Kammerton soll ich nehmen?</h3>
       <p>Standard ist 440 Hz. Manche Orchester und Ensembles stimmen etwas höher, zum Beispiel auf 442 oder 443 Hz. Spielst du mit anderen zusammen, nimm deren Wert.</p>
+      <h3>Wozu ist der Kammerton beim Tongenerator einstellbar?</h3>
+      <p>Damit der Referenzton zu deinem Ensemble oder einer Aufnahme passt. Der Tongenerator nutzt denselben Kammerton wie das Stimmgerät: Stellst du zum Beispiel 442 Hz ein, klingt A4 mit 442,00 Hz und alle anderen Töne verschieben sich mit.</p>
+      <h3>Warum höre ich auf dem iPhone nichts?</h3>
+      <p>Prüfe zuerst die Lautstärke des Geräts und den Regler im Tongenerator. Wo Safari es unterstützt, meldet sich der Tongenerator als Wiedergabe an, dann ist er auch bei eingeschaltetem Stumm-Schalter zu hören. Bei älteren iOS-Versionen bleibt er bei aktivem Stumm-Schalter still: Schalter umlegen.</p>
+      <!-- PRÜFEN: Ab welcher iOS-/Safari-Version navigator.audioSession unterstützt wird und ob type = "playback" den Stumm-Schalter tatsächlich übergeht, auf einem echten iPhone testen. -->
+      <h3>Warum laufen Mikrofon und Tongenerator nicht gleichzeitig?</h3>
+      <p>Das Mikrofon würde den Ton aus dem Lautsprecher mithören, und die Anzeige zeigte dann den Generator statt deines Instruments. Startest du den Tongenerator, stoppt deshalb die Mikrofon-Auswertung, startest du das Mikrofon, verstummt der Ton.</p>
     </section>
 
     <section class="tool-more" aria-labelledby="info-mehr">
@@ -470,6 +570,7 @@
         <li><a href="../services/recording-mixing-production/">Gestimmt ins Studio: Recording, Mixing und Production</a></li>
         <li><a href="metronom.html">Im Tempo üben: Metronom</a></li>
         <li><a href="delay-rechner.html">Delay-Zeiten zum Tempo: Delay-Rechner</a></li>
+        <li class="tool-req">Brauchst du ein weiteres Tool? Ich baue es dir, Preis nach Absprache. <a href="../#kontakt">Tool anfragen</a></li>
       </ul>
     </section>
   </div>
@@ -561,6 +662,9 @@
   var source = null;            // null | 'mic' | 'demo'
   var lastSeen = 0, hist = [], smCents = 0, smTarget = null, lastIdx = -1;
   var outl = 0, lastRender = 0, tuned = false;
+  // Tongenerator: Wellenform, Oktave (2 bis 6), Lautstärke (0 bis 100)
+  var GEN_OCT_MIN = 2, GEN_OCT_MAX = 6, GEN_VOL_START_MAX = 60;
+  var gWave = 'sine', gOct = 4, gVol = 50;
 
   // Einstellungen merken, falls der Browser es zulässt
   var KEY = 'solve-records-stimmgeraet';
@@ -571,10 +675,14 @@
       if (saved.notation === 'DE' || saved.notation === 'EN') notation = saved.notation;
       if (typeof saved.ref === 'number') ref = Math.min(REF_MAX, Math.max(REF_MIN, Math.round(saved.ref * 10) / 10));
       if (typeof saved.sens === 'number') sens = Math.min(100, Math.max(0, Math.round(saved.sens)));
+      if (saved.gWave === 'sine' || saved.gWave === 'triangle') gWave = saved.gWave;
+      if (typeof saved.gOct === 'number') gOct = Math.min(GEN_OCT_MAX, Math.max(GEN_OCT_MIN, Math.round(saved.gOct)));
+      // Schutz vor zu lautem Start: gespeicherte Lautstärke höchstens 60
+      if (typeof saved.gVol === 'number') gVol = Math.min(GEN_VOL_START_MAX, Math.max(0, Math.round(saved.gVol)));
     }
   } catch (e) {}
   function save() {
-    try { localStorage.setItem(KEY, JSON.stringify({ mode: mode, notation: notation, ref: ref, sens: sens })); } catch (e) {}
+    try { localStorage.setItem(KEY, JSON.stringify({ mode: mode, notation: notation, ref: ref, sens: sens, gWave: gWave, gOct: gOct, gVol: gVol })); } catch (e) {}
   }
 
   function fmt(x, dec) { return x.toFixed(dec).replace('.', ','); }
@@ -897,6 +1005,7 @@
       var m = s ? s[locked >= 0 ? locked : 0] : 69;
       renderExampleFor(m);
     }
+    genRetune();
     save();
   }
 
@@ -913,13 +1022,15 @@
     notation = key;
     for (var i = 0; i < notRadios.length; i++) notRadios[i].checked = notRadios[i].value === key;
     buildStrings();
+    buildKeys();
     if (!source) showExample();
     save();
   }
 
   // ---------- Ereignisse ----------
-  micBtn.addEventListener('click', function () { source === 'mic' ? stopSource() : startMic(); });
-  demoBtn.addEventListener('click', function () { source === 'demo' ? stopSource() : startDemo(); });
+  // Mikrofon/Demo und Tongenerator schließen sich aus: Start der Analyse stoppt den Generator.
+  micBtn.addEventListener('click', function () { if (source === 'mic') { stopSource(); } else { genStop(); startMic(); } });
+  demoBtn.addEventListener('click', function () { if (source === 'demo') { stopSource(); } else { genStop(); startDemo(); } });
 
   for (var i = 0; i < modeRadios.length; i++) {
     modeRadios[i].addEventListener('change', function (e) { if (e.target.checked) setMode(e.target.value); });
@@ -951,7 +1062,143 @@
     gauge.insertBefore(tick, needle);
   }
 
+  // ---------- Tongenerator ----------
+  // Dauerton über OscillatorNode + GainNode. Frequenz aus midiToFreq(), also aus dem
+  // eingestellten Kammerton. Läuft der Generator, ist die Mikrofon-/Demo-Analyse gestoppt.
+  var GEN_GAIN_MAX = 0.3;      // Spitzenpegel bei Lautstärke 100 (ca. −10 dBFS)
+  var GEN_RAMP = 0.025;        // s, Ein-/Ausblenden gegen Knacken
+  var keysEl = $('keys'), genNote = $('genNote'), genName = $('genName'), genOctTxt = $('genOctTxt');
+  var genHz = $('genHz'), genState = $('genState'), genStatus = $('genStatus'), genStopBtn = $('genStop');
+  var octVal = $('octVal'), octMinus = $('octMinus'), octPlus = $('octPlus');
+  var genVolEl = $('genVol'), genVolTxt = $('genVolTxt');
+  var waveRadios = document.querySelectorAll('input[name="wave"]');
+  var gPc = 9;                 // Tonklasse 0 bis 11 (C bis H), Start: A
+  var gOn = false, genOsc = null, genGain = null;
+  var GEN_HINT = 'Taste antippen: Dauerton an. Nochmal antippen oder Stopp: Ton aus. Solange der Ton läuft, ist das Mikrofon pausiert.';
+
+  function genMidi() { return (gOct + 1) * 12 + gPc; }
+  function genLevel() { var v = gVol / 100; return GEN_GAIN_MAX * v * v; }
+  function genLabel(m) { return noteName(m) + noteOct(m) + ' ' + fmt(midiToFreq(m), 2) + ' Hz'; }
+
+  function buildKeys() {
+    keysEl.innerHTML = '';
+    for (var pc = 0; pc < 12; pc++) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'key' + ([1, 3, 6, 8, 10].indexOf(pc) >= 0 ? ' sharp' : '');
+      b.setAttribute('data-pc', pc);
+      b.addEventListener('click', onKey);
+      keysEl.appendChild(b);
+    }
+    renderGen();
+  }
+
+  function renderGen() {
+    var m = genMidi();
+    genName.textContent = noteName(m);
+    genOctTxt.textContent = noteOct(m);
+    genHz.textContent = fmt(midiToFreq(m), 2) + ' Hz';
+    genNote.classList.toggle('on', gOn);
+    genState.textContent = gOn ? 'Spielt' : 'Aus';
+    genState.classList.toggle('on', gOn);
+    genStopBtn.disabled = !gOn;
+    octVal.textContent = gOct;
+    octMinus.disabled = gOct <= GEN_OCT_MIN;
+    octPlus.disabled = gOct >= GEN_OCT_MAX;
+    var btns = keysEl.querySelectorAll('.key');
+    for (var i = 0; i < btns.length; i++) {
+      var km = (gOct + 1) * 12 + i;
+      btns[i].textContent = noteName(km);
+      btns[i].setAttribute('aria-label', genLabel(km));
+      btns[i].setAttribute('aria-pressed', gOn && i === gPc ? 'true' : 'false');
+    }
+  }
+
+  function genStart() {
+    try { ensureCtx(); } catch (e) { genStatus.textContent = 'Dieser Browser unterstützt keine Audio-Wiedergabe.'; return; }
+    // iOS Safari: als Wiedergabe anmelden, damit der Stumm-Schalter den Ton nicht verschluckt
+    try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}
+    if (source) {
+      stopSource();
+      setStatus('Tongenerator läuft, Mikrofon pausiert. Zum Stimmen das Mikrofon wieder starten.');
+    }
+    var t = ctx.currentTime;
+    genOsc = ctx.createOscillator();
+    genGain = ctx.createGain();
+    genOsc.type = gWave;
+    genOsc.frequency.setValueAtTime(midiToFreq(genMidi()), t);
+    genGain.gain.setValueAtTime(0, t);
+    genGain.gain.linearRampToValueAtTime(genLevel(), t + GEN_RAMP);
+    genOsc.connect(genGain);
+    genGain.connect(ctx.destination);
+    genOsc.start(t);
+    gOn = true;
+    genStatus.textContent = 'Dauerton läuft. Mikrofon und Demo sind pausiert, solange der Ton läuft.';
+    renderGen();
+  }
+
+  function genStop() {
+    if (!gOn) return;
+    var o = genOsc, g = genGain, t = ctx.currentTime;
+    g.gain.cancelScheduledValues(t);
+    g.gain.setValueAtTime(g.gain.value, t);
+    g.gain.linearRampToValueAtTime(0, t + GEN_RAMP);
+    o.stop(t + GEN_RAMP + 0.01);
+    o.onended = function () { try { o.disconnect(); g.disconnect(); } catch (e) {} };
+    genOsc = null; genGain = null; gOn = false;
+    try { if (navigator.audioSession) navigator.audioSession.type = 'auto'; } catch (e) {}
+    genStatus.textContent = GEN_HINT;
+    renderGen();
+  }
+
+  // Laufenden Ton auf die aktuelle Note und den aktuellen Kammerton setzen (ohne Neustart)
+  function genRetune() {
+    if (gOn && genOsc) genOsc.frequency.setValueAtTime(midiToFreq(genMidi()), ctx.currentTime);
+    renderGen();
+  }
+
+  function onKey(e) {
+    var pc = parseInt(e.currentTarget.getAttribute('data-pc'), 10);
+    if (gOn && pc === gPc) { genStop(); return; }
+    gPc = pc;
+    if (gOn) genRetune(); else genStart();
+  }
+
+  function setGenOct(v) {
+    gOct = Math.min(GEN_OCT_MAX, Math.max(GEN_OCT_MIN, v));
+    genRetune();
+    save();
+  }
+
+  function setGenWave(w) {
+    gWave = w;
+    for (var i = 0; i < waveRadios.length; i++) waveRadios[i].checked = waveRadios[i].value === w;
+    if (genOsc) genOsc.type = w;
+    save();
+  }
+
+  function setGenVol(v) {
+    if (isNaN(v)) return;
+    gVol = Math.min(100, Math.max(0, Math.round(v)));
+    genVolEl.value = gVol;
+    genVolEl.style.setProperty('--pct', gVol + '%');
+    genVolTxt.textContent = gVol;
+    if (genGain) genGain.gain.setTargetAtTime(genLevel(), ctx.currentTime, 0.015);
+    save();
+  }
+
+  octMinus.addEventListener('click', function () { setGenOct(gOct - 1); });
+  octPlus.addEventListener('click', function () { setGenOct(gOct + 1); });
+  genStopBtn.addEventListener('click', genStop);
+  genVolEl.addEventListener('input', function () { setGenVol(parseInt(genVolEl.value, 10)); });
+  for (var w = 0; w < waveRadios.length; w++) {
+    waveRadios[w].addEventListener('change', function (e) { if (e.target.checked) setGenWave(e.target.value); });
+  }
+
   // Start
+  buildKeys();
+  setGenWave(gWave);
+  setGenVol(gVol);
   setMode(mode);
   setNotation(notation);
   setRef(ref);

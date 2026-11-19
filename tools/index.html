@@ -105,6 +105,62 @@
     color: var(--tube);
   }
 
+  /* Hinweis „weitere Tools auf Anfrage“: schmale Leiste im Kachelstil, nach dem Raster.
+     Abgrenzung zu den Kacheln über die Messing-Kante links und den transparenten Grund. */
+  .tool-request {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 32px;
+    margin-top: clamp(36px, 5vw, 48px);
+    padding: 22px 26px;
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--brass);
+    border-radius: 2px;
+  }
+
+  .tool-request-text { min-width: 0; flex: 1 1 280px; }
+
+  .tool-request h2 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.15;
+    color: var(--brass-bright);
+  }
+
+  .tool-request p {
+    font-size: 15px;
+    margin-top: 6px;
+  }
+
+  .tool-request-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 20px;
+    border: 1px solid var(--tube);
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--tube-glow);
+    transition: border-color var(--transition-base), color var(--transition-base), background var(--transition-base);
+  }
+
+  .tool-request-link:hover {
+    background: var(--bg-3);
+    color: var(--tube);
+  }
+
+  .tool-request-link:focus-visible {
+    outline: 2px solid var(--brass-glow);
+    outline-offset: 3px;
+  }
+
   /* Downloads: gleiche Kacheln, nur Abstand und kleinere Abschnittsüberschrift */
   .tools-downloads {
     margin-top: clamp(72px, 10vw, 120px);
@@ -172,7 +228,7 @@
       <a class="tool-card" href="stimmgeraet.html">
         <span class="tool-tag">Stimmen</span>
         <span class="tool-name">Stimmgerät</span>
-        <p>Chromatisch oder für Gitarre, Ukulele und E-Bass. Kammerton von 430 bis 450 Hz einstellbar. Läuft direkt im Browser.</p>
+        <p>Chromatisch oder für Gitarre, Ukulele und E-Bass, mit Tongenerator für alle Halbtöne. Kammerton von 430 bis 450 Hz einstellbar. Läuft direkt im Browser.</p>
         <span class="tool-open">Öffnen →</span>
       </a>
 
@@ -190,6 +246,14 @@
         <span class="tool-open">Öffnen →</span>
       </a>
     </div>
+
+    <aside class="tool-request" aria-labelledby="request-title">
+      <div class="tool-request-text">
+        <h2 id="request-title">Brauchst du ein weiteres Tool?</h2>
+        <p>Ich baue es dir. Preis nach Absprache.</p>
+      </div>
+      <a class="tool-request-link" href="../#kontakt">Tool anfragen <span aria-hidden="true">&nbsp;→</span></a>
+    </aside>
 
     <section class="tools-downloads" aria-labelledby="downloads-title">
       <div class="section-head">

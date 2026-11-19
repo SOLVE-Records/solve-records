@@ -101,3 +101,15 @@
   outline: 2px solid var(--brass-glow);
   outline-offset: 3px;
 }
+
+/* Hinweis „weiteres Tool auf Anfrage“: eigene Zeile, leiser als die Links */
+.tool-more .tool-req {
+  flex-basis: 100%;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+  color: var(--cream-mute);
+}
+
+.tool-more .tool-req a { font-size: 12px; }
