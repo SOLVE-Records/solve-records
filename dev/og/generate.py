@@ -36,7 +36,7 @@ IMAGES = [
     ("og-mastering.png", "Solve Records · Service", "Mastering", "Persönlich und analog · Bodensee"),
     ("og-recording.png", "Solve Records · Service", "Recording, Mixing &amp; Production", "Brass, Hip-Hop und mehr · Bodensee"),
     ("og-metronom.png", "Solve Records · Tools", "Metronom", "Online, mit Tap-Tempo · 40 bis 240 BPM"),
-    ("og-stimmgeraet.png", "Solve Records · Tools", "Stimmgerät", "Gitarre, Ukulele, E-Bass und chromatisch"),
+    ("og-stimmgeraet.png", "Solve Records · Tools", "Stimmgerät und Tongenerator", "Gitarre, Ukulele, E-Bass · A4 430 bis 450 Hz"),
     ("og-delay-rechner.png", "Solve Records · Tools", "Delay-Rechner", "BPM in Millisekunden und Hertz"),
     ("og-raummoden-rechner.png", "Solve Records · Tools", "Raummoden-Rechner", "Moden aus Länge, Breite und Höhe"),
 ]
