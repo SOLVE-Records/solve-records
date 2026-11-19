@@ -39,6 +39,8 @@
   /* Kein eigenes padding-top: Abstand zum Zurück-Button kommt allein aus .subnav--tight */
   .tools-page {
     padding-top: 0;
+    /* Abstand über und unter dem Hinweisblock „Brauchst du ein weiteres Tool?“ */
+    --tools-request-gap: clamp(36px, 5vw, 48px);
   }
 
   .tools-grid {
@@ -113,7 +115,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 16px 32px;
-    margin-top: clamp(36px, 5vw, 48px);
+    margin-top: var(--tools-request-gap);
     padding: 22px 26px;
     border: 1px solid var(--line);
     border-left: 2px solid var(--brass);
@@ -164,6 +166,11 @@
   /* Downloads: gleiche Kacheln, nur Abstand und kleinere Abschnittsüberschrift */
   .tools-downloads {
     margin-top: clamp(72px, 10vw, 120px);
+  }
+
+  /* Folgt der Hinweisblock, gilt nach unten derselbe Abstand wie nach oben */
+  .tool-request + .tools-downloads {
+    margin-top: var(--tools-request-gap);
   }
 
   .tools-downloads .h-display {
@@ -227,7 +234,7 @@
 
       <a class="tool-card" href="stimmgeraet.html">
         <span class="tool-tag">Stimmen</span>
-        <span class="tool-name">Stimmgerät</span>
+        <span class="tool-name">Stimmgerät und Tongenerator</span>
         <p>Chromatisch oder für Gitarre, Ukulele und E-Bass, mit Tongenerator für alle Halbtöne. Kammerton von 430 bis 450 Hz einstellbar. Läuft direkt im Browser.</p>
         <span class="tool-open">Öffnen →</span>
       </a>
