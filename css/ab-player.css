@@ -1,0 +1,214 @@
+/* ============================================================
+   SOLVE RECORDS — A/B-PLAYER „Vorher / Nachher“
+   Nutzt die Variablen der einbindenden Seite (--bg, --brass …),
+   mit Fallbacks auf die Werte aus styles.css. Mobile first (375 px).
+   Farbe der aktiven Stufe kommt aus songs.json (--abp-color).
+   ============================================================ */
+
+.abp-mount { display: block; min-width: 0; }
+[data-ab-player-section] .note + .abp-mount,
+[data-ab-player-section] .note + [data-ab-player] { margin-top: 22px; }
+/* Fokus per Deep Link (#vorher-nachher) setzt tabindex="-1" auf die Überschrift: kein Rahmen */
+[data-ab-player-section] [tabindex="-1"]:focus { outline: none; }
+@media (scripting: enabled) {
+  /* Platz reservieren, bis das Modul den Player aufgebaut hat (weniger Layoutsprung) */
+  [data-ab-player]:not([hidden]):not(:has(.abp)) { min-height: 420px; }
+}
+
+.abp {
+  --abp-bg: var(--bg-2, #15100a);
+  --abp-bg-deep: var(--bg, #0a0705);
+  --abp-line: var(--line, rgba(212, 162, 74, 0.22));
+  --abp-gold: var(--brass, #d4a24a);
+  --abp-gold-bright: var(--brass-bright, #f4cc6f);
+  --abp-focus: var(--brass-glow, #ffb347);
+  --abp-text: var(--cream, #f3e7c8);
+  --abp-soft: var(--cream-soft, rgba(243, 231, 200, 0.75));
+  --abp-mono: var(--font-mono, 'JetBrains Mono', 'Courier New', monospace);
+  --abp-display: var(--font-display, 'Bodoni Moda', 'Didot', serif);
+  --abp-sans: var(--font-sans, 'Oswald', 'Helvetica Neue', sans-serif);
+  --abp-radius: var(--radius, 2px);
+  --abp-color: var(--abp-gold);
+
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  padding: 16px;
+  background: var(--abp-bg);
+  border: 1px solid var(--abp-line);
+  border-radius: var(--abp-radius);
+  box-shadow: inset 0 1px 0 rgba(244, 204, 111, 0.07);
+  color: var(--abp-text);
+  font-family: var(--abp-sans);
+  font-weight: 300;
+}
+.abp *, .abp *::before, .abp *::after { box-sizing: border-box; }
+.abp p { margin: 0; }
+.abp [hidden] { display: none !important; }
+
+:where(.abp) button, :where(.abp) input { font: inherit; color: inherit; }
+:where(.abp) button { cursor: pointer; }
+.abp button:disabled { cursor: progress; }
+.abp :focus-visible { outline: 2px solid var(--abp-focus); outline-offset: 3px; }
+
+/* ---------- Song-Auswahl (ab 2 Songs) ---------- */
+.abp-songs { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 6px; margin: -2px -2px 0; scrollbar-width: thin; }
+.abp-song {
+  flex: 0 0 auto; display: grid; gap: 2px; text-align: left;
+  min-height: 48px; max-width: 220px; padding: 8px 12px;
+  background: transparent; border: 1px solid var(--abp-line); border-radius: var(--abp-radius);
+}
+.abp-song-title { font-family: var(--abp-display); font-weight: 700; font-size: 15px; line-height: 1.2; }
+.abp-song-genre { font-family: var(--abp-mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--abp-soft); }
+.abp-song:hover { border-color: var(--abp-gold); }
+.abp-song[aria-pressed="true"] { border-color: var(--abp-gold); background: rgba(212, 162, 74, 0.12); }
+.abp-song[aria-pressed="true"] .abp-song-title { color: var(--abp-gold-bright); }
+
+/* ---------- Kopf ---------- */
+.abp-head { display: grid; gap: 4px; }
+.abp-title { font-family: var(--abp-display); font-style: italic; font-weight: 700; font-size: 22px; line-height: 1.2; color: var(--abp-gold-bright); }
+.abp-meta { font-family: var(--abp-mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--abp-soft); }
+.abp-preview {
+  display: inline-block; margin-left: 8px; padding: 1px 6px;
+  border: 1px solid var(--abp-focus); color: var(--abp-focus); letter-spacing: 0.08em;
+}
+
+/* ---------- Stufen-Umschalter ---------- */
+.abp-stages { display: grid; grid-template-columns: repeat(var(--abp-cols, 3), minmax(0, 1fr)); gap: 6px; }
+.abp-stage {
+  --abp-stage: var(--abp-gold);
+  position: relative; display: flex; align-items: center; justify-content: center; gap: 8px;
+  min-width: 0; min-height: 56px; padding: 8px 6px;
+  background: var(--abp-bg-deep); border: 1px solid var(--abp-line); border-radius: var(--abp-radius);
+  font-family: var(--abp-sans); font-weight: 500; font-size: 15px; letter-spacing: 0.12em; text-transform: uppercase;
+  transition: background-color 120ms linear, border-color 120ms linear, color 120ms linear;
+}
+.abp-stage::after { /* Farbmarke der Stufe */
+  content: ""; position: absolute; left: 8px; right: 8px; bottom: 5px; height: 2px;
+  background: var(--abp-stage); opacity: 0.55; border-radius: 1px;
+}
+.abp-stage-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.abp-stage-key {
+  display: none; font-family: var(--abp-mono); font-size: 10px; letter-spacing: 0; color: var(--abp-soft);
+  border: 1px solid var(--abp-line); border-radius: 2px; padding: 0 4px; line-height: 16px;
+}
+.abp-stage:hover { border-color: var(--abp-stage); }
+.abp-stage[aria-checked="true"] {
+  background: var(--abp-stage); border-color: var(--abp-stage); color: var(--abp-bg-deep);
+  box-shadow: 0 0 0 1px var(--abp-stage), 0 6px 20px -8px var(--abp-stage);
+}
+.abp-stage[aria-checked="true"]::after { background: var(--abp-bg-deep); opacity: 0.5; }
+.abp-stage[aria-checked="true"] .abp-stage-key { color: var(--abp-bg-deep); border-color: rgba(10, 7, 5, 0.4); }
+
+.abp-hint { min-height: 1.5em; font-size: 15px; color: var(--abp-soft); text-align: center; }
+
+/* ---------- Wellenform ---------- */
+.abp-wavebox { position: relative; height: 76px; border-top: 1px solid var(--abp-line); border-bottom: 1px solid var(--abp-line); }
+.abp-wave { display: block; width: 100%; height: 100%; cursor: pointer; touch-action: none; }
+.abp-wave-empty {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none;
+  font-family: var(--abp-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--abp-soft);
+}
+.abp-wave-empty span { background: var(--abp-bg); padding: 0 8px; }
+
+/* ---------- Transport ---------- */
+.abp-transport { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; }
+.abp-play {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-width: 56px; min-height: 56px; padding: 0 14px;
+  background: var(--abp-gold); color: var(--abp-bg-deep); border: 1px solid var(--abp-gold-bright); border-radius: var(--abp-radius);
+  font-family: var(--abp-sans); font-weight: 500; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase;
+  transition: background-color 120ms linear;
+}
+.abp-play:hover { background: var(--abp-gold-bright); }
+.abp-play-icon { /* Dreieck bzw. zwei Balken, rein per CSS */
+  width: 14px; height: 16px; flex: 0 0 auto; background: currentColor;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.abp-play.is-playing .abp-play-icon { clip-path: polygon(0 0, 35% 0, 35% 100%, 0 100%, 0 0, 65% 0, 100% 0, 100% 100%, 65% 100%, 65% 0); }
+/* Mobil: Icon-Knopf mit Text nur für Screenreader, solange geladen; vorher mit Text */
+.abp-play-label { display: grid; gap: 2px; justify-items: start; text-align: left; }
+.abp-play-size { font-family: var(--abp-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: none; opacity: 0.85; }
+.abp-play:not(.is-idle) .abp-play-text {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+.abp-play.is-idle { padding: 0 16px; white-space: nowrap; }
+/* Vor dem Laden: großer Lade-Knopf, Seek-Leiste erst danach */
+.abp.is-idle .abp-transport { grid-template-columns: minmax(0, 1fr) auto; }
+.abp.is-idle .abp-seekwrap { display: none; }
+
+.abp-seekwrap { display: grid; gap: 4px; min-width: 0; }
+.abp-time { font-family: var(--abp-mono); font-size: 12px; color: var(--abp-soft); font-variant-numeric: tabular-nums; }
+
+.abp-chip {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 12px;
+  background: transparent; border: 1px solid var(--abp-line); border-radius: var(--abp-radius);
+  font-family: var(--abp-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--abp-soft);
+}
+.abp-chip:hover { border-color: var(--abp-gold); color: var(--abp-text); }
+.abp-chip[aria-pressed="true"] { border-color: var(--abp-gold); color: var(--abp-gold-bright); background: rgba(212, 162, 74, 0.12); }
+
+/* Range-Regler (Seek + Pegel), groß genug für Touch */
+.abp input[type="range"] {
+  -webkit-appearance: none; appearance: none; width: 100%; height: 44px; margin: 0;
+  background: transparent; cursor: pointer;
+}
+.abp input[type="range"]:disabled { cursor: default; opacity: 0.45; }
+.abp input[type="range"]::-webkit-slider-runnable-track { height: 4px; background: var(--abp-line); border-radius: 2px; }
+.abp input[type="range"]::-moz-range-track { height: 4px; background: var(--abp-line); border-radius: 2px; }
+.abp input[type="range"]::-moz-range-progress { height: 4px; background: var(--abp-color); border-radius: 2px; }
+.abp input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 20px; height: 20px; margin-top: -8px;
+  background: var(--abp-color); border: 2px solid var(--abp-bg-deep); border-radius: 50%;
+}
+.abp input[type="range"]::-moz-range-thumb {
+  width: 18px; height: 18px; background: var(--abp-color); border: 2px solid var(--abp-bg-deep); border-radius: 50%;
+}
+.abp .abp-seek { height: 32px; }
+
+/* ---------- Laden / Fehler ---------- */
+.abp-progress { height: 4px; background: var(--abp-line); border-radius: 2px; overflow: hidden; }
+.abp-progress-bar { height: 100%; width: 0; background: var(--abp-color); transition: width 120ms linear; }
+.abp-status { min-height: 1.4em; font-family: var(--abp-mono); font-size: 12px; color: var(--abp-soft); }
+.abp-status:empty { min-height: 0; }
+.abp-error {
+  display: grid; gap: 10px; justify-items: start; padding: 12px 14px;
+  border: 1px solid var(--abp-focus); border-radius: var(--abp-radius); background: rgba(255, 122, 46, 0.08);
+  font-size: 15px; color: var(--abp-text);
+}
+
+/* ---------- Optionen ---------- */
+.abp-options { display: grid; gap: 16px; padding-top: 14px; border-top: 1px solid var(--abp-line); }
+.abp-option { display: grid; gap: 8px; min-width: 0; }
+.abp-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.abp-note { font-size: 14px; line-height: 1.5; color: var(--abp-soft); max-width: 60ch; }
+.abp-label { font-family: var(--abp-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--abp-gold); }
+.abp-vol-row { display: grid; grid-template-columns: minmax(0, 1fr) 6.5ch; align-items: center; gap: 10px; }
+.abp-vol-out { font-family: var(--abp-mono); font-size: 12px; color: var(--abp-soft); text-align: right; font-variant-numeric: tabular-nums; }
+
+.abp-noscript {
+  padding: 14px 16px; border: 1px solid var(--line, rgba(212, 162, 74, 0.22)); border-radius: var(--radius, 2px);
+  font-size: 15px; color: var(--cream-soft, rgba(243, 231, 200, 0.75));
+}
+
+/* ---------- Breiter ---------- */
+@media (min-width: 560px) {
+  .abp { padding: 22px; gap: 16px; }
+  .abp-title { font-size: 26px; }
+  .abp-stage { min-height: 64px; font-size: 16px; }
+  .abp-stage-key { display: inline-block; }
+  .abp-wavebox { height: 96px; }
+  .abp-play-text { display: inline; }
+  .abp-play:not(.is-idle) { min-width: 132px; }
+  .abp-play:not(.is-idle) .abp-play-text { position: static; width: auto; height: auto; overflow: visible; clip: auto; clip-path: none; }
+}
+@media (min-width: 760px) {
+  .abp-options { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: start; gap: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .abp-stage, .abp-play, .abp-progress-bar { transition: none; }
+}
+@media (forced-colors: active) {
+  .abp-stage[aria-checked="true"] { outline: 3px solid Highlight; }
+}

@@ -23,6 +23,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@300;400;500;600&display=swap">
 <link rel="stylesheet" href="../../subnav.css">
+<link rel="stylesheet" href="../../css/ab-player.css">
+<script type="module" src="../../js/ab-player.js"></script>
 <style>
   /* Layout: Preise zuerst. Oben der Kernsatz, direkt darunter zwei Preisoptionen nebeneinander,
      dann der persönliche Ansatz und der Ablauf. Farben, Schriften und Radius entsprechen styles.css der Studio-Seite. */
@@ -43,6 +45,7 @@
     --font-sans: 'Oswald', 'Helvetica Neue', sans-serif;
     --font-mono: 'JetBrains Mono', 'Courier New', monospace;
     --radius: 2px;
+    --section-gap: clamp(40px, 8vw, 72px);   /* Abstand zwischen Sektionen */
     color-scheme: dark;
   }
 
@@ -76,7 +79,7 @@
   }
   .lead { margin: 20px 0 0; font-size: clamp(18px, 3.2vw, 22px); line-height: 1.5; color: var(--cream); max-width: 40ch; text-wrap: pretty; }
 
-  section { margin-top: clamp(40px, 8vw, 72px); }
+  section { margin-top: var(--section-gap); }
   h2 {
     font-family: var(--font-display); font-style: italic; font-weight: 700;
     font-size: clamp(26px, 5vw, 34px); line-height: 1.15; color: var(--brass-bright);
@@ -104,6 +107,13 @@
   .incl li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 8px; height: 1px; background: var(--brass); }
 
   .note { margin: 18px 0 0; font-size: 15px; color: var(--cream-soft); max-width: 62ch; }
+
+  /* A/B-Player direkt nach dem Kopf, vor den Preisen */
+  .ab-section .ab-sub { margin: 8px 0 0; font-size: clamp(17px, 2.6vw, 19px); line-height: 1.45; color: var(--cream); max-width: 48ch; text-wrap: pretty; }
+  /* Direkt nach dem Kopf: halber Sektionsabstand nach oben, nach unten (zu den Preisen) der volle */
+  section.ab-section { margin-top: calc(var(--section-gap) / 2); }
+  .ab-section .note { margin-top: 10px; }
+  .ab-section:not([hidden]) + .prices { margin-top: var(--section-gap); }
 
   /* Buttons */
   .btn {
@@ -235,6 +245,18 @@
     <h1>Mastering</h1>
     <p class="lead">Persönlich begleitet, mit analogem Equipment. Kein Upload-Automat.</p>
   </header>
+
+  <!-- A/B-Player: Songs kommen aus audio/vorher-nachher/songs.json (nur "published": true, sonst ?preview=1).
+       Ohne sichtbaren Song blendet js/ab-player.js die ganze Sektion aus. -->
+  <section id="vorher-nachher" class="ab-section" aria-labelledby="vorher-nachher-title" data-ab-player-section>
+    <p class="eyebrow">Vorher / Nachher</p>
+    <h2 id="vorher-nachher-title">Vom Rohmix zum Master</h2>
+    <p class="ab-sub">Der Entstehungsprozess in 3 Schritten, hör den Unterschied.</p>
+    <p class="note">Schalte während der Wiedergabe um: Die Stelle im Song bleibt, nur der Klang ändert sich.</p>
+    <div class="ab-mount" data-ab-player="collection:mastering">
+      <noscript><p class="abp-noscript">Der Vorher-/Nachher-Player braucht JavaScript. Bitte aktiviere JavaScript, um die Bearbeitungsstufen anzuhören.</p></noscript>
+    </div>
+  </section>
 
   <div class="prices" role="list">
     <article class="price main" role="listitem">
