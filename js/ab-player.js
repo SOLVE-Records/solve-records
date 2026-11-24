@@ -168,6 +168,7 @@ function normalizeSongs(raw) {
       published: s.published === true,
       dir: s.dir ? String(s.dir) : s.id,
       collections: Array.isArray(s.collections) ? s.collections.map(String) : [],
+      sizeMB: Number(s.sizeMB) > 0 ? Number(s.sizeMB) : 0,
       offsets,
       hasOffsets: Object.keys(offsets).length > 0,
       stages: stages.map(st => ({
@@ -259,7 +260,10 @@ class ABPlayer {
 
     this.playBtn = el('button', { type: 'button', class: 'abp-play' }, [
       el('span', { class: 'abp-play-icon', 'aria-hidden': 'true' }),
-      el('span', { class: 'abp-play-text' })
+      el('span', { class: 'abp-play-label' }, [
+        el('span', { class: 'abp-play-text' }),
+        el('span', { class: 'abp-play-size', hidden: true })
+      ])
     ]);
     this.timeEl = el('p', { class: 'abp-time', 'aria-hidden': 'true' });
     this.seek = el('input', {
@@ -390,6 +394,11 @@ class ABPlayer {
     else if (this.state !== 'ready') label = 'Laden & abspielen';
     else label = this.playing ? 'Pause' : 'Abspielen';
     text.textContent = label;
+    // Hinweis auf das Datenvolumen, nur vor dem Laden und nur mit sizeMB in songs.json
+    const size = this.playBtn.querySelector('.abp-play-size');
+    const mb = this.song.sizeMB;
+    size.hidden = !(mb && this.state !== 'ready' && this.state !== 'loading');
+    size.textContent = mb ? 'lädt ca. ' + (mb >= 10 ? Math.round(mb) : String(Math.round(mb * 10) / 10).replace('.', ',')) + ' MB' : '';
     this.playBtn.classList.toggle('is-playing', this.playing);
     this.playBtn.classList.toggle('is-idle', this.state !== 'ready');
     this.root.classList.toggle('is-idle', this.state !== 'ready');
