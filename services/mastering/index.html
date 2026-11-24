@@ -23,6 +23,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=JetBrains+Mono:wght@400;500&family=Oswald:wght@300;400;500;600&display=swap">
 <link rel="stylesheet" href="../../subnav.css">
+<link rel="stylesheet" href="../../css/ab-player.css">
+<script type="module" src="../../js/ab-player.js"></script>
 <style>
   /* Layout: Preise zuerst. Oben der Kernsatz, direkt darunter zwei Preisoptionen nebeneinander,
      dann der persönliche Ansatz und der Ablauf. Farben, Schriften und Radius entsprechen styles.css der Studio-Seite. */
@@ -268,6 +270,17 @@
   <div class="actions">
     <a class="btn" href="../../#kontakt">Mastering anfragen <span aria-hidden="true">→</span></a>
   </div>
+
+  <!-- A/B-Player: Songs kommen aus audio/vorher-nachher/songs.json (nur "published": true, sonst ?preview=1).
+       Ohne sichtbaren Song blendet js/ab-player.js die ganze Sektion aus. -->
+  <section id="vorher-nachher" aria-labelledby="vorher-nachher-title" data-ab-player-section>
+    <p class="eyebrow">Vorher / Nachher</p>
+    <h2 id="vorher-nachher-title">Hör den Unterschied</h2>
+    <p class="note">Derselbe Ausschnitt in jeder Bearbeitungsstufe, sample-genau übereinander. Schalte während der Wiedergabe um: Die Stelle im Song bleibt, nur der Klang ändert sich.</p>
+    <div class="ab-mount" data-ab-player="collection:mastering">
+      <noscript><p class="abp-noscript">Der Vorher-/Nachher-Player braucht JavaScript. Bitte aktiviere JavaScript, um die Bearbeitungsstufen anzuhören.</p></noscript>
+    </div>
+  </section>
 
   <section aria-labelledby="ansatz">
     <p class="eyebrow">Ansatz</p>
