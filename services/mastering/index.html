@@ -45,6 +45,7 @@
     --font-sans: 'Oswald', 'Helvetica Neue', sans-serif;
     --font-mono: 'JetBrains Mono', 'Courier New', monospace;
     --radius: 2px;
+    --section-gap: clamp(40px, 8vw, 72px);   /* Abstand zwischen Sektionen */
     color-scheme: dark;
   }
 
@@ -78,7 +79,7 @@
   }
   .lead { margin: 20px 0 0; font-size: clamp(18px, 3.2vw, 22px); line-height: 1.5; color: var(--cream); max-width: 40ch; text-wrap: pretty; }
 
-  section { margin-top: clamp(40px, 8vw, 72px); }
+  section { margin-top: var(--section-gap); }
   h2 {
     font-family: var(--font-display); font-style: italic; font-weight: 700;
     font-size: clamp(26px, 5vw, 34px); line-height: 1.15; color: var(--brass-bright);
@@ -109,8 +110,10 @@
 
   /* A/B-Player direkt nach dem Kopf, vor den Preisen */
   .ab-section .ab-sub { margin: 8px 0 0; font-size: clamp(17px, 2.6vw, 19px); line-height: 1.45; color: var(--cream); max-width: 48ch; text-wrap: pretty; }
+  /* Direkt nach dem Kopf: halber Sektionsabstand nach oben, nach unten (zu den Preisen) der volle */
+  section.ab-section { margin-top: calc(var(--section-gap) / 2); }
   .ab-section .note { margin-top: 10px; }
-  .ab-section:not([hidden]) + .prices { margin-top: clamp(40px, 8vw, 72px); }
+  .ab-section:not([hidden]) + .prices { margin-top: var(--section-gap); }
 
   /* Buttons */
   .btn {
