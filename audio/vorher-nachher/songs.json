@@ -1,0 +1,39 @@
+[
+  {
+    "id": "vorhang",
+    "title": "Wenn der Vorhang fällt",
+    "subtitle": "Refrain, Ausschnitt 26 s",
+    "published": false,
+    "rightsNote": "Cover, Freigabe offen",
+    "stages": [
+      {
+        "id": "rohmix",
+        "label": "Rohmix",
+        "hint": "nur Pegel & Panning",
+        "src": "vorhang-1-rohmix.flac",
+        "color": "#9A8F7C"
+      },
+      {
+        "id": "mix",
+        "label": "Mix",
+        "hint": "EQ, Kompression, Raum",
+        "src": "vorhang-2-mix.flac",
+        "color": "#C7A15A"
+      },
+      {
+        "id": "master",
+        "label": "Master",
+        "hint": "Loudness, Klangbalance, Breite",
+        "src": "vorhang-3-master.flac",
+        "color": "#F0A040"
+      }
+    ],
+    "genre": "Hip-Hop",
+    "stageOffsetsDb": {
+      "master": 7.37
+    },
+    "collections": [
+      "mastering"
+    ]
+  }
+]
