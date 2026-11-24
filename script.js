@@ -5,6 +5,18 @@
 (function() {
   'use strict';
 
+  // ===== Deep Link „Link in Bio“ =====
+  // /#vorher-nachher und /#mastering führen zum A/B-Player auf der Mastering-Seite.
+  // replace(): kein zusätzlicher Verlaufseintrag; ?preview=1 bleibt erhalten.
+  function abPlayerRedirect() {
+    const h = location.hash.toLowerCase();
+    if (h !== '#vorher-nachher' && h !== '#mastering') return false;
+    location.replace('services/mastering/' + location.search + '#vorher-nachher');
+    return true;
+  }
+  if (abPlayerRedirect()) return;
+  window.addEventListener('hashchange', abPlayerRedirect);
+
   // ===== Jahr im Footer =====
   document.getElementById('year').textContent = new Date().getFullYear();
 
