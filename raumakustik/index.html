@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Raumakustik: Raum ausmessen und planen | Solve Records</title>
-<meta name="description" content="Raumakustik am Bodensee: Messung und Plan ab 300 €, Ausarbeitung für DIY oder externe Absorber ab zusätzlich 100 €. Für Studio, Büro und Wohnraum.">
+<title>Raumakustik messen lassen am Bodensee | Solve Records</title>
+<meta name="description" content="Raumakustik messen lassen am Bodensee: Frequenzgang, Nachhall und Raummoden mit REW gemessen, dazu ein Plan für deinen Raum. Messung und Plan ab 300 €.">
 <link rel="canonical" href="https://solverecords.de/raumakustik/">
 
 <!-- Open Graph / Social -->
-<meta property="og:title" content="Raumakustik: Raum ausmessen und planen | Solve Records">
-<meta property="og:description" content="Raumakustik am Bodensee: Messung und Plan ab 300 €, Ausarbeitung für DIY oder externe Absorber ab zusätzlich 100 €. Für Studio, Büro und Wohnraum.">
+<meta property="og:title" content="Raumakustik messen lassen am Bodensee | Solve Records">
+<meta property="og:description" content="Raumakustik messen lassen am Bodensee: Frequenzgang, Nachhall und Raummoden mit REW gemessen, dazu ein Plan für deinen Raum. Messung und Plan ab 300 €.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://solverecords.de/raumakustik/">
 <meta property="og:image" content="https://solverecords.de/assets/og/og-raumakustik.png">
@@ -137,6 +137,12 @@
   .panel { margin-top: 22px; padding: clamp(18px, 4vw, 28px); background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: inset 0 1px 0 rgba(244, 204, 111, 0.07); }
   .panel p { margin: 0; font-size: 16px; color: var(--cream-soft); max-width: 60ch; }
 
+  /* Häufige Fragen: Linien wie beim Ablauf */
+  .faq { margin: 22px 0 0; border-top: 1px solid var(--line); }
+  .faq div { padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .faq h3 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 20px; line-height: 1.25; color: var(--cream); }
+  .faq p { margin: 6px 0 0; font-size: 15px; color: var(--cream-soft); max-width: 62ch; }
+
   .cta { margin-top: clamp(40px, 8vw, 72px); padding: clamp(22px, 5vw, 36px); background: var(--bg-3); border: 1px solid var(--brass); border-radius: var(--radius); }
   .cta p { margin: 12px 0 0; font-size: 16px; color: var(--cream-soft); max-width: 56ch; }
 
@@ -167,14 +173,17 @@
       "name": "Raumakustik",
       "serviceType": "Raumakustische Messung und Planung",
       "url": "https://solverecords.de/raumakustik/",
-      "description": "Raumakustik am Bodensee: Messung und Plan ab 300 €, Ausarbeitung für DIY oder externe Absorber ab zusätzlich 100 €. Für Studio, Büro und Wohnraum.",
+      "description": "Raumakustik messen lassen am Bodensee: Frequenzgang, Nachhall und Raummoden mit REW gemessen, dazu ein Plan für deinen Raum. Messung und Plan ab 300 €.",
       "provider": {
         "@type": "LocalBusiness",
         "@id": "https://solverecords.de/#studio",
         "name": "Solve Records",
         "url": "https://solverecords.de/"
       },
-      "areaServed": "Bodensee",
+      "areaServed": [
+        { "@type": "Place", "name": "Bodensee" },
+        { "@type": "City", "name": "Radolfzell" }
+      ],
       "inLanguage": "de",
       "offers": [
         {
@@ -230,7 +239,7 @@
       <a href="../">← Startseite</a>
     </nav>
     <p class="eyebrow">Solve Records</p>
-    <h1>Raumakustik</h1>
+    <h1>Raumakustik messen lassen</h1>
     <p class="lead">Solve Records misst Räume aus und plant die Verkleidung, sei es als Do-it-yourself oder durch externe Anbieter.</p>
     <p class="sub">Für Studios, Büros und Wohnräume. Das Ziel ist ein Raum, dem du beim Aufnehmen, Mischen, Abhören oder Arbeiten vertrauen kannst.</p>
   </header>
@@ -267,6 +276,50 @@
     <a class="btn" href="../#kontakt">Raum anfragen <span aria-hidden="true">→</span></a>
   </div>
 
+  <section aria-labelledby="messung">
+    <p class="eyebrow">Messung</p>
+    <h2 id="messung">Was wird gemessen?</h2>
+    <p class="sub">Gemessen wird vor Ort mit der Messsoftware REW (Room EQ Wizard). Ein Messsignal wird im Raum abgespielt und am Hörplatz aufgenommen. Daraus entstehen drei Blickwinkel auf deinen Raum.</p>
+    <!-- PRÜFEN: Mikrofonmodell, Charakteristik, Kalibrierung (AKG C414 B; nicht als "kalibriert" oder "Messmikrofon" bezeichnen, solange ungeklärt) -->
+    <!-- FAKT FEHLT: womit das Messsignal abgespielt wird (vorhandene Lautsprecher oder eigener Messlautsprecher), Messdauer -->
+    <div class="ansatz">
+      <div>
+        <h3>Frequenzgang am Hörplatz</h3>
+        <p>Welche Frequenzen am Hörplatz zu laut oder zu leise ankommen, etwa Überhöhungen und Auslöschungen im Bass.</p>
+      </div>
+      <div>
+        <h3>Nachhallzeit</h3>
+        <p>Wie lange der Schall im Raum nachklingt, getrennt nach Frequenzbereichen. Zu viel Nachhall macht Sprache und Musik undeutlich.</p>
+      </div>
+      <div>
+        <h3>Raummoden</h3>
+        <p>Wasserfall und Spektrogramm zeigen, welche tiefen Töne lange ausklingen. Dort sitzen die Raummoden, die einen Raum dröhnen lassen.</p>
+      </div>
+    </div>
+    <!-- FAKT FEHLT: anonymisierte Beispielmessung vorher/nachher, Grafik mit Alt-Text -->
+  </section>
+
+  <section aria-labelledby="ergebnis">
+    <p class="eyebrow">Ergebnis</p>
+    <h2 id="ergebnis">Was bekommst du?</h2>
+    <p class="sub">Einen Plan des ausgemessenen Raums mit einem Vorschlag zur Raumakustikoptimierung. Wie es danach weitergeht, entscheidest du:</p>
+    <!-- FAKT FEHLT: wer die Umsetzung beim Kostenvoranschlag ausführt (Solve Records selbst oder Partner), ob der Kostenvoranschlag kostenlos ist oder zu Stufe 2 gehört -->
+    <div class="ansatz">
+      <div>
+        <h3>Kostenvoranschlag</h3>
+        <p>Ein Kostenvoranschlag zur Umsetzung der vorgeschlagenen Maßnahmen.</p>
+      </div>
+      <div>
+        <h3>Do-it-yourself</h3>
+        <p>Eine Anleitung, mit der du die Maßnahmen selbst umsetzt.</p>
+      </div>
+      <div>
+        <h3>Externe Absorber</h3>
+        <p>Eine Empfehlung, welche fertigen Absorber zu deinem Raum passen.</p>
+      </div>
+    </div>
+  </section>
+
   <section aria-labelledby="einsatz">
     <p class="eyebrow">Einsatz</p>
     <h2 id="einsatz">Für welche Räume</h2>
@@ -297,20 +350,64 @@
       </li>
       <li>
         <span class="no">02</span>
-        <h3>Analysieren</h3>
-        <p>Raummoden und kritische Frequenzen werden berechnet und gemessen. Daraus ergibt sich, wo der Raum Probleme macht.</p>
+        <h3>Messen</h3>
+        <p>Mit REW werden Frequenzgang, Nachhallzeit und das Ausklingen der tiefen Töne am Hörplatz gemessen.</p>
       </li>
       <li>
         <span class="no">03</span>
+        <h3>Analysieren</h3>
+        <p>Raummoden und kritische Frequenzen werden berechnet und mit der Messung ausgewertet. Daraus ergibt sich, wo der Raum Probleme macht.</p>
+      </li>
+      <li>
+        <span class="no">04</span>
         <h3>Planen</h3>
         <p>Ein Plan zeigt, wo welche akustischen Maßnahmen sinnvoll sind und wie die Verkleidung aufgebaut wird.</p>
       </li>
       <li>
-        <span class="no">04</span>
+        <span class="no">05</span>
         <h3>Umsetzen</h3>
-        <p>Du baust nach dem Plan selbst oder nutzt externe Absorber. Material und Produkte beschaffst du separat.</p>
+        <p>Du baust nach dem Plan selbst, nutzt externe Absorber oder lässt dir einen Kostenvoranschlag zur Umsetzung machen. Material und Produkte beschaffst du separat.</p>
       </li>
     </ol>
+    <!-- FAKT FEHLT: Messdauer vor Ort, Zeit bis zum fertigen Plan -->
+  </section>
+
+  <section aria-labelledby="faq">
+    <p class="eyebrow">Fragen</p>
+    <h2 id="faq">Häufige Fragen zur Raumakustik-Messung</h2>
+    <div class="faq">
+      <div>
+        <h3>Was kostet es, die Raumakustik messen zu lassen?</h3>
+        <p>Messung und Plan kosten ab 300 € für einen überschaubaren Raum. Die Ausarbeitung für Do-it-yourself oder externe Absorber kostet ab zusätzlich 100 €. Die Anfahrt kommt dazu, Material und Produkte sind nicht enthalten. Größere oder komplexere Räume bekommen ein individuelles Angebot.</p>
+      </div>
+      <div>
+        <h3>Brauche ich einen speziellen Raum?</h3>
+        <p>Nein. Gemessen wird dein Raum so, wie er ist, ob Studio, Büro, Wohn- oder Hobbyraum.</p>
+      </div>
+      <div>
+        <h3>Was ist der Unterschied zwischen Messung und Plan?</h3>
+        <p>Die Messung zeigt, wie sich der Raum verhält: Frequenzgang, Nachhall und Raummoden. Der Plan leitet daraus ab, wo welche Maßnahmen sinnvoll sind. Beides gehört zu Stufe 1.</p>
+      </div>
+      <div>
+        <h3>Bekomme ich ein Gutachten?</h3>
+        <p>Nein. Solve Records bietet Beratung und Planung, kein Gutachten nach Norm.</p>
+      </div>
+      <div>
+        <h3>Womit wird gemessen?</h3>
+        <p>Mit der Messsoftware REW (Room EQ Wizard) und eigenem Equipment vor Ort.</p>
+      </div>
+      <div>
+        <h3>Reicht nicht der Raummoden-Rechner?</h3>
+        <p>Der Rechner zeigt aus Länge, Breite und Höhe, bei welchen Frequenzen ein Raum theoretisch resoniert. Wie stark die Moden in deinem Raum tatsächlich auftreten und wie lange er nachklingt, zeigt erst die Messung.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="region">
+    <p class="eyebrow">Region</p>
+    <h2 id="region">Am Bodensee, von Radolfzell aus</h2>
+    <p class="sub">Raumakustik messen lassen am Bodensee, Radolfzell: Gemessen wird bei dir vor Ort, die Anfahrt kommt zusätzlich.</p>
+    <!-- FAKT FEHLT: Anfahrtsradius, Anfahrtskosten, weitere Orte im Servicegebiet (z. B. Konstanz, Singen, Überlingen) -->
   </section>
 
   <section aria-labelledby="rechner">

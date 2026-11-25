@@ -32,7 +32,7 @@ FONTS = {  # Dateiname -> @fontsource-Paket
 IMAGES = [
     ("og-default.png", "Recording Studio seit 1996", "Solve Records", "Brass &amp; Hip-Hop · Bodensee"),
     ("og-tools.png", "Solve Records · Tools", "Kostenlose Tools", "für Musiker und Homestudio"),
-    ("og-raumakustik.png", "Solve Records · Service", "Raumakustik", "Raum ausmessen und planen · Bodensee"),
+    ("og-raumakustik.png", "Solve Records · Service", "Raumakustik messen lassen", "Messung und Plan · Bodensee"),
     ("og-mastering.png", "Solve Records · Service", "Mastering", "Persönlich und analog · Bodensee"),
     ("og-recording.png", "Solve Records · Service", "Recording, Mixing &amp; Production", "Brass, Hip-Hop und mehr · Bodensee"),
     ("og-metronom.png", "Solve Records · Tools", "Metronom", "Online, mit Tap-Tempo · 40 bis 240 BPM"),
