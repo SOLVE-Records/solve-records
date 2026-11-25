@@ -107,6 +107,10 @@
     color: var(--tube);
   }
 
+  /* Textlink im Lead (Raumakustik), sonst erbt er Farbe und Unterstreichung des Fließtexts */
+  .tools-head .lead a { color: var(--brass); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  .tools-head .lead a:hover, .tools-head .lead a:focus-visible { color: var(--brass-bright); }
+
   /* Hinweis „weitere Tools auf Anfrage“: schmale Leiste im Kachelstil, nach dem Raster.
      Abgrenzung zu den Kacheln über die Messing-Kante links und den transparenten Grund. */
   .tool-request {
@@ -221,7 +225,7 @@
       </div>
 
       <h1 class="h-display">Tools</h1>
-      <p class="lead">Kostenlose Tools für Musiker und Homestudio: kleine Helfer aus dem Studio, direkt im Browser und ohne Anmeldung.</p>
+      <p class="lead">Kostenlose Tools für Musiker und Homestudio: kleine Helfer aus dem Studio, direkt im Browser und ohne Anmeldung. Wenn der Raummoden-Rechner nicht reicht, kannst du deine <a href="../raumakustik/">Raumakustik messen lassen</a>.</p>
     </div>
 
     <div class="tools-grid">
